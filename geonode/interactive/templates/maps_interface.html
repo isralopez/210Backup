@@ -1,0 +1,415 @@
+{% extends "layers/layer_base.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+{% load i18n avatar_tags %}
+
+{% block title %}Datos Vectoriales{% endblock %}
+
+{% block body_class %}layers{% endblock %}
+
+{% block head %}{{ block.super }}
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Shadows+Into+Light+Two" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+  <link href="{{ STATIC_URL }}idegeo/interactive/css/base_maps_interface.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/interactive/css/getfeature_popup.css" />
+  <!--<link rel="stylesheet" href="{{ STATIC_URL }}map_interface/css/d3.slider.css" />-->
+  <!-- Intersections -->
+  <!--<link rel="stylesheet" href="{{ STATIC_URL }}Intersection_tools/Intersections.css" />-->
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css' rel='stylesheet' />
+  <!--<link rel="stylesheet" href="{{ STATIC_URL }}coordinates/Leaflet.Coordinates-0.1.5.css">-->
+  <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/zoombox/L.Control.ZoomBox.css" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}lib/leaflet/easyPrint.css"/>
+    <!--Chats-->
+  <!--<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}tabs/css/component-panel-map.css" />-->
+  <!--<link rel="stylesheet" href="{{ STATIC_URL }}chats_map/css/chat_base.css">-->
+  <!--<link rel="stylesheet" href="{{ STATIC_URL }}chats_map/css/social-chat-map.css">-->
+  <!--icons-->
+   <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+   <!--<link rel="stylesheet" href="{{ STATIC_URL }}chats_map/css/leaflet.awesome-markers.css">-->
+   <!--icons-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+   <!--end icons-->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.0.7/esri-leaflet.js"></script>
+  <!--Icon-->
+  <!--<script src="{{ STATIC_URL }}chats_map/js/leaflet.awesome-markers.js"></script>-->
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js'></script>
+  <!--<script type="text/javascript" src="{{ STATIC_URL }}coordinates/Leaflet.Coordinates-0.1.5.min.js"></script>-->
+  <script src="{{ STATIC_URL }}idegeo/zoombox/L.Control.ZoomBox.min.js"></script>
+  <!--<script src="{{ STATIC_URL }}lib/leaflet/leaflet.easyPrint.js"></script>-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6ZJwb2cqgW1YXsmXGT1I-0ujia5UREAg&libraries=places" async defer></script>
+  <script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
+
+  <!--Dragable JS Move element grafic pie-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<!-- Charts google -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <style type="text/css">
+    .range {
+      width:100%;
+      position: absolute;
+      bottom: 30px;
+    }
+  </style>
+{% endblock %}
+
+{% block middle %}
+<div class="container_n">
+  <div class='loader'>
+    <div class='loader-container'>
+      <div class='progress progress-striped active' style="height:4px;">
+        <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+      </div>
+    </div>
+  </div>
+  <div class="container_layers">
+    <div id="header">
+      <div class="logo">Mapas</div>
+      <div id="mapTitle" class="animationTransition"></div>
+      <div class="headerButtons">
+        <!--<i data-toggle="tooltip" data-placement="bottom" title="Graficar datos" class="fa fa-pie-chart" aria-hidden="true"></i>-->
+        <span class="marker-control"><i class="fa fa-map-marker fa-1x"  title="Agrega un punto en donde quieras comenzar un chat" aria-hidden="true"></i></span>
+  			<span class="show_markers"><i class="fa fa-comment-o fa-1x" title="Mostrar comentarios para este mapa" aria-hidden="true"></i></span>
+        <span class="hide_markers"><i class="fa fa-ban fa-1x" title="Ocultar comentarios" aria-hidden="true"></i></span>
+        <span data-toggle="modal" data-target="#tools_analisys">
+          <i data-toggle="modal" data-placement="bottom" title="Gráficar datos" class="fa fa-pie-chart" aria-hidden="true" style="display: none;" id="graphic-visible" ></i>
+        </span>
+        <i data-toggle="tooltip" data-placement="bottom" title="Ayuda" class="fa fa-question-circle"></i>
+      </div>
+    </div>
+
+    <!--Panel izquierdo-->
+    <div class="layerMenu translateLayerListRight animationTransition">
+    <div class="layerListIcons">
+      <div id="m1" class="layerMenuIconDiv">
+        <div class="layerMenuIcon verticalCenter"><i class="fa fa-map-marker"></i></div>
+      </div>
+      <div id="m2" class="layerMenuIconDiv">
+        <div class="layerMenuIcon verticalCenter"><i class="fa fa-sitemap"></i></div>
+      </div>
+      <div id="m3" class="layerMenuIconDiv">
+        <div class="layerMenuIcon verticalCenter"><i class="fa fa-hashtag"></i></div>
+      </div>
+      <div id="m4" class="layerMenuIconDiv">
+        <div class="layerMenuIcon verticalCenter"><i class="fa fa-map"></i></div>
+      </div>
+      <div id="l2" class="layerMenuIconDiv" style="display:none; font-size:18px;">
+        <div class="layerMenuIcon verticalCenter"><i class="fa fa-sitemap"></i><p style="font-size:10px;">Capas</p></div>
+      </div>
+      <div id="l3" class="layerMenuIconDiv" style="display:none; font-size:18px;">
+        <div class="layerMenuIcon verticalCenter"><i class="fa fa-hashtag"></i><p style="font-size:10px;">Capas</p></div>
+      </div>
+    </div>
+    <div class="layerList">
+      <div class="labelsContainer animationTransition">
+        <div id="m1t" data-id="#m1" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+          <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Todos los mapas</div>
+        </div>
+        <div id="m2t" data-id="#m2" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+          <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Categorías</div>
+        </div>
+        <div id="m3t" data-id="#m3" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+          <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Palabras clave</div>
+        </div>
+        <div id="m4t" data-id="#m4" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+          <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Mapa base</div>
+        </div>
+        <div id="l2t" data-id="#l2" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr; display:none;">
+          <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Capas por categorías</div>
+        </div>
+        <div id="l3t" data-id="#l3" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr; display:none;">
+          <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Capas por palabras clave</div>
+        </div>
+      </div>
+      <div id="m1c" class="layerGroupContainer">
+        <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+        <div class="layerContainerLabel translatable" data-id="m1c" style="direction: ltr;">Filtro por texto</div>
+        <div class="layerMenuTopLevelGroupContainer">
+          <div class="input-group">
+            <input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="texto" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+            <span class="input-group-btn">
+                <button class="btn btn-info" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+            </span>
+          </div>
+          <div id="result_text">
+          {% for map in maps %}
+            <div id="m1c{{category.id}}l{{map.id}}" class="layerMenuTopLevelGroupContainer layer">
+              <div class="layerRow" style="display: block;">
+                <label for="m1c{{category.id}}l{{map.id}}i" title="{{map.title|capfirst}}">
+                  <input class="checkbox" name="radiomMapa" type="radio" id="m1c{{category.id}}l{{map.id}}i" data-mapid="{{map.id}}" data-map="{{map}}">
+                  {{map.title|capfirst}}
+                </label>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div id="m2c" class="layerGroupContainer">
+        <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+        <div class="layerContainerLabel translatable" data-id="m2c" style="direction: ltr;">Categorías</div>
+        <div class="layerMenuTopLevelGroupContainer">
+        {% for category, maps in categorys.items %}
+          {% if maps %}
+            <div id="m2c{{category.id}}l" class="layerMenuTopLevelGroupContainer category" style="display: block;">
+              <div class="level2LabelText translatable level2Label level2LabelBorderBottom" data-id="m2c{{category.id}}l" style="direction: ltr;">{{category.gn_description}}</div>
+                {% for map in maps %}
+                <div id="m2c{{category.id}}l{{map.id}}" class="layerMenuTopLevelGroupContainer layer" style="display: none;">
+                  <div class="layerRow">
+                    <label for="m2c{{category.id}}l{{map.id}}i" title="{{map.title|capfirst}}">
+                      <input class="checkbox" name="radiomMapa" type="radio" id="m2c{{category.id}}l{{map.id}}i" value="{{map.typename}}" data-mapid="{{map.id}}">
+                      {{map.title|capfirst}}
+                    </label>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      <div id="m3c" class="layerGroupContainer">
+        <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+        <div class="layerContainerLabel translatable" data-id="m3c" style="direction: ltr;">Palabras clave</div>
+        <div class="layerMenuTopLevelGroupContainer">
+        {% for tag, maps in tags.items %}
+          {% if maps %}
+            <div id="m3c{{tag.id}}l" class="layerMenuTopLevelGroupContainer tag" style="display: block;">
+              <div class="level2LabelText translatable level2Label level2LabelBorderBottom" data-id="m3c{{tag.id}}l" style="direction: ltr;">{{tag.name}}</div>
+                {% for map in maps %}
+                <div id="m3c{{tag.id}}l{{map.id}}" class="layerMenuTopLevelGroupContainer layer" style="display: none;">
+                  <div class="layerRow">
+                    <label for="m3c{{tag.id}}l{{map.id}}i" title="{{map.title|capfirst}}">
+                      <input class="checkbox" name="radiomMapa" type="radio" id="m3c{{tag.id}}l{{map.id}}i" value="{{map.typename}}" data-mapid="{{map.id}}">
+                      {{map.title|capfirst}}
+                    </label>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      <div id="m4c" class="layerGroupContainer">
+        <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+        <div class="layerContainerLabel translatable" data-id="m4c" style="direction: ltr;">Mapa base</div>
+        <div id="baseLayers" class="layerMenuTopLevelGroupContainer"></div>
+      </div>
+      <div id="l2c" class="layerGroupContainer">
+        <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+        <div class="layerContainerLabel translatable" data-id="l2c" style="direction: ltr;">Capas por categorías</div>
+        <div class="layerMenuTopLevelGroupContainer">
+        {% for category, layers in categorys_layer.items %}
+          {% if layers %}
+            <div id="l2c{{category.id}}l" class="layerMenuTopLevelGroupContainer category" style="display: block;">
+              <div class="level2LabelText translatable level2Label level2LabelBorderBottom" data-id="l2c{{category.id}}l" style="direction: ltr;">{{category.gn_description}}</div>
+                {% for layer in layers %}
+                <div id="l2c{{category.id}}l{{layer.id}}" class="layerMenuTopLevelGroupContainer layer" style="display: none;">
+                  <div class="layerRow">
+                    <label for="l2c{{category.id}}l{{layer.id}}i" title="{{layer.title|capfirst}}">
+                      <input class="checkbox2" type="checkbox" id="l2c{{category.id}}l{{layer.id}}i" href="{{layer.ows_url}}" value="{{layer.typename}}" data-info="{{layer.abstract|capfirst}}" title="{{layer.title|capfirst}}">
+                      {{layer.title|capfirst}}
+                    </label>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+      <div id="l3c" class="layerGroupContainer">
+        <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+        <div class="layerContainerLabel translatable" data-id="l3c" style="direction: ltr;">Capas por palabras clave</div>
+        <div class="layerMenuTopLevelGroupContainer">
+        {% for tag, layers in tags_layer.items %}
+          {% if layers %}
+            <div id="l3c{{tag.id}}l" class="layerMenuTopLevelGroupContainer tag" style="display: block;">
+              <div class="level2LabelText translatable level2Label level2LabelBorderBottom" data-id="l3c{{tag.id}}l" style="direction: ltr;">{{tag.name}}</div>
+                {% for layer in layers %}
+                <div id="l3c{{tag.id}}l{{layer.id}}" class="layerMenuTopLevelGroupContainer layer" style="display: none;">
+                  <div class="layerRow">
+                    <label for="l3c{{tag.id}}l{{layer.id}}i" title="{{layer.title|capfirst}}">
+                      <input class="checkbox2" type="checkbox" id="l3c{{tag.id}}l{{layer.id}}i" href="{{layer.ows_url}}" value="{{layer.typename}}" data-info="{{layer.abstract|capfirst}}" title="{{layer.title|capfirst}}">
+                      {{layer.title|capfirst}}
+                    </label>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+      <div data-toggle="tooltip" data-placement="right" title="Capas" class="layerListNub animationTransition translateLayerListNubRight"><div class="verticalCenter layerMenuNubOpen"></div></div>
+    </div>
+
+    <div id="logo_nav" class="logo_nav leaflet-left">
+        <img src="{{STATIC_URL}}mviewer/img/CentroGeo-CMX_Logo-H1.png" width="190px;" title="CentroGeo">
+    </div>
+
+    <!--Panel derecho-->
+    <div class="layerMenu2 lm-closed translateLayerListRight2 animationTransition">
+      <div>
+        <!-- initial tabs -->
+            <div id="tabs" class="tabs">
+                <nav>
+                    <ul>
+                        <li><a href="#section-1" class="fa fa-map-o" id="layers-tab"><span>Leyenda</span></a></li>
+                        <li class="comments-tab"><a href="#section-2" class="fa fa-comment-o" id="comments-tab"><span>Comentarios</span></a></li>
+                    </ul>
+                </nav>
+                <div class="content">
+                    <!-- tabs for capas -->
+                    <section id="section-1">
+                      <div class="toolsSelected" style="display: none;">
+                        <i class="fa fa-eye-slash" data-toggle="tooltip" data-placement="bottom" title="Swipe" aria-hidden="true"></i>
+                        <i class="fa fa-search" data-toggle="tooltip" title="Zoom a la capa" data-placement="bottom" aria-hidden="true"></i>
+                      </div>
+                      <div id="addlegend" class="animationTransition">
+                      </div>
+                    </section>
+                    <!-- tabs for comments -->
+                    <section id="section-2">
+                    <div>
+                        <div class="container-chat">
+                           <div class="scrollbar_chat" id="style-5">
+                               <div class="force-overflow">
+                                  <div class="chat-main">
+                                  <!--Insert here your comments-->
+
+                                  </div>
+                                 <div class="comments-chat">
+                                  <!--Insert here your comments-->
+                                 </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="start-chats">
+                            {% if request.user.is_authenticated %}
+                                  <img src="{% avatar_url request.user %}" class="avatar_comment" alt="No avatar" />
+                                  <span class="user_comments">{{ request.user.username }}</span>
+                            {% else %}
+                                  <div class="enabled_face">
+                                      <div class="fb-login-button" id="fb-login-chat-inner" data-max-rows="1" data-size="medium" data-button-type="login_with" data-show-faces="true" data-auto-logout-link="true" data-use-continue-as="true"></div>
+                                  </div>
+                                  <div class="enabled_log">
+                                      <a href="#" data-toggle="modal" data-target="#SigninModalFace" role="button" id="admin-login2" class="btn"><i class="fa fa-user" aria-hidden="true"></i> Para hacer comentarios debes iniciar seción </a>
+                                  </div>
+                                  <!--<div class="not-login">
+                                    <span class="avatar_comment_id"> <span>
+                                  </div>-->
+                            {% endif %}
+
+                            <div class="chat_user">
+
+                              <form id="formulario" class="form_chat" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+                                {{ form.comments }}
+                                {{ form.url }}
+                                <div class="select-img">{{ form.image }}</div>
+                                {{ form.timestamp }}
+                                <input type="hidden" name="location" id="location" />
+                                <input type="hidden" name="user_fb" id="user_fb" />
+                                <input type="hidden" name="id_map_for_chat" id="id_map_for_chat" />
+                                <input type="hidden" name="id_chat_comment" id="id_chat_comment" />
+                                <input type="hidden" name="zoomer" id="zoomer" />
+                                <input type="submit" class="btn btn-primary" value="Confirmar">
+                              </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    </section>
+                </div><!-- /content -->
+            </div><!-- /tabs -->
+
+      </div>
+
+      <!--<div class="div_RootBody" id="pie_chart_1">
+        <h3 class="h3_Body">Grafica</h3>
+        <div class="chart"></div>
+      </div>-->
+      <div data-toggle="tooltip" data-placement="left" title="Leyenda" class="layerListNub2 animationTransition translateLayerListNubLeft2"><div class="fa fa-list" style="padding: 5px; color:#A4A4A4;"></div></div>
+    </div>
+
+    <div id="wrapper">
+      <div id="map"></div>
+      <input id='range' class='range' type='range' min='0' max='1.0' step='any' style="display:none;" />
+        <div style="clear: both"></div>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+  <div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;">
+    <img src='{{STATIC_URL}}carousel/images/loading.gif' title="Loading.."/>
+  </div>
+  <div class="div_RootBody" id="pie_chart_1">
+    <i id="close-general-grafic" class="fa fa-times" title="Cerrar Gráfica" aria-hidden="true"></i>
+    <i id="update-general-grafic" class="fa fa-refresh" title="Actualizar Datos" aria-hidden="true"></i>
+    <h4 class="h4_Body" id="count-data"><!--Conteo de Datos-->
+    </h4>
+    <div class="chart"></div>
+  </div>
+  <div class="helpOverlayWrapper" style="display: none;">
+    <!--<div class="instructionDiv map-instructionDiv1">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow1"></div>
+      <div class="translatable instructionText map-instructionText1" style="direction: ltr;">Return to the landing page</div>
+    </div>-->
+    <div class="instructionDiv map-instructionDiv2">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow2"></div>
+      <div class="translatable instructionText map-instructionText2" style="direction: ltr;">Seleccionar capas que le gustaría ver en el mapa o descargar</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv3">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow3"></div>
+      <div class="translatable instructionText map-instructionText3" style="direction: ltr;">Ver y editar sus mapas guardados</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv4">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow4"></div>
+      <div class="translatable instructionText map-instructionText4" style="direction: ltr;">Centrarse en un área específica usando la función de zoom</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv5">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow5"></div>
+      <div class="translatable instructionText map-instructionText5" style="direction: ltr;">Cambiar su mapa base</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv6">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow6"></div>
+      <div class="translatable instructionText map-instructionText6" style="direction: ltr;">Exportar como imagen los mapas que has creado</div>
+    </div>
+    <!--<div class="instructionDiv map-instructionDiv7">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow7"></div>
+      <div class="translatable instructionText map-instructionText7" style="direction: ltr;">Click here to view the timeline</div>
+    </div>-->
+  </div>
+</div>
+<!--{% include "Modal_intersection.html" }-->
+<!--{% include "response_modal.html" }-->
+<!--{% include "sign_modal_fb.html" }-->
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_script %}
+  <script src="{{ STATIC_URL }}map_interface/js/d3.slider.js"></script>
+  <script src='{{ STATIC_URL }}idegeo/util/js/jquery.quicksearch.js'></script>
+  <!--<script src="{{STATIC_URL}}tabs/js/cbpFWTabs.js"></script>-->
+<script>
+    // curent_tab = new CBPFWTabs( document.getElementById( 'tabs' ) );
+</script>
+{% include "L.TileLayer.BetterWMS.js" %}
+{% include "idegeo/basemap.js" %}
+{% include "map_functions.js" %}
+{% include "maps_interface.js" %}
+{% include "googleSearch.js" %}
+<!--{% include "config_fb.js" }-->
+<!--{% include "chat_base.js" }-->
+<!--{% include "chat_map_tools.js" }-->
+<!--{% include "intersection_tool.js" }-->
+{% endblock extra_script %}

@@ -1,0 +1,229 @@
+/* Preloader with Bootstrap Progress Bar
+-----------------------------------------------*/
+.loader {
+  position: fixed;
+  left: 0;
+  top: 140px;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background: rgb(249,249,249);
+}
+.loader-container {
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin:35px auto;
+  text-align: center;
+}
+#header {
+    background: #516386;
+    width: 100%;
+    height: 35px;
+    z-index: 3;
+}
+#header .logo {
+  padding:2px 5px;
+  position: absolute;
+  font: 24px Tahoma, Helvetica, Arial, Sans-Serif;
+  text-align: center;
+  vertical-align: middle;
+  color: #FFF;
+  text-shadow: 0px 2px 3px #555;
+}
+.container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.cont_meta {
+  padding: 15px 10px;
+}
+.container_n {
+  width: 100%;
+}
+.container_documents {
+  height:100%;
+  width:100%;
+  overflow: hidden;
+}
+/*Filter*/
+.nav-pills {
+  padding: 15px 0;
+}
+.nav-pills > li > a {
+  background: transparent;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  margin-right: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+p {
+    padding: 10px;
+    font-weight: 100;
+    color: #fff;
+}
+/*Galery*/
+.single-project {
+    margin-bottom:30px;
+    background:#333;
+}
+.single-project img {
+    width:100%;
+}
+.project-description {
+    padding-right:20px;
+}
+.project-description p {
+    padding-left:0;
+}
+.project-title {
+    margin-top:15px;
+    margin-bottom:15px;
+    border-bottom:1px solid #089fcf;
+}
+.project-title h3 {
+    float:left;
+    margin-top:0;
+    padding:0;
+    width:80%;
+}
+.project-title .close {
+    color: #089fcf;
+    margin-top:10px;
+}
+.project-info span, .project-title h3 {
+    color:#089fcf;
+    font-weight: 600;
+}
+.project-info {
+    font-weight:100;
+    padding:10px 0;
+    overflow-x: auto;
+}
+.project-info span {
+    width: 80px;
+    display: inline-block;
+}
+.project-info div {
+    margin-bottom:5px;
+    color: #FFF;
+}
+.close {
+    float: right;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+#portfolio-grid .mix {
+    display: inline-block;
+}
+#portfolio-grid .mix {
+    display: none;
+}
+ .thumbnail {
+    width:100%;
+    height:100%;
+    padding:0;
+    overflow: hidden;
+    position: relative;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    text-align:center;
+    background: #333;
+}
+.thumbnail .more {
+    display:block;
+    z-index:4;
+    position:absolute;
+    top:-100px;
+    left:50%;
+    margin:0 auto;
+    margin-left:-41px;
+    width:80px;
+    height:80px;
+    font-size:40px;
+    color:#fff;
+    text-decoration:none;
+    line-height: 70px;
+    text-align: center;
+}
+.thumbnail:hover .more {
+    top:40%;
+    margin-top:-40px;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3 s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.thumbnail h3,
+.thumbnail p {
+    margin:0;
+    padding:0;
+    position:relative;
+    z-index:4;
+}
+.thumbnail h3 {
+    color: #089fcf;
+    margin-top:10px;
+    font-size:20px;
+    height:60px;
+    padding:0 5px;
+}
+.thumbnail > p {
+    padding-bottom:20px;
+}
+.thumbnail .mask {
+    opacity:0.85;
+    filter: alpha(opacity=85);
+    top:100%;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#181A1C;
+    position:absolute;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2 s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+.thumbnail:hover .mask {
+    top:0;
+}
+/*
+.btn-primary {
+  background-color: #089FCF;
+  border-color: #089FCF;
+}*/
+.project-info::-webkit-scrollbar-track, .layerList::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: #F5F5F5;
+}
+
+.project-info::-webkit-scrollbar, .layerList::-webkit-scrollbar
+{
+  width: 5px;
+  background-color: #F5F5F5;
+}
+
+.project-info::-webkit-scrollbar-thumb, .layerList::-webkit-scrollbar-thumb
+{
+  background-color: #0ae;
+  background-image: -webkit-linear-gradient(45deg,
+                                            rgba(255, 255, 255, .2) 25%,
+                        transparent 25%,
+                        transparent 50%,
+                        rgba(255, 255, 255, .2) 50%,
+                        rgba(255, 255, 255, .2) 75%,
+                        transparent 75%,
+                        transparent)
+}

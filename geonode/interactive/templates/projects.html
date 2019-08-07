@@ -1,0 +1,104 @@
+{% extends "layers/layer_base.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Datos Vectoriales{% endblock %}
+
+{% block head %}
+{% include "geonode/ext_header.html" %}
+   {{ block.super }}
+   <link href="{{ STATIC_URL }}bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+   <link href="{{ STATIC_URL }}interactive/css/base_documents.css" rel="stylesheet" type="text/css">
+   
+{% endblock %}
+
+{% block body_class %}layers{% endblock %}
+{% block body_outer %}
+<div class="content">
+  <div class="container_n">
+	  <div class='loader'>
+	    <div class='loader-container'>
+	      <div class='progress progress-striped active' style="height:4px;">
+	        <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="container_documents">
+	    <div id="header">
+	      <div class="logo">Proyectos</div>
+	    </div>
+	   </div>
+   </div>
+</div>
+<div class="container" style="min-height: 440px;">
+	<div class="nav nav-pills btn-group">
+		<button type="button" class="btn btn-primary filter" data-filter="all">Todos</button>
+	{% for category in categorys %}
+	    <button type="button" class="btn btn-primary filter" data-filter=".c{{category.id}}">{{category}}</button>
+    {%endfor%}
+    </div>
+    <div class="nav nav-pills btn-group">
+		<div class="btn-group input-group" style="width:200px;">
+			<input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="texto" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+			<span class="input-group-btn">
+			    <button class="btn btn-primary" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+			</span>
+		</div>
+	</div>
+	<div id="single-project">
+	{% for category, documents in categorys.items %}
+		{% for document in documents %}
+	    <div id="slidingDiv{{document.id}}" class="toggleDiv row-fluid single-project" style="display: none;">
+	        <div class="span6 project-img">
+	            <img src="{{document.doc_file.url}}" alt="{{document}}">
+	        </div>
+	        <div class="span6 project-td">
+	            <div class="project-description">
+	                <div class="project-title clearfix">
+	                    <h3>{{document}}</h3>
+	                    <span class="show_hide close"><i class="fa fa-times"></i></span>
+	                    {% if document.distribution_url %}
+	                    <a href="{{document.distribution_url}}" target="_blank" class="btn btn-primary btn-xs">Ir a la aplicacion</a>
+	                    {% endif %}
+	                </div>
+	                <div class="project-info">
+	                    <div><span>Coordinador Academico</span>{{document.academic_coordinator}}</div>
+	                    <div><span>Fecha</span>{{document.date|date:"l j, F, Y"}}</div>
+	                    <div><span>Categoría</span>{{document.category}}</div>
+	                    <!--<div><a href="{% url 'document_download' document.id %}" target="_blank" download><span>Descargar</span></a><a href="{% url 'document_download' document.id %}" target="_blank" download><i class="fa fa-download" aria-hidden="true"></i></a></div>-->
+	                    <div><span>Resumen</span><p>{{document.abstract}}</p></div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    	{%endfor%}
+    {%endfor%}
+    <div style="overflow: hidden;">
+    <ul id="portfolio-grid" class="thumbnails row" style="height: 700px; overflow-y: scroll;">
+    {% for category, documents in categorys.items %}
+		{% for document in documents %}
+	        <li class="mix c{{document.category.id}} {{document.doc_type}} span4">
+	            <div class="thumbnail animated fadeInDown">
+	                <img style="height: 267px; width: 100%;" src="{{document.doc_file.url}}" alt="{{document}}">
+	                <a href="#home-container" class="more show_hide" rel="#slidingDiv{{document.id}}"><i class="fa fa-plus"></i></a>
+	                <h3>{{document|truncatechars:50}}</h3>
+	                <div class="mask"></div>
+	            </div>
+	        </li>
+	        {%endfor%}
+	    {%endfor%}
+	    </ul>
+	    </div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}interactive/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}map_interface/js/jquery.quicksearch.js'></script>
+{% include "projects.js" %}
+{% endblock extra_script %}

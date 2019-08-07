@@ -1,0 +1,65 @@
+{% load bootstrap_tags %}
+<!-- Contenido oculto para listar Mapas -->
+    <div id="mymaps-list" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Mis Composiciones</h4>
+                </div>
+                <div id="qmaps-elements" class="modal-body" style="width:540px; height:450px; overflow-y: auto; left:20px;">
+                    <ul>
+                    {% for map in qmaps %}
+                        <li id="qmap{{map.id}}">
+                            <div>
+                                <div class="qmap-opt">
+                                    <div class="tools">
+                                        <i class="fa fa-times" data-id="{{map.id}}"></i>
+                                        <a href="#" class="map_option" id="{{map.id}}">{{map.title}}</a>
+                                    </div>
+                                    <i class="abstract">{{map.abstract|truncatechars:70}}</i><br>
+                                    <i id="del-qmap-{{map.id}}" class="fa fa-square-o" data-id="{{map.id}}" style="display:none; float:right;">¿Eliminar objeto?</i>
+                                    <!--<i data-id="l{{map.id}}" class="vtools animationTransition fa fa-chevron-left"></i>-->
+                                </div>
+                            </div><br>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Contenido oculto para guardar Mapas -->
+    <div id="save-modal" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Guardar Composición</h4>
+                </div>
+                <div id="save-body" class="modal-body" style="max-width:500px; left:50px;">
+                    <form id="save_form" action="#">
+                        {{qmap_form|as_bootstrap}}
+                        <input type="hidden" id="map_id" value="">
+                        <div class="btn-group">
+                            <input type="submit" class="btn btn-primary btn-xs" id="btnSaveMap" value="Guardar">
+                        </div>
+                    </form>
+                    <div class="btn-group">
+                        <input type="submit" id="savenewMap" style="display:none; position:fixed; top:405px; left:140px;" value="Nuevo">
+                    </div>
+                    <p id="savedMsg" style="display:none;">Mapa Guardado Exitosamente</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>

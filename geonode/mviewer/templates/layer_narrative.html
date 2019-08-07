@@ -1,0 +1,27 @@
+{% extends "mviewer_base.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Narrativa de Capa {% endblock %}
+
+{% block body_outer %}
+<div class="container_documents">
+  <div id="header">
+	<div class="container">
+	  <div class="logo">Narrativa asociada a: {{layerid.style}}</div>
+	</div>
+  </div>
+</div>
+<div class="container">
+	<div class="cont_meta">
+		<a href="{% url 'mviewer_detail' mvid %}" class="btn btn-primary pull-right">Regresar</a>
+		<div class="col-md-6" id="general">
+			<form id="formulario" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+				{{ form.media }}
+				{{form|as_bootstrap}}
+				<p><input type="submit" class="btn btn-primary" value="Confirmar"></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

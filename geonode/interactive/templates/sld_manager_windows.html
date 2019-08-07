@@ -1,0 +1,82 @@
+<!-- New Style Window-->
+<div id="newStyleWindow">
+  <div style="margin:10px;">
+    <label style="color: #333;">Nuevo Estilo</label>
+    <i id="clsNewStyle" class="fa fa-times" title="Cerrar"></i>
+  </div>
+  <div style= "width:85%; margin: 0px 10px;" class="form-group">
+    <label for="newStyleTitle">Nombre</label>
+    <input type="text" class="form-control" id="newStyleTitle">
+    <div id="noTitleMsg" style="display:none; color:red; font-size:12px;">Escriba un nombre</div>
+    <div id="errTitleMsg" style="display:none; color:red; font-size:12px;">No se permite la barra "/"</div>
+    <a class="btn btn-primary btn-xs pull-right" id="addNewStyle" href="#" style="margin:10px 0px;"><i class="fa fa-plus-circle"></i> Aceptar</a>
+  </div>
+</div>
+
+<!-- Clasify Window-->
+<div id="clasify">
+  <label style="color: #333;">Clasificación de: <i id="clasifyAttrName" style="font-weight:300;"></i></label>
+  <i id="close-window" class="fa fa-times" title="Cerrar"></i>
+  <table class="table">
+    <tbody id="clasify-data"></tbody>
+  </table>
+  <p id="exceededMsg" style="display:none; color:red;">El numero de categorias excede de 50, seleccione un atributo adecuado</p>
+  <div style="margin:15px;">
+    <a class="btn btn-primary btn-xs" id="clasifyAdd" href="#" style="right:20px;"><i class="fa fa-plus-circle"></i> Añadir</a>
+    <a class="btn btn-primary btn-xs" id="clasifyDel" href="#" style="right:20px;"><i class="fa fa-minus-circle"></i> Borrar</a>
+    <a class="btn btn-primary btn-xs" id="clasifyDelAll" href="#" style="right:20px;"><i class="fa fa-times-circle"></i> Borrar todo</a>
+  </div>
+</div>
+<div id="clasify-overlay"></div>
+
+<!-- Edición de simbolo para ventana de clasificacion -->
+<div id="edit-symbol" style="color: #333;">
+  <div>
+    <label>Edición de Simbolo</label>
+  </div>
+  <div>
+    <div id="edit-fill">
+      <label>Relleno</label><br>
+      <input class="color" type="text" id="symbol-fill"/>
+    </div>
+    <div id="spoint-type" style="display:none">
+      <div style="float:left;">
+        <p class="text-muted">Simbolo</p>
+        <select id="spoint-type-select">
+          <option value="circle">Circulo</option>
+          <option value="triangle">Triangulo</option>
+          <option value="rectangle">Rectangulo</option>
+          <option value="star">Estrella</option>
+        </select>
+      </div>
+      <div style="float:right; margin-right:20px;">
+        <p class="text-muted">Tamaño</p>
+        <input type="number" min="0" max="30" step="0.1" value="1.0" id="spoint-size" style="width:55px; margin-bottom:10px;">
+      </div>
+    </div>
+    <div id="edit-symbol-stroke" style="width:150px;">
+      <label><input id="symbol-stroke-enabled" type="checkbox" value="stroke"> Borde</label>
+      <div class="div-stroke" style="display: none;">
+        <div style="float:left; margin:10px;">
+          <p class="text-muted">Color</p>
+          <input class="color" type="text" id="symbol-stroke"/>
+        </div>
+        <div style="float:right; margin:10px 0px;">
+          <p class="text-muted">Grosor</p>
+          <input type="number" min="0" max="10" step="0.01" value="1.0" id="symbol-stroke-width" style="width:55px; margin-bottom:10px;">
+        </div>
+        <div id="symbol-stroke-type" style="display: inline-block; margin-bottom:10px;">
+          <p class="text-muted">Tipo</p>
+          <div class="styleeditor-stroke active" data-value="continous" style="background-position: 0px -76px;"></div>
+          <div class="styleeditor-stroke" data-value="dash1" data-dasharray="5 2" style="background-position: 0px -96px;"></div>
+          <div class="styleeditor-stroke" data-value="dash2" data-dasharray="7 2 3 2" style="background-position: 0px -116px;"></div>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <div style="margin: 15px 5px 5px 5px;">
+    <a id="symbolCancel" class="btn btn-danger btn-xs" href="#"><i class="fa fa-times-circle"></i> Cancelar</a>
+    <a id="symbolApply" class="btn btn-success btn-xs" href="#"><i class="fa fa-check-circle"></i> Aplicar</a>
+  </div>
+</div>

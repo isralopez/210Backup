@@ -1,0 +1,217 @@
+{% load i18n avatar_tags %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+<!--Este template reinserta toda la cabecera y los estilos debido a problemas-->
+<!--con las cabeceras y version de Jquery, bootstrap y el plugin de font-awesome.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marcadores de Capa </title>
+
+    <link href="{{ STATIC_URL }}lib/css/assets.min.css?v={{ VERSION }}" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}geonode/css/ext-compatibility.css?v={{ VERSION }}" rel="stylesheet" />
+    <!--<link href="{{ STATIC_URL }}style_adesur/css/idegeo.mod.css" rel="stylesheet" />-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- TERMINAN ESTILOS PERSONALIZADOS  -->
+    <style type="text/css">[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}</style>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+    <link rel="stylesheet" href="{{STATIC_URL}}idegeo/mviewer/css/dd.css" />
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css' rel='stylesheet' />
+    <link href="{{ STATIC_URL }}idegeo/mviewer/css/mviewer_styles.css" rel="stylesheet" type="text/css">
+    <link href="{{STATIC_URL}}idegeo/mviewer/css/leaflet-beautify-marker-icon.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}idegeo/util/js/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js'></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+    <script src="{{STATIC_URL}}idegeo/mviewer/js/leaflet-beautify-marker-icon.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.beautifymarker@1.1.1/leaflet-beautify-marker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+
+    <!--[if IE]>
+    <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <style>
+        #ieflag{
+        display: block !important;
+        height: 150px;
+        text-align: center;
+        }
+    </style>
+    <![endif]-->
+
+    <style>
+    #map {
+      margin: auto;
+      height: 575px;
+      width: 850px;
+    }
+
+    #cke_id_narrative {
+      max-width: 750px;
+    }
+
+    .popup-content {
+      font-size:14px;
+      border: 1px solid;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .popup-edit {
+      margin: 3px;
+      cursor: pointer;
+    }
+
+    #s2id_id_icon {
+      width: 300px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="home-container">
+        <header id="headeri">
+            <div class="container">
+                <div class="header-logo-lf"><a href="http://www.conacyt.mx/"><img src="{{STATIC_URL}}carousel/img/header_logo-conacyt.png" alt="logo conacyt"></a></div>
+                <div class="header-title">
+                    <h1 class="header-sitename">Plataforma Geoweb IDEGeo</h1>
+                    <div class="header-subtitle">Servicios de Información Geoespacial</div>
+                </div>
+                <div class="header-logo-rg"><a href="http://www.centrogeo.org.mx/"><img src="{{STATIC_URL}}mviewer/img/CentroGeo-CMX_Logo-V.png" alt="logo centrogeo" height="80px"></a></div>        </div>
+        </header>
+
+        <nav id="main-nav" role="navigation">
+            <div class="container">
+                <div class="main-nav-lf">
+                    {% block tabs %}
+                    <ul class="main-nav">
+                        <li class="main_vert"><a href="{% url 'home' %}">Inicio</a></li>
+                        {% if request.user.is_authenticated and request.user.microsite_access %}
+                            <li class="main_vert" id="nav_ms"><a href = "{% url 'ms_gestor_list' %}"><i class="fa fa-cog"></i>Micrositios</a></li>
+                            <li class="main_vert" id="nav_mviewer"><a href = "{% url 'mviewer_list' %}"><i class="fa fa-cog"></i>Panoramas</a></li>
+                            <li class="main_vert" id="nav_groups"><a href="{% url 'group_list' %}">Grupos</a></li>
+                        {% endif %}
+                    </ul>
+                    {% endblock %}
+                </div>
+                {% if user.is_authenticated %}
+                <div class="admin-nav admin-nav-rg">
+                    <a href="#" id="admin-login" class="btn" data-toggle="modal" data-target="#UserModal" role="button" aria-expanded="false">{% avatar user 20 %} {{ user.username }}</a>
+                </div>
+                {% else %}
+                <div class="admin-nav admin-nav-rg">
+                    <a href="#" data-toggle="modal" data-target="#SigninModal" role="button" id="admin-login" class="btn"><i class="fa fa-user" aria-hidden="true"></i> {% trans 'Sign in' %}</a>
+                </div>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+    <div id="ieflag" class="alert alert-danger alert-dismissible" role="alert" style="display: none;">
+        <div class="container">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3>You are using an outdated browser that is not supported on this Website.</h3>
+            <p>Please use a <strong>modern browser</strong> like Mozilla Firefox, Google Chrome or Safari.</p>
+        </div>
+    </div>
+
+    <!--MESSAGE-->
+    <div id="status-message" class="alert alert-warn" hidden="hidden">
+        <div class="container"><a class="close" onclick="$('.alert').hide()">×</a>
+            <p id="status-message-text">Placeholder for status-message</p>
+            <p id="status-message-text-body">Placeholder for status-message-body</p>
+        </div>
+    </div>
+
+    <div class="container_documents">
+      <div id="header">
+        <div class="container">
+          <div class="logo">Agregar marcadores a: {{layer.name}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+        <div class="cont_meta">
+            <a href="{% url 'mviewer_detail' mvid %}" class="btn btn-primary pull-right">Regresar</a>
+            <div id="general">
+                <div style="font-size: 14px; margin: auto; width:250px;">
+                   Da clic
+                   <span class="marker-crowd"><i class="fa fa-map-marker fa-2x" title="Nuevo marcador" aria-hidden="true"></i></span>
+                   para agregar marcador.
+                </div>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="marker-narrative-modal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width:800px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Editar Narrativa</h4>
+          </div>
+          <div id="abc" class="modal-body">
+              <form id="marker-narrative-form" method="" enctype="multipart/form-data" action="">
+                  <p><input type="submit" class="btn btn-primary pull-right" value="Confirmar"></p>
+                  {{ form.media }}
+                  {{form|as_bootstrap}}
+              </form>
+          </div>
+          <div class="modal-footer">
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="change-icon-modal" role="dialog" aria-labelledby="modalHeader" aria-hidden="true">
+      <div class="modal-dialog" style="width:800px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="modalHeader">Cambiar icono</h4>
+          </div>
+          <div class="modal-body" style="min-height: 250px;">
+            <div class="col-md-12">
+            <form id="marker-icon-form" method="" enctype="multipart/form-data" action="">
+                {{ icon_form.media }}
+                {{icon_form|as_bootstrap}}
+                <div>
+                    <div style="display:inline-block;">
+                    <label>Forma</label><br>
+                        <select name="" id="icon-shape">
+                            <option value="circle">Circulo</option>
+                            <option value="rectangle">Rectangulo</option>
+                            <option value="marker">Marcador</option>
+                        </select>
+                    </div>
+                    <div style="display:inline-block; margin-left:40px;">
+                        <label><input id="icon-transparent" type="checkbox" value=""> Transparente</label>
+                    </div>
+                </div>
+                <div style="margin-top: 12px;">
+                    <label>Color</label><br>
+                    <input class="color" type="text" id="icon-color"/>
+                </div>
+                <p><input type="submit" class="btn btn-primary pull-right" value="Confirmar"></p>
+            </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% include "layerid_markers.js" %}
+</body>

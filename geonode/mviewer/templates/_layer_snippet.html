@@ -1,0 +1,16 @@
+{% verbatim %}
+<div class="row">
+  <article ng-repeat="item in results" resource_id="{{ item.id }}" ng-cloak class="ng-cloak">
+    <div class="col-xs-12 item-container">
+      <div class="col-xs-12 profile-avatar">
+        <div class="col-xs-8 item-details">
+          {% endverbatim %}
+          <button class="btn btn-default btn-xs pull-right" ng-if="cart" ng-click="cart.toggleItem(item)"><i ng-class="cart.getFaClass(item.id)" class="fa fa-lg"></i></button>
+          {% verbatim %}
+          <div class="title_map"><label style="font-weight: 500;">{{ item.title }}</label></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+{% endverbatim %}

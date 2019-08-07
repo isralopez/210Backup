@@ -1,0 +1,164 @@
+{% load bootstrap_tags %}
+
+<!-- Contenido oculto para listar Mapas -->
+<div id="development" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Agenda 2030 de desarrollo sostenible </h4>
+            </div>
+            <div class="modal-body" style="min-height:520px;">
+                <div id="wrapper">
+                    <!-- Sidebar -->
+                    <div class="navbar-fixed-top" id="sidebar-wrapper">
+                        <div class="nav sidebar-nav">
+                            <div class="agenda2030" id="20301">
+                                <a href="#"  id="20301"><strong>1. </strong>Fin de la pobreza</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div  class="fin_pobreza"><a class="jso" id="1" href="#">Proporción de la población con ingresos inferiores a 1.25 dólares diarios</a></div>
+                                    <div  class="fin_pobreza"><a class="jso" id="2" href="#">Proporción de la población con acceso a la seguridad social</a></div>
+                                    <div  class="fin_pobreza"><a class="jso" id="3" href="#">Proporción de la población con acceso a la seguridad</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20302">
+                                <a href="#"  id="20302"><strong>2. </strong>Hambre cero</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="hambre0">
+                                        <a class="jso" id="10" href="#">Proporción de la población con inseguridad alimentaria severa y moderada</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20303">
+                                <a href="#"  id="20303"><strong>3. </strong>Salud y bienestar</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="health"><a class="jso" id="11" href="#">Demanda insatisfecha de métodos anticonceptivos modernos (porcentaje)</a></div>
+                                    <div class="health"><a class="jso" id="12" href="#">Prevalencia de uso de métodos anticonceptivos modernos</a></div>
+                                    <div class="health"><a class="jso" id="13" href="#">Proporción de nacimientos asistidos por personal sanitario calificado</a>
+                                    </div>
+                                    <div class="health"><a class="jso" id="14" href="#">Porcentaje de partos por cesárea respecto al total de partos</a></div>
+                                    <div class="health"><a class="jso" id="15" href="#">Tasa de mortalidad en niños menores de 5 años</a></div>
+                                    <div class="health"><a class="jso" id="16" href="#">Tasa de mortalidad neonatal por cada mil nacidos vivos</a>
+                                    </div>
+                                    <!-- <div><a href="#">Porcentaje de nacimientos prematuros</a></div>-->
+                                    <div class="health"><a class="jso" id="17" href="#">Porcentaje de cobertura de vacunación con esquema completo al año de edad
+                                    </a></div>
+                                    <div class="health"><a class="jso" id="18" href="#">Tasa de incidencia asociada a la tuberculosis todas las formas (ODM)
+                                    </a></div>
+                                    <div class="health"><a class="jso" id="19" href="#">Tasa de letalidad por dengue hemorrágico </a></div>
+                                    <div class="health"><a class="jso" id="20" href="#">Tasa de mortalidad por enfermedades cardiovasculares</a></div>
+                                    <div class="health"><a class="jso" id="21" href="#">Tasa de mortalidad por cáncer de mama</a></div>
+                                    <div class="health"><a class="jso" id="22" href="#">Tasa de mortalidad por cáncer de próstata</a></div>
+                                    <div class="health"><a class="jso" id="23" href="#">Tasa de mortalidad por diabetes</a></div>
+                                    <div class="health"><a class="jso" id="24" href="#">Tasa de mortalidad por enfermedad pulmonar
+                                        obstructiva crónica (EPOC)</a></div>
+                                    <div class="health"><a class="jso" id="25" href="#">Tasa de suicidio en niños y jóvenes</a></div>
+                                    <div class="health"><a class="jso" id="26" href="#">Tasa de mortalidad por accidentes de tráfico de vehículo de motor (ATVM)</a></div>
+                                    <div class="health"><a class="jso" id="27" href="#">Cobertura estimada de servicios de salud</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20304">
+                                <a href="#"  id="20304"><strong>4. </strong>Educación de calidad</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="education"><a class="jso" id="30" href="#">Proporción de la población con rezago educativo</a></div>
+
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20305"><!-- class="dropdown"-->
+                                <a href="#"  id="20305"><strong>5. </strong>Igualdad de género</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="equality"><a class="jso" id="40" href="#">Proporción de escaños del parlamento nacional y estatal ocupados por mujeres</a></div>
+                                    <div class="equality"><a class="jso" id="41" href="#">Porcentaje de mujeres propietarias de la vivienda que habitan</a></div>
+                                    <div class="equality"><a class="jso" id="42" href="#">Población ocupada por quintil de ingresos laborales por sexo</a></div>
+                                    <div class="equality"><a class="jso" id="43" href="#">Porcentaje de mujeres sin ingresos propios.</a></div>
+                                    <div class="equality"><a class="jso" id="44" href="#">Mujeres que han sufrido violencia por parte de su actual o útima pareja</a></div>
+                                    <div class="equality"><a class="jso" id="45" href="#">Mujeres que han sufrido violencia por parte de cualquier agresor distinto a su pareja</a></div>
+                                    <div class="equality"><a class="jso" id="46" href="#">Mujeres casadas o viven en pareja</a></div>
+                                    <div class="equality"><a class="jso" id="47" href="#">Matrimonios de menores de 12 a 14 años</a></div>
+                                    <div class="equality"><a class="jso" id="48" href="#">Matrimonios de menores de 15 a 17 años</a></div>
+                                    <div class="equality"><a class="jso" id="49" href="#">Mujeres con algún hijo nacido vivo</a></div>
+                                    <div class="equality"><a class="jso" id="50" href="#">Mujeres en las alcaldías</a></div>
+                                    <div class="equality"><a class="jso" id="51" href="#">Mujeres que han sufrido violencia por parte de cualquier agresor en los útimos 12 meses.</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20306">
+                                <a href="#"  id="20306"><strong>6. </strong>Agua limpia y saneamiento</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="water"><a class="jso" id="60" href="#">Porcentaje de aguas residuales tratadas</a></div>
+
+                                    <div class="water"><a class="jso" id="61" href="#">Abastecimiento de agua</a></div>
+                                    <div class="water"><a class="jso" id="62" href="#">Servicios de saneamiento mejorados</a></div>
+                                    <div class="water"><a class="jso" id="63" href="#">Agua entubada en el ámbito de la vivienda</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20307">
+                                <a href="#"  id="20307"><strong>7. </strong>Energía asequible y no contaminante</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="energy"><a class="jso" id="70" href="#">Porcentaje de la población con servicio eléctrico</a></div>
+                                    <div class="energy"><a class="jso" id="71" href="#">Viviendas particulares donde se utiliza leña o carbón para cocinar</a></div>
+                                    <div class="energy"><a class="jso" id="72" href="#">Viviendas con disponibilidad de focos ahorradores</a></div>
+                                    <div class="energy"><a class="jso" id="73" href="#">Viviendas con disponibilidad de paneles y calentadores solares</a></div>
+
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20308">
+                                <a href="#"  id="20308"><strong>8. </strong>Trabajo decente y crecimiento económico</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="work"><a class="jso" id="80" href="#">Indice de puestos de trabajo registrados en el IMSS</a></div>
+                                    <div class="work"><a class="jso" id="81" href="#">Tasa de informalidad laboral</a></div>
+                                    <div class="work"><a class="jso" id="82" href="#">Tasa neta de participación</a></div>
+                                    <div class="work"><a class="jso" id="83" href="#">Tasa de desocupación</a></div>
+                                    <div class="work"><a class="jso" id="84" href="#">Tasa de ocupación infantil</a></div>
+                                    <div class="work"><a class="jso" id="85" href="#">PIB per cápita</a></div>
+                                    <div class="work"><a class="jso" id="86" href="#">Población no económicamente activa que no asiste a la escuela</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="20309">
+                                <a href="#"  id="20309"><strong>9. </strong>Industria, innovación e infraestructura</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="industry"><a class="jso" id="90" href="#">Usuarios de Internet</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="a203010">
+                                <a href="#"  id="203010"><strong>10. </strong>Reducción de las desigualdades</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="reduction"><a class="jso" id="100" href="#">Índice de Gini del ingreso (antes y después de transferencias)</a></div>
+                                    <div class="reduction"><a class="jso" id="101" href="#">Coeficiente de la brecha de la pobreza (intensidad de la pobreza)</a></div>
+                                    <div class="reduction"><a class="jso" id="102" href="#">Profundidad de la pobreza</a></div>
+                                </div>
+                            </div>
+                            <div class="agenda2030" id="a203011">
+                                <a href="#"  id="203011"><strong>11. </strong>Ciudades y comunidades sostenibles</a>
+                                <div class="dropdown-menu" role="menu">
+                                    <div class="indicate">INDICADORES</div>
+                                    <div class="town"><a class="jso" id="110" href="#">Proporción de la población urbana que habita en viviendas precarias</a></div>
+                                    <div class="town"><a class="jso" id="111" href="#">Rezago habitacional por condiciones de espacio, materiales e instalaciones de la vivienda</a></div>
+                                    <div class="town"><a class="jso" id="112" href="#">Densidad de población (bruta)</a></div>
+                                    <div class="town"><a class="jso" id="113" href="#">Residuos sólidos urbanos manejados adecuadamente</a></div>
+                                    <div class="town"><a class="jso" id="114" href="#">Accesibilidad al Espacio Público Abierto</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /#wrapper -->
+                </div>
+                <!-- /#wrapper
+           <div class="modal-footer">
+           <div class="stay-inner"></div>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+           </div>-->
+            </div>
+        </div>
+    </div>
+</div>

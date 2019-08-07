@@ -1,0 +1,473 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Visualizador de Datos Vectoriales{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Shadows+Into+Light+Two" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+<link href="{{ STATIC_URL }}idegeo/interactive/css/base_layers_interface.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ STATIC_URL }}idegeo/interactive/css/getfeature_popup.css" />
+<link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css' rel='stylesheet' />
+<!--<link rel="stylesheet" href="{{ STATIC_URL }}coordinates/Leaflet.Coordinates-0.1.5.css">-->
+<link rel="stylesheet" href="{{ STATIC_URL }}idegeo/zoombox/L.Control.ZoomBox.css" />
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}lib/leaflet/easyPrint.css"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.0.7/esri-leaflet.js"></script>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js'></script>
+<!--<script type="text/javascript" src="{{ STATIC_URL }}coordinates/Leaflet.Coordinates-0.1.5.min.js"></script>-->
+<script src="{{ STATIC_URL }}idegeo/zoombox/L.Control.ZoomBox.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}idegeo/colorbrewer/js/colorbrewer_schemes.js"></script>
+<!--<script src="{{ STATIC_URL }}lib/leaflet/leaflet.easyPrint.js"></script>-->
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6ZJwb2cqgW1YXsmXGT1I-0ujia5UREAg&libraries=places" async defer></script>
+<script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
+<!--<script type="text/javascript" src="{{ STATIC_URL }}charts/areaChart.json"></script>-->
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+<!--Dragable JS-->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+/*Tematizador*/
+.r-color {
+    background: #fff;
+    margin-bottom:10px;
+}
+.range {
+   width:100%;
+   position: absolute;
+   bottom: 30px;
+}
+.fadeMsg {
+  display: none;
+  color: red;
+}
+</style>
+
+{% endblock %}
+
+{% block middle %}
+<div class="container_n">
+  <div class='loader'>
+    <div class='loader-container'>
+      <div class='progress progress-striped active' style="height:4px;">
+        <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+      </div>
+    </div>
+  </div>
+  <div class="container_layers">
+    <div id="header">
+      <div class="logo">Capas</div>
+      <!--
+      <div id="remoteServices" class="remoteServices">
+        <div class="btn-group">
+          <a class="btn btn-primary" style="background: #0787B0; border-color: #0787B0; border-radius: 0;" href="#"><i class="fa fa-globe" aria-hidden="true"></i> Otros servicios</a>
+          <a class="btn btn-primary dropdown-toggle" style="background: #0787B0; border-color: #0787B0; border-radius: 0;" data-toggle="dropdown" href="#">
+            <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              {% if services %}
+              {% for service in services %}
+            <li>
+              <a href="#" style="text-transform: uppercase;"><input id="serv{{service.id}}" class="service" type="checkbox" name="{{service.base_url}}" value="{{service.name}}"> {{service.name}}</a>
+            </li>
+            <li class="divider"></li>
+            {% endfor %}
+            {% endif %}
+            <li><a href="#"><i class="fa fa-lock"></i> IDEGEO</a></li>
+            </li>
+          </ul>
+        </div>
+      </div>
+      -->
+      <div class="headerButtons">
+        <div id="remoteServices_subtema" class="remoteServices_subtema"></div>
+        {% if request.user.is_authenticated %}
+        <!--<a id="my-maps" class='inline' data-toggle="modal" data-target="#mymaps-list" title="Mis mapas"><i class="fa fa-map-marker"></i></a>-->
+        <a id="save-qmap" title="Guardar mapa" class='inline' data-toggle="modal" data-target="#save-modal" style="display:none;"><i class="fa fa-floppy-o"></i></a>
+        {% endif %}
+        <i data-toggle="tooltip" data-placement="bottom" title="Cargar mapa de nuevo" class="fa fa-repeat"></i>
+        <i data-toggle="tooltip" data-placement="bottom" title="Ayuda" class="fa fa-question-circle"></i>
+      </div>
+      <!-- [ CONTROL OPACITY AND REMOVE LAYER POSTGIS ::. -->
+      <div class="headerTextButtons headerButtonColorStyle" style="display: none">
+        <a class="blogSectionButton headerTextButton headerButtonColorStyle">
+          <i class="fa fa-times"></i>
+        </a>
+      </div>
+      <!-- .:: MENU ZOOM TO ::.  -->
+      <div id="selectedRegionDropDownContainer">
+        <div class="selectedRegionTitle">
+          <div class="zoomToButton translatable">Acercar  a:</div>
+          <div class="selectedZoomRegionButton translatable"><span id="submittername"></span></div>
+          <div class="fa fa-caret-down"></div>
+        </div>
+        <div class="geoDropDownMenu" style="direction: ltr; display: none">
+          <!--<div class="geoDropDownMenuItem translatable" id="chiapas">Chiapas
+            <ul class="title">
+              <li><div class="titles" id="1" title="Region Sierra Madre de Chiapas">Región Sierra Madre de Chiapas</div></li>
+            </ul>
+          </div>-->
+          <div class="geoDropDownMenuItem translatable" id="adesur">Regiones
+            <ul class="title">
+              <li><div class="titles" id="1" title="Region ADESUR">ADESUR</div></li>
+              <li><div class="titles" id="1" title="Cuenca Usumacinta">Cuenca Usumacinta</div></li>
+              <li><div class="titles" id="1" title="Frontera Chiapas Tabasco">Frontera Chiapas Tabasco</div></li>
+              <li><div class="titles" id="1" title="Region Sierra Madre de Chiapas">Sierra Madre de Chiapas</div></li>
+            </ul>
+          </div>
+          <div class="geoDropDownMenuItem translatable" id="estados">Estados
+            <ul class="title">
+              <li><div class="titles" id="1" title="Yucatan">Yucatán</div></li>
+            </ul>
+          </div>
+          <div class="geoDropDownMenuItem translatable">ZEE
+            <ul class="title">
+              <li><div class="titles" id="1" title="Corredor Transistmico">Corredor Transítmico</div></li>
+              <li><div class="titles" id="2" title="Puerto Chiapas">Puerto Chiapas</div></li>
+              <li><div class="titles" id="3" title="Puerto Balsas">Puerto Balsas</div></li>
+            </ul>
+          </div>
+          <div class="geoDropDownMenuItem translatable">Personalizado
+            <ul class="title">
+              <li><div class="draw_polygon ctitles">Poligono</div></li>
+              <!--<li><div class="draw_circle ctitles">Circulo</div></li>-->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Panel izquierdo-->
+    <div class="layerMenu translateLayerListRight animationTransition">
+      <div class="layerListIcons">
+        <div id="m1" class="layerMenuIconDiv">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-filter"></i></div>
+        </div>
+        <div id="m2" class="layerMenuIconDiv catTrgg">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-sitemap"></i></div>
+        </div>
+        <div id="m3" class="layerMenuIconDiv tagTrgg">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-hashtag"></i></div>
+        </div>
+        <div id="m8" class="layerMenuIconDiv catTrgg">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-map"></i></div>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div id="m4" class="layerMenuIconDiv intTrigger">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-pencil-square"></i></div>
+        </div>
+        <div id="m5" class="layerMenuIconDiv" data-toggle="modal" data-target="#development" id="" data-toggle="tooltip">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-male"></i></div>
+        </div>
+        <div id="m6" class="layerMenuIconDiv alfTrigger">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-leaf"></i></div>
+        </div>
+        <!--
+        <div id="m7" class="layerMenuIconDiv c10Trigger">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-bar-chart"></i></div>
+        </div>-->
+        <div id="m9" class="layerMenuIconDiv">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-external-link"></i></div>
+        </div>
+        {% endif %}
+      </div>
+      <div class="layerList">
+        <div class="labelsContainer animationTransition">
+          <div id="m1t" data-id="#m1" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Filtro por texto</div>
+          </div>
+          <div id="m2t" data-id="#m2" class="layerMenuTopLevelGroupLabel translatable catTrgg" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Categorías</div>
+          </div>
+          <div id="m3t" data-id="#m3" class="layerMenuTopLevelGroupLabel translatable tagTrgg" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Palabras clave</div>
+          </div>
+          <div id="m8t" data-id="#m8" class="layerMenuTopLevelGroupLabel translatable catTrgg" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Mapa base</div>
+          </div>
+          {% if request.user.is_authenticated %}
+          <div id="m4t" data-id="#m4" class="layerMenuTopLevelGroupLabel translatable intTrigger" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Encuesta intercensal 2015</div>
+          </div>
+          <div id="m5t" data-id="#m5" data-toggle="modal" data-target="#development" id="" data-toggle="tooltip" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Agenda 2030 de desarrollo sostenible</div>
+          </div>
+          <div id="m6t" data-id="#m6" class="layerMenuTopLevelGroupLabel translatable alfTrigger" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Censo Agrícola, Ganadero y Forestal 2007</div>
+          </div>
+          <!--
+          <div id="m7t" data-id="#m7" class="layerMenuTopLevelGroupLabel translatable c10Trigger" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Censo 2010</div>
+          </div>
+          -->
+          <div id="m9t" data-id="#m9" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">WMS externo</div>
+          </div>
+          {% endif %}
+        </div>
+        <div id="m1c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="layerContainerLabel translatable" data-id="m1c" style="direction: ltr;">Filtro por texto</div>
+          <div class="layerMenuTopLevelGroupContainer">
+            <div class="input-group">
+              <input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="texto" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+              <span class="input-group-btn">
+                <button class="btn btn-info" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+            </span>
+            </div>
+            <div id="result_text">
+              {% for layer in local_layers %}
+              <div id="m1c{{category.id}}l{{layer.id}}" class="layerMenuTopLevelGroupContainer layer">
+                <div class="layerRow" style="display: none;" data-x0="{{layer.bbox_x0}}" data-x1="{{layer.bbox_x1}}" data-y0="{{layer.bbox_y0}}" data-y1="{{layer.bbox_y1}}" data-title="{{layer.title}}">
+                  {% if layer.id in dwn_ids %}
+                  <span class="fa-stack fa-lg download-l">
+                  <i class="fa fa-square fa-stack-2x"></i>
+                  <i title="Descargar capa" class="fa fa-download fa-stack-1x fa-inverse g-download" data-toggle="modal" data-target="#download-layer" data-name="{{layer.typename}}" data-storeType="{{layer.storeType}}" data-id="lm2c{{category.id}}l{{layer.id}}i"></i>
+                </span>
+                  {% endif %}
+                  <label for="m1c{{category.id}}l{{layer.id}}i" title="{{layer.title|capfirst}}">
+                    <input class="checkbox" type="checkbox" id="m1c{{category.id}}l{{layer.id}}i" href="{{layer.ows_url}}"
+                           value="{{layer.typename}}" data-layerid="{{layer.id}}" data-x0="{{layer.bbox_x0}}" data-x1="{{layer.bbox_x1}}"
+                           data-y0="{{layer.bbox_y0}}" data-y1="{{layer.bbox_y1}}" data-info="{{layer.abstract|capfirst}}" title="{{layer.title|capfirst}}">
+                    {{layer.title|capfirst}}
+                  </label>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div id="m2c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="layerContainerLabel translatable" data-id="m2c" style="direction: ltr;">Categorías</div>
+          <div id="cat_container" class="layerMenuTopLevelGroupContainer"></div>
+          <div id="cat_load" style="position:relative;top:100px;left:50%;">
+            <img src='{{STATIC_URL}}geonode/img/loading.gif'/>
+            <br><label style="font-size: 12px; position:relative;right:21px;">Cargando</label>
+          </div>
+        </div>
+        <div id="m3c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="layerContainerLabel translatable" data-id="m3c" style="direction: ltr;">Palabras clave</div>
+          <div id="tag_container" class="layerMenuTopLevelGroupContainer"></div>
+          <div id="tag_load" style="position:relative;top:100px;left:50%;">
+            <img src='{{STATIC_URL}}geonode/img/loading.gif'/>
+            <br><label style="font-size: 12px; position:relative;right:21px;">Cargando</label>
+          </div>
+        </div>
+        <div id="m8c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="layerContainerLabel translatable" data-id="m8c" style="direction: ltr;">Mapa base</div>
+          <div id="baseLayers" class="layerMenuTopLevelGroupContainer"></div>
+        </div>
+        <div id="m4c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="translatable" data-id="m1c" style="color: #858484; font-size: 14px; font-weight: 700; direction: ltr;">Encuesta Intercensal 2015</div>
+          <div class="layerMenuTopLevelGroupContainer">
+            <input type="submit" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#census-poll" id="btnQuery" value="Consultar" style="margin: 15px 0px;">
+            <p>Mis consultas</p>
+            <div id="latest-list"></div><br>
+          </div>
+        </div>
+        <div id="m6c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="translatable" data-id="m6c" style="color: #858484; font-size: 14px; font-weight: 700; direction: ltr;">Censo Agrícola, Ganadero y Forestal 2007</div>
+          <div class="layerMenuTopLevelGroupContainer">
+            <input type="submit" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#alf-census" value="Consultar" style="margin: 15px 0px;">
+            <p>Mis consultas</p>
+            <div id="latest-alf-layers"></div><br>
+          </div>
+        </div>
+        <div id="m7c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="translatable" data-id="m7c" style="color: #858484; font-size: 14px; font-weight: 700; direction: ltr;">Censo 2010</div>
+          <div class="layerMenuTopLevelGroupContainer">
+            <input type="submit" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#census2010" value="Consultar" style="margin: 15px 0px;">
+            <p>Mis consultas</p>
+            <div id="latest-c10layers"></div><br>
+          </div>
+        </div>
+        <div id="m9c" class="layerGroupContainer">
+           <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+           <div class="layerContainerLabel translatable" data-id="m3c" style="direction: ltr;">WMS externo</div>
+           <div class="form-group level2LabelBorderBottom">
+             <div class="input-group">
+               <select class="form-control" id="wmsSelect">
+                 <option value="null">Seleccione...</option>
+                 {% for wms in wms_services %}
+                    <option value="{{wms.base_url}}">{{wms.name}}</option>
+                 {% endfor %}
+               </select>
+               {% if request.user.is_superuser %}
+               <span class="input-group-btn">
+                <button class="btn btn-info" type="submit" id="addWmsService" title="Registrar" data-toggle="modal" data-target="#addWmsModal"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-info" type="submit" id="editWmsService" title="Editar" data-toggle="modal" data-target="#editWmsModal"><i class="fa fa-cog"></i></button>
+               </span>
+               {% endif %}
+             </div>
+             <br>
+             <label>Otro servicio:</label>
+             <input id="wmsUrl" type="text" placeholder="URL" class="form-control ng-pristine ng-valid ng-touched">
+             <p id="invalidUrlMsg" style="display:none; color:red; font-size:11px; margin:0; padding:0;">Escriba una URL valida</p>
+             <input id="nameSearch" type="text" placeholder="ID Capa (opcional)" class="form-control" style="margin-top:12px;">
+             <span class="input-group-btn">
+               <button class="btn btn-info pull-right" type="submit" id="addWmsBtn" disabled="true" style="margin:10px 0px;"><i class="fa fa-search"></i></button>
+             </span>
+           </div>
+           <div class="form-group level2LabelBorderBottom" style="margin-top:10px;">
+             <label for="wmsLayers">Capas</label>
+             <button class="btn btn-info btn-xs pull-right" type="submit" id="emptyWms" disabled="true">Vaciar</button>
+           </div>
+           <div id="wmsLayers" style="height:440px;overflow-y:auto; overflow-x: hidden; display:none;"></div>
+           <p id="notFoundUrlMsg" class="fadeMsg" style="font-size:12px; margin:0; padding:0;">No se encontró el servicio</p>
+           <div id="wmsLoad" style="position:relative;top:100px;left:50%;display:none;">
+               <img src='{{STATIC_URL}}geonode/img/loading.gif'/>
+               <br><label style="font-size: 12px; position:relative;right:21px;">Cargando</label>
+           </div>
+        </div>
+      </div>
+      <div id="leftMenuActivationTab" data-toggle="tooltip" data-placement="right" title="Capas" class="layerListNub animationTransition translateLayerListNubRight"><div class="verticalCenter layerMenuNubOpen"></div></div>
+    </div>
+
+    <div id="logo_nav" class="logo_nav leaflet-left">
+        <img src="{{STATIC_URL}}idegeo/mviewer/img/CentroGeo-CMX_Logo-H1.png" width="190px;" title="CentroGeo">
+    </div>
+
+    <!--Panel derecho-->
+    <div class="layerMenu2 translateLayerListRight2 lm-closed animationTransition">
+      <div id="mapLayerListHandle">
+        <div class="legend-title" style="direction: ltr; float: left;">SU SELECCIÓN</div>
+        <div class="toolsSelected" style="display: none;">
+          <i class="fa fa-eye-slash" data-toggle="tooltip" data-placement="bottom" title="Swipe" aria-hidden="true"></i>
+          <i class="fa fa-search" data-toggle="tooltip" title="Zoom a la capa" data-placement="bottom" aria-hidden="true"></i>
+          <i id="styleCreate" class="fa fa-paint-brush" data-toggle="tooltip" title="Crear estilo de la capa" data-placement="bottom" aria-hidden="true" style="display:none;"></i>
+        </div>
+      </div>
+      <div id="addlegend" class="animationTransition"></div>
+      {% include "sld_manager.html" %}
+      <div data-toggle="tooltip" data-placement="left" title="Leyenda" class="layerListNub2 animationTransition translateLayerListNubLeft2">
+        <div class="fa fa-list" style="padding: 5px; color:#089FCF; font-size: 16px;"></div>
+      </div>
+    </div>
+    {% include "sld_manager_windows.html" %}
+    <div id="wrapper">
+      <div id="map"> <div class="radio-years"></div></div>
+      <input id='range' class='range' type='range' min='0' max='1.0' step='any' style="display:none;" />
+
+      <div class="container_chart" id="chart-container"><!--Container Dragable div of Chart-->
+        <div class="map-legend-up"></div><!--Value Leyend-->
+        <div class="radio-trimestre"></div><!--Value radios-->
+        <div id="chart_div"></div><!--Chart Graphic-->
+        <div id="chart_trimestre"></div><!--Chart Graphic 2-->
+        <div class="map-legend"></div><!--SYmbology-->
+      </div>
+
+      <div style="clear: both"></div>
+    </div>
+    <div style="clear: both"></div>
+  </div>
+  <div class="helpOverlayWrapper" style="display: none;">
+    <!--<div class="instructionDiv map-instructionDiv1">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow1"></div>
+      <div class="translatable instructionText map-instructionText1" style="direction: ltr;">Return to the landing page</div>
+    </div>-->
+    <div class="instructionDiv map-instructionDiv2">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow2"></div>
+      <div class="translatable instructionText map-instructionText2" style="direction: ltr;">Seleccionar capas que le gustaría ver en el mapa o descargar</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv3">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow3"></div>
+      <div class="translatable instructionText map-instructionText3" style="direction: ltr;">Ver y editar sus mapas guardados</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv4">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow4"></div>
+      <div class="translatable instructionText map-instructionText4" style="direction: ltr;">Centrarse en un área específica usando la función de zoom</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv5">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow5"></div>
+      <div class="translatable instructionText map-instructionText5" style="direction: ltr;">Cambiar su mapa base</div>
+    </div>
+    <div class="instructionDiv map-instructionDiv6">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow6"></div>
+      <div class="translatable instructionText map-instructionText6" style="direction: ltr;">Exportar como imagen los mapas que has creado</div>
+    </div>
+    <!--<div class="instructionDiv map-instructionDiv7">
+      <div class="icon-arrow9 instructionArrow map-instructionArrow7"></div>
+      <div class="translatable instructionText map-instructionText7" style="direction: ltr;">Click here to view the timeline</div>
+    </div>-->
+  </div>
+</div>
+
+<!--{ include "quickMap_modal.html" }-->
+<!--{% include "intercensal_modal.html" }-->
+<!--{% include "dsostenible_modal.html" }-->
+<!--{% include "alfcensus_modal.html" }-->
+<!--{% include "census2010_modal.html" }-->
+<!--{% include "wms_modal.html" }-->
+
+<div class="modal fade" id="download-layer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Download Layer" %}</h4>
+      </div>
+      <div class="modal-body">
+        {% if links %}
+        <ul>
+          {% for link in links %}
+          <li><a href="{{ link.url }}">{% trans link.name %}</a></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="image-gallery-title"></h4>
+      </div>
+      <div class="modal-body">
+        <img id="image-gallery-image" class="img-responsive" src="">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_script %}
+<script src='{{ STATIC_URL }}idegeo/util/js/jquery.quicksearch.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+<!--<script src="{{ STATIC_URL }}simplestatistics/simple-statistics.js"></script>-->
+<script src="{{ STATIC_URL }}idegeo/util/js/L.TileLayer.BetterWMS.js"></script>
+{% include "idegeo/basemap.js" %}
+{% include "layers_interface.js" %}
+<!--{% include "quickMap.js" }-->
+<!--{% include "intercensal.js" }-->
+<!--{% include "readingCsv.js" }-->
+<!--{% include "alf_census.js" }-->
+<!--{% include "census2010.js" }-->
+{% include "sld_manager.js" %}
+{% include "sld_gui_manager.js" %}
+<!--{% include "wms_service.js" }-->
+{% include "googleSearch.js" %}
+{% endblock extra_script %}

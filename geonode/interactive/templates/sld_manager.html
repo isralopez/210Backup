@@ -1,0 +1,160 @@
+<div id='addstyle' style="display:none;">
+    <nav class="navbar navbar-default" style="margin-bottom: 0px;">
+        <div class="container-fluid">
+            <div class="navbar-header" style="color: #333">
+                <label for="style-title">Capa</label>
+                <p class="text-muted" id="style-title"></p>
+            </div>
+        </div>
+    </nav>
+    <div id="style_load" style="position:relative;top:100px;left:50%;">
+        <img src='{{STATIC_URL}}geonode/img/loading.gif'/>
+        <br><label style="font-size: 12px; position:relative;right:21px;">Cargando</label>
+    </div>
+    <p id="noStyleLoadMsg" style="display:none; color:red;">No se ha podido leer el archivo de estilo correctamente, se usan valores por defecto.</p>
+    <table class="table table-hover" id="style-table" style="display:none;">
+        <tbody>
+        <tr>
+            <td colspan="2">
+                <label for="style">Estilo</label>
+                <select id="style" class="form-control"></select>
+                <label for="style-type">Tipo</label>
+                <select class="form-control" id="style-type">
+                    <option name="unico" value="symbol">Símbolo único</option>
+                    <option name="categorizado" value="categorized">Categorizado</option>
+                    <option name="graduado" value="graduated">Graduado</option>
+                </select>
+                <p id="noExistAttrMsg" style="display:none; color:red;">Esta capa no tiene atributos para este tipo de estilo.</p>
+                <div id="style-attr"></div>
+                <p id="noAttrMsg" style="display:none; color:red;">Seleccione un atributo</p>
+            </td>
+        </tr>
+        <tr>
+            <td id="unique-symbol" colspan="2">
+                <label>Relleno</label><br>
+                <p class="text-muted">Color</p>
+                <input class="color" type="text" id="fill-color"/>
+            </td>
+            <br>
+            <td id="cat-scheme" colspan="2" style="display:none;">
+                <label>Rampa de color</label>
+                <div id="cat-ramp"></div>
+            </td>
+            <td id="scheme" colspan="2" style="display:none;">
+                <label>Rampa de color</label>
+                <div id="div-tiporampa" style="display: none;">
+                    <label class="radio-inline">
+                        <input class="scheme-type" type="radio" name="scheme-type" id="sequential" style="position:relative;">Secuencial
+                    </label>
+                    <!--
+                    <label class="radio-inline">
+                      <input class="scheme-type" type="radio" name="scheme-type" id="diverging" style="position:relative;">Divergente
+                    </label>
+                    -->
+                </div>
+                <div id="scheme1">
+                    <label id="multi"></label>
+                    <div id="ramps"></div>
+                </div> <!--end scheme1 div-->
+                <div id="scheme2">
+                    <label id="single"></label>
+                    <div id="singlehue"></div>
+                </div> <!--end scheme2 div-->
+                <div class="div-modo" style="display: none;">
+                    <label for="stats-method">Modo</label>
+                    <select class="form-control" id="stats-method">
+                        <option value="interval">Intervalo igual</option>
+                        <option value="percentil">Cuantil (cuenta igual)</option>
+                        <!--<option value="std_dev">Desviación estándar</option>-->
+                    </select>
+                </div>
+                <div class="div-clases" style="display: none;">
+                    <label for="num-classes">Clases</label>
+                    <select class="form-control" id="num-classes">
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected>5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td id="symbol-type" colspan="2" style="display:none;">
+                <label>Tipo</label>
+                <div>
+                    <div style="float:left;">
+                        <p class="text-muted">Simbolo</p>
+                        <select id="point-type-select">
+                            <option value="circle">Circulo</option>
+                            <option value="triangle">Triangulo</option>
+                            <option value="rectangle">Rectangulo</option>
+                            <option value="star">Estrella</option>
+                        </select>
+                    </div>
+                    <div style="float:left; margin-left:50px;">
+                        <p class="text-muted">Tamaño</p>
+                        <input type="number" min="0" max="30" step="0.1" value="1.0" id="point-size" style="width:55px; margin-bottom:10px;">
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td id="opacity" colspan="2" style="display:none;">
+                <label><input id="opacity-enabled" type="checkbox"> Opacidad</label>
+                <div id="opacityCtrl" style="display:none;">
+                  <div id="transparency-track-b" style="float:left;"><p id="fill-opacity" style="padding-top:7px;">100%</p></div>
+                  <div id="transparency-slider-b" data-value="100"></div>
+                  <div style="float:right;"><a id="applyOpacity" class="btn btn-primary btn-xs" href="#">Aplicar</a></div>
+                </div>
+            </td>
+        </tr>
+        <tr id="edit-stroke">
+            <td>
+                <label><input id="stroke-enabled" type="checkbox" value="stroke"> Borde</label>
+                <div class="div-borde" style="display: none;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td id="stroke-color-td">
+                                <p class="text-muted">Color</p>
+                                <input class="color" type="text" id="stroke-color"/>
+                            </td>
+                            <td>
+                                <p class="text-muted">Grosor</p>
+                                <input type="number" min="0" max="10" step="0.01" value="1.0" id="stroke-width" style="width:55px; margin-bottom:10px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div id="stroke-type" style="margin-bottom:10px;">
+                                    <p class="text-muted">Tipo</p>
+                                    <div class="styleeditor-stroke active" data-value="continous" style="background-position: 0px -76px;"></div>
+                                    <div class="styleeditor-stroke" data-value="dash1" data-dasharray="5 2" style="background-position: 0px -96px;"></div>
+                                    <div class="styleeditor-stroke" data-value="dash2" data-dasharray="7 2 3 2" style="background-position: 0px -116px;"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td>
+                <a id="applyStrokeBtn" class="btn btn-primary btn-xs" href="#" style="display: none;">Aplicar Borde</a>
+            </td>
+        </tr>
+        <tr>
+            <td id="styleClasify" class="text-center" style="display:none;">
+                <a id="clasifyBtn" class="btn btn-primary btn-xs" href="#"><i class="fa fa-play-circle"></i> Clasificar</a>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center"><a id="styleCancel" class="btn btn-danger btn-sm" href="#"><i class="fa fa-times-circle"></i> Cancelar</a></td>
+            <td class="text-center"><a id="styleSave" class="btn btn-success btn-sm" href="#" style="display:none;"><i class="fa fa-check-circle"></i> Generar Estilo</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

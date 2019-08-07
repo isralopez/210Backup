@@ -1,0 +1,22 @@
+<div id="sidebar-description" class="scroll-thin-dark">
+    <div class="text-container">
+          <div class="header-request-fbm" style="background:#555555; color:white; height:35px;">
+            <div id="narrative-nav" style="float:left; display:none;">
+                <span id="prev-narrative" style="cursor:pointer;" title="Narrativa Anterior"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                <span style="margin:5px;"><i class="fa fa-info" aria-hidden="true"></i></span>
+                <span id="next-narrative" style="cursor:pointer;" title="Narrativa Siguiente"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+            </div>
+            <div style="float:right;">
+                <span class="header-info-title"> </span>
+                <span class="close-narrative" id="close-narrative" style="cursor:pointer;"><i class="fa fa-times" title="Cerrar" aria-hidden="true"></i></span>
+            </div>
+          </div>
+          <div id="description-content">
+              {% if mviewer.description %}
+                {{mviewer.description|safe|escape}}
+              {% endif %}
+          </div>
+          <div id="layer-narrative" style="display:none;"></div>
+          <div id="marker-narrative" style="display:none;"></div>
+    </div>
+</div>

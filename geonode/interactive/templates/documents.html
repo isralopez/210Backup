@@ -1,0 +1,137 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Datos Vectoriales{% endblock %}
+
+{% block head %}{{ block.super }}
+   <link href="{{ STATIC_URL }}idegeo/bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+   <link href="{{ STATIC_URL }}idegeo/interactive/css/base_documents.css" rel="stylesheet" type="text/css">
+   
+{% endblock %}
+
+{% block middle %}
+<div class="content">
+  <div class="container_n">
+	  <div class='loader'>
+	    <div class='loader-container'>
+	      <div class='progress progress-striped active' style="height:4px;">
+	        <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="container_documents">
+	    <div id="header">
+	      <div class="logo">Documentos</div>
+	    </div>
+	   </div>
+   </div>
+</div>
+<div class="container" style="min-height: 440px;">
+	<div class="nav nav-pills btn-group">
+		<div class="btn-group" style="display: inline-block;">
+		    <button id="catTag" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categorías
+		    <span class="caret"></span></button>
+		    <ul class="dropdown-menu">
+		    	<li><a class="filter catTag active" data-filter="all" name="Categorías" style="display:none;" href="#">Categorías</a></li>
+		    	<li><a class="filter catTag" data-filter="all" name="Palabras claves" href="#">Palabras claves</a></li>
+		    </ul>
+		</div>
+		<button type="button" class="btn btn-primary filter" data-filter="all">Todos</button>
+	{% for category in categorys %}
+	    <button type="button" class="btn btn-primary filter cat" data-filter=".c{{category.id}}">{{category}}</button>
+    {%endfor%}
+    {% for tag in tags %}
+	    <button type="button" class="btn btn-primary filter tag" data-filter=".t{{tag.id}}" style="display:none;">{{tag}}</button>
+    {%endfor%}
+    </div>
+    <div class="nav nav-pills btn-group">
+		<div class="btn-group" style="display: inline-block;">
+		    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Tipo de documento
+		    <span class="caret"></span></button>
+		    <ul class="dropdown-menu">
+		    	<li><a class="filter" data-filter=".articulo" href="#">Artículo</a></li>
+		    	<li><a class="filter" data-filter=".cartel" href="#">Cartel</a></li>
+				<li><a class="filter" data-filter=".infografia" href="#">Infografía</a></li>
+				<li><a class="filter" data-filter=".mapa" href="#">Mapa</a></li>
+				<li><a class="filter" data-filter=".otro" href="#">Otro</a></li>
+				<li><a class="filter" data-filter=".reporte" href="#">Reporte</a></li>
+				<li><a class="filter" data-filter=".tesis" href="#">Tesis</a></li>
+		    </ul>
+		</div>
+		<div class="btn-group input-group" style="width:200px;">
+			<input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="texto" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+			<span class="input-group-btn">
+			    <button class="btn btn-primary" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+			</span>
+		</div>
+	</div>
+	<div id="single-project">
+	{% for category, documents in categorys.items %}
+		{% for document in documents %}
+		{% if "view_resourcebase" in document.permission %}
+	    <div id="slidingDiv{{document.id}}" class="toggleDiv row-fluid single-project" style="display: none;">
+	        <div class="span6 project-img">
+	            <img src="{{MEDIA_URL}}{{document.doc_frontpage}}" alt="{{document}}">
+	        </div>
+	        <div class="span6">
+	            <div class="project-description">
+	                <div class="project-title clearfix">
+	                    <h3>{{document}}</h3>
+	                    <span class="show_hide close"><i class="fa fa-times"></i></span>
+	                </div>
+	                <div class="project-info">
+	                    <div><span>Autor</span>{{document.author}}</div>
+	                    <div><span>Fecha</span>{{document.date|date:"l j, F, Y"}}</div>
+	                    <div><span>Categoría</span>{{document.category}}</div>
+	                    {% if "download_resourcebase" in document.permission %}
+	                    <div><a href="{% url 'document_download' document.id %}" target="_blank" download><span>Descargar</span></a><a href="{% url 'document_download' document.id %}" target="_blank" download><i class="fa fa-download" aria-hidden="true"></i></a></div>
+	                    {%  endif %}
+	                    <div><p>{{document.abstract}}</p></div>
+						{% if document.object_id %}
+							<a class="btn btn-primary iframe" href="{% url 'leaflet_embed' document.object_id %}">Ver Mapa</a>
+						{% endif %}
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    {% endif %}
+    	{%endfor%}
+    {%endfor%}
+    <div style="overflow: hidden;">
+    <ul id="portfolio-grid" class="thumbnails row" style="height: 700px; overflow-y: scroll;">
+    {% for category, documents in categorys.items %}
+		{% for document in documents %}
+			{% if "view_resourcebase" in document.permission %}
+	        <li class="mix c{{document.category.id}} {% for keyword in document.keywords.all %} t{{keyword.id}} {%endfor%} {{document.doc_type}} span4">
+	            <div class="thumbnail animated fadeInDown">
+	                <img style="height: 267px; width: 100%;" src="{{MEDIA_URL}}{{document.doc_frontpage}}" alt="{{document}}">
+	                <a href="#home-container" class="more show_hide" rel="#slidingDiv{{document.id}}"><i class="fa fa-plus"></i></a>
+	                <h3>{{document|truncatechars:55}}</h3>
+	                <div class="mask"></div>
+	            </div>
+	        </li>
+	        {% endif %}
+	        {%endfor%}
+	    {%endfor%}
+	    </ul>
+	    </div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}idegeo/util/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}idegeo/util/js/jquery.quicksearch.js'></script>
+<script src="{{STATIC_URL}}idegeo/util/js/jquery.colorbox.js"></script>
+<link rel="stylesheet" href="{{STATIC_URL}}idegeo/util/css/colorbox.css" />
+<script type="text/javascript">
+	$(".iframe").colorbox({iframe:true, width:"90%", height:"90%"});
+</script>
+{% include "idegeo/documents.js" %}
+{% endblock extra_script %}

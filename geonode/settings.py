@@ -300,8 +300,15 @@ GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
 )
 
+IDEGEO_APPS = (
+    # My Geonode Apps
+    # 'geonode.ms',
+    'geonode.mviewer',
+    'geonode.interactive',
+)
+
 # Uncomment the following line to enable contrib apps
-GEONODE_APPS = GEONODE_CORE_APPS + GEONODE_INTERNAL_APPS + GEONODE_CONTRIB_APPS
+GEONODE_APPS = GEONODE_CORE_APPS + GEONODE_INTERNAL_APPS + GEONODE_CONTRIB_APPS + IDEGEO_APPS
 
 INSTALLED_APPS = (
 
@@ -361,6 +368,10 @@ INSTALLED_APPS = (
 
     # GeoNode
     'geonode',
+
+    # Utilerias IDEGEO
+    'ckeditor',
+    'fontawesome',
 ) + GEONODE_APPS
 
 REST_FRAMEWORK = {
@@ -1198,12 +1209,12 @@ DEFAULT_MAP_CRS = os.environ.get('DEFAULT_MAP_CRS', "EPSG:3857")
 DEFAULT_LAYER_FORMAT = os.environ.get('DEFAULT_LAYER_FORMAT', "image/png")
 
 # Where should newly created maps be focused?
-DEFAULT_MAP_CENTER = (os.environ.get('DEFAULT_MAP_CENTER_X', 0), os.environ.get('DEFAULT_MAP_CENTER_Y', 0))
+DEFAULT_MAP_CENTER = (os.environ.get('DEFAULT_MAP_CENTER_X', -99), os.environ.get('DEFAULT_MAP_CENTER_Y', 19))
 
 # How tightly zoomed should newly created maps be?
 # 0 = entire world;
 # maximum zoom is between 12 and 15 (for Google Maps, coverage varies by area)
-DEFAULT_MAP_ZOOM = int(os.environ.get('DEFAULT_MAP_ZOOM', 0))
+DEFAULT_MAP_ZOOM = int(os.environ.get('DEFAULT_MAP_ZOOM', 4))
 
 MAPBOX_ACCESS_TOKEN = os.environ.get('MAPBOX_ACCESS_TOKEN', None)
 BING_API_KEY = os.environ.get('BING_API_KEY', None)

@@ -1,0 +1,50 @@
+/*############################### [GetFeatureInfo Popup] ################################*/
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+      background: rgba(239, 239, 239, 0.85);
+  }
+
+  .leaflet-popup-content {
+  max-height: 230px;
+  max-width: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 25px 10px 10px;
+  }
+
+  .leaflet-popup-content td{
+    font-size: 10px;
+  }
+
+  .leaflet-container a.leaflet-popup-close-button{
+  color: rgba(0,0,0,0.65);
+  top: 2px;
+  right:4px;
+  }
+  .leaflet-popup-content::-webkit-scrollbar-track, .layerList::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
+
+  .leaflet-popup-content::-webkit-scrollbar, .layerList::-webkit-scrollbar
+  {
+    width: 5px;
+    background-color: #F5F5F5;
+  }
+
+  .leaflet-popup-content::-webkit-scrollbar-thumb, .layerList::-webkit-scrollbar-thumb
+  {
+    background-color: #0ae;
+    background-image: -webkit-linear-gradient(45deg,
+                                              rgba(255, 255, 255, .2) 25%,
+                          transparent 25%,
+                          transparent 50%,
+                          rgba(255, 255, 255, .2) 50%,
+                          rgba(255, 255, 255, .2) 75%,
+                          transparent 75%,
+                          transparent)
+  }
+.flecha {
+  float: right;
+  margin-top: -19px;
+}

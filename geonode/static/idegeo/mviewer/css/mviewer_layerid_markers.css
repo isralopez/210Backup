@@ -1,0 +1,164 @@
+ #header_top {
+            position: relative;
+            /*margin: 0px;*/
+            margin: 10px 0px 10px 0px;
+            padding: 0px;
+            /*border-bottom: 1px dotted rgba(220, 120, 40, 1.00);*/
+            /*-webkit-box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.16);
+            -moz-box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.16);
+            box-shadow: 0px 6px 12px 0px rgba(0, 0, 0, 0.16);*/
+            z-index: +1;
+        }
+        #header_top:before,
+        #header_top:after {
+            display: table;
+            content: " ";
+        }
+        #header_top:after {
+            clear: both;
+        }
+        #header_top .header-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            /*margin-top: 10px;
+            margin-bottom: 10px;*/
+            margin: 0px;
+            padding: 0px 15px;
+        }
+        #header_top .header-wrapper .site-head {
+            position: relative;
+            margin: 0px;
+            padding: 0px;
+            /** FLEX **/
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        #header_top .header-wrapper .site-head .sitelogo {
+            display: block;
+            margin: 0px;
+            padding: 0px;
+            overflow: hidden;
+            /** FLEX **/
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            -webkit-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+        }
+        #header_top .header-wrapper .site-head .sitelogo .logo-item {
+            display: block;
+            margin: 0px 20px 0px 0px;
+            padding: 0px;
+        }
+        #header_top .header-wrapper .site-head .sitelogo div.logo-item:last-of-type {
+            margin-right: 0px;
+        }
+        #header_top .header-wrapper .site-head .sitelogo .logo-item a {
+            display: block;
+            margin: 0px;
+            padding: 0px;
+        }
+        #header_top .header-wrapper .site-head .sitelogo .logo-item a img {
+            display: block;
+            margin: 0px auto;
+            padding: 0px;
+            line-height: 0px;
+        }
+        #header_top .header-wrapper .site-head>.sitename {
+            margin: 0px 20px;
+            padding: 6px 0px 6px 16px;
+            border-left: 3px solid rgba(0, 0, 0, 0.40);
+        }
+        #header_top .header-wrapper .site-head>.sitename>.sitename {
+            margin: 0px;
+            padding: 0px;
+            font-family: "Nunito", sans-serif;
+            /* ADD-MOD [180703] */
+            /*font-size: 24px;*/
+            font-size: 28px;
+            font-weight: 700;
+            color: #000000;
+            line-height: 1.2em;
+        }
+        #header_top .header-wrapper .site-head>.sitename>.sitename>span {
+            display: block;
+            margin: 0px;
+            padding: 0px;
+        }
+        @media (max-width: 767px) {
+            #header_top .header-wrapper .site-head {
+                display: block;
+                text-align: center;
+            }
+            #header_top .header-wrapper .site-head .sitelogo {
+                margin: 0px;
+                padding: 0px;
+                /** FLEX **/
+                display: -webkit-flex;
+                display: flex;
+                -webkit-flex-direction: row;
+                flex-direction: row;
+                -webkit-flex-wrap: nowrap;
+                flex-wrap: nowrap;
+                -webkit-justify-content: space-between;
+                justify-content: space-between;
+                -webkit-align-items: flex-start;
+                align-items: flex-start;
+            }
+            #header_top .header-wrapper .site-head .sitelogo .logo-item {
+                margin: 0px 10px !important;
+                padding: 0px;
+            }
+            #header_top .header-wrapper .site-head .sitelogo .logo-item a {
+                /* VACIO */
+            }
+            #header_top .header-wrapper .site-head>.sitename {
+                margin: 20px 0px 0px 0px;
+                padding: 0px;
+                border: none;
+            }
+            #header_top .header-wrapper .site-head>.sitename>.sitename {
+                margin: 0px;
+                padding: 0px;
+                line-height: 1.3em;
+            }
+            #header_top .header-wrapper .site-head>.sitename>.sitename>span {
+                display: inline-block;
+            }
+        }
+
+#map {
+    margin: auto;
+    height: 575px;
+    width: 850px;
+}
+
+#cke_id_narrative {
+    max-width: 750px;
+}
+
+.popup-content {
+    font-size:14px;
+    border: 1px solid;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.popup-edit {
+    margin: 3px;
+    cursor: pointer;
+}
+
+#s2id_id_icon {
+    width: 300px;
+}

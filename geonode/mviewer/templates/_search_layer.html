@@ -1,0 +1,64 @@
+{% load i18n %}
+<div ng-controller="CartList1">
+  <div class="col-md-3 col-add-layer">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="selections">
+            Filtros
+            <!--<a href="." id="clear-search" class="pull-right">{% trans "Clear" %}</a>-->
+        </div>
+            {% if SEARCH_FILTERS.TEXT_ENABLED %}
+              {% include "search/_text_filter.html" %}
+            {% endif  %}
+        <div id="slide-pane">
+            {% if SEARCH_FILTERS.CATEGORIES_ENABLED %}
+
+            <nav class="filter">
+              <h4><a href="#" class="toggle toggle-nav"><i class="fa fa-chevron-right"></i>{% trans "Categories" %}</a></h4>
+              <ul class="nav closed" id="categories">
+                {% verbatim %}
+                  <li ng-repeat="category in categories" ng-if="category.count > 0">
+                    <a data-value="{{ category.identifier }}" data-filter="category__identifier__in"
+                     ng-click="multiple_choice_listener($event)" class="{{category.active}}">{{ category.gn_description | limitTo: 25 }}{{ category.gn_description.length > 25 ? '...' : ''}}
+                      <span class="badge pull-right">{{ category.count }}</span>
+                    </a>
+                  </li>
+                {% endverbatim %}
+              </ul>
+            </nav>
+            {% endif %}
+            {% if SEARCH_FILTERS.KEYWORDS_ENABLED %}
+            <nav class="filter">
+              <h4><a href="#" class="toggle toggle-nav"><i class="fa fa-chevron-right"></i> {% trans "Keywords" %}</a></h4>
+              <ul class="nav closed" id="keywords">
+                {% verbatim %}
+                  <li ng-repeat="keyword in keywords" ng-if="keyword.count > 0">
+                    <a data-value="{{ keyword.slug }}" data-filter="keywords__slug__in" ng-click="multiple_choice_listener($event)" class="{{keyword.active}}">{{ keyword.name }}
+                      <span class="badge pull-right">{{ keyword.count }}</span>
+                    </a>
+                  </li>
+                {% endverbatim %}
+              </ul>
+            </nav>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-add-layer">
+    <div class="col-md-3">
+      <span>Total: </span>
+      <span ng-bind="total_counts"></span>
+    </div>
+    {% include "search/_sort_filters.html" %}
+    <div class="col-md-12 grid-spacer col-add-layer">
+    {% include '_layer_snippet.html' %}
+    {% include 'search/_pagination.html' %}
+    </div>
+  </div>
+  <resource-cart class="col-md-3"></resource-cart>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default" ng-disabled="!cart.getCart().items.length" ng-click="addTopicLayers()">Agregar capas</button>
+  </div>
+  {% include "_bulk_permissions_form.html" %}
+</div>

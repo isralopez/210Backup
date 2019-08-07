@@ -1,0 +1,214 @@
+{% load bootstrap_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{mviewer.name}}</title>
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Shadows+Into+Light+Two" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link href="{{STATIC_URL}}idegeo/mviewer/css/mviewer_base.css" rel="stylesheet" type="text/css">
+    <link href="{{STATIC_URL}}idegeo/mviewer/css/mviewer.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/util/css/getfeature_popup.css" />
+    <!--<link rel="stylesheet" href="{{ STATIC_URL }}map_interface/css/d3.slider.css" />-->
+    <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.css' rel='stylesheet' />
+    <!--<link rel="stylesheet" href="{{ STATIC_URL }}coordinates/Leaflet.Coordinates-0.1.5.css">-->
+    <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/zoombox/L.Control.ZoomBox.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}lib/leaflet/easyPrint.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}charts/charts.css" />-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}idegeo/mviewer/css/leaflet-beautify-marker-icon.css" rel="stylesheet"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.0.7/esri-leaflet.js"></script>
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.2.3/leaflet.draw.js'></script>
+    <!--<script type="text/javascript" src="{{ STATIC_URL }}coordinates/Leaflet.Coordinates-0.1.5.min.js"></script>-->
+    <script src="{{ STATIC_URL }}idegeo/zoombox/L.Control.ZoomBox.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}idegeo/colorbrewer/js/colorbrewer_schemes.js"></script>
+    <!--<script src="{{ STATIC_URL }}lib/leaflet/leaflet.easyPrint.js"></script>-->
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6ZJwb2cqgW1YXsmXGT1I-0ujia5UREAg&libraries=places" async defer></script>
+    <script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
+    <!--<script type="text/javascript" src="{{ STATIC_URL }}charts/areaChart.json"></script>-->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{STATIC_URL}}idegeo/mviewer/js/leaflet-beautify-marker-icon.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.beautifymarker@1.1.1/leaflet-beautify-marker.js"></script>
+</head>
+
+<body>
+  <header id="header" class="layout-header">
+    <div class="header-title">
+        <div class="header-sitename">{{mviewer.name}}</div>
+        <div class="header-tools"><li class="fa fa-low-vision" style="display:none"> Máscara</li></div>
+    </div>
+    <div class="layout-header-bottom">
+        <!--<div class="inner">-->
+            <!--<div class="header-logo-left-mviwer">-->
+             <!--<a href="http://www.centrogeo.org.mx/">-->
+             <!--<img src="{{STATIC_URL}}mviewer/img/logo_geo_black.jpeg" width="190px;" title="CentroGeo" alt="logo centroGeo"></a>-->
+        <!--</div>-->
+          <nav id="layers-menu" class="layers-menu"><div class="noselect">
+              <ul class="categories-list" style="width: 744px;">
+                {% for top in topics %}
+                  {% if forloop.counter < 8 %}
+                    <li class="forest-change" id="t{{forloop.counter}}">
+                      <span class="category-name">{{top.name}} <i id="forest_clearing-category-num" class="category-num">2</i></span>
+                      <div class="layers-nav">
+                        <div class="layers-nav-header" id="nav-head{{top.id}}">
+                          <div class="category-icon"></div>
+                          <span class="category-name">{{top.name}}</span>
+                        </div>
+                        <ul class="layers-list scroll-thin-dark">
+                          <div id="umd-group" class="layer-group">
+                            <span class="group-name" data-color="#f69">Capas</span>
+                            {% for lay in top.layerids_set.all|dictsort:"stack_order" %}
+                            {% for l in lays %}
+                              {% if l.id == lay.layer_id %}
+                                <li class="layer selected" data-layer="loss">
+                                  <span class="onoffswitch" id="st{{top.id}}l{{l.id}}r{{lay.stack_order}}" data-typename="{{l.typename}}" data-href="{{l.ows_url}}"
+                                        data-title="{{l.title}}" data-info="{{l.abstract}}" data-date="{{l.date}}" data-topid="{{top.id}}" data-layid="{{l.id}}"
+                                        data-style="{{lay.style}}" data-defstyle="{{lay.default_style}}" data-regid="{{lay.id}}"><span></span>
+                                  </span>
+                                  <span class="layer-title">{% if lay.style != lay.default_style %}{{lay.style}}{% else %}{{lay.title}}{% endif %}
+                                      <a href="#" class="inf-icon" title="Info"><i class="fa fa-info-circle" data-id="st{{top.id}}l{{l.id}}r{{lay.stack_order}}"></i></a>
+                                  </span>
+                                  <span class="layer-info">{{l.abstract|truncatechars:60}}</span>
+                                </li>
+                              {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                          </div>
+                        </ul>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+    </div>
+  </header>
+
+  <div id="wrapper">
+    <div id="map"></div>
+
+    <div id="module-legend" class="module scroll-thin-dark module-legend module-toggle">
+        <ul class="categories">
+            <li class="category closed">
+                  <span data-category_slug="forest_clearing-global" class="category-name js-toggle-category" style="color: #707d92; border-color: #707d92;">
+                    <div class="container-title">MIS CAPAS</div>
+                  </span>
+              <ul class="layers"></ul>
+            </li>
+        </ul>
+
+        <div id="button-box-embed-legend" class="button-box-embed-legend">
+          <a id="link-embed-legend" target="_blank" href="#" class="btn green uppercase full-width">View on GFW</a>
+        </div>
+    </div>
+
+    <div id="logo_nav" class="logo_nav">
+        <img src="{{STATIC_URL}}idegeo/mviewer/img/CentroGeo-CMX_Logo-H1.png" width="190px;" title="CentroGeo">
+    </div>
+
+    <div id="module-tabs" class="module module-tabs module-toggle" style="display:block">
+         <header>
+             <nav class="noselect">
+                 <ul class="tab-list">
+                     <li id="basemaps-tab-button" class="tab inactive" data-tab="basemaps-tab" style="text-align: center;">
+                         <span class="tooltipmap">Mapa Base</span><i class="fa fa-globe" aria-hidden="true"></i>
+                     </li>
+                     <li id="analysis-tab-button" class="tab inactive" data-tab="analysis-tab" style="text-align: center; display:none;">
+                         <span class="tooltipmap">Herramientas</span><i class="fa fa-wrench" aria-hidden="true"></i>
+                     </li>
+                     <li id="info-tab-button" class="tab inactive" data-tab="info-tab" style="text-align: center; display:none;">
+                         <span class="tooltipmap">Descripción</span><i class="fa fa-file-text" aria-hidden="true"></i>
+                     </li>
+                     <li id="markers-tab-button" class="tab inactive" data-tab="markers-tab" style="text-align: center; display:none;">
+                         <span class="tooltipmap">+ Info</span><i class="fa fa-info-circle" aria-hidden="true"></i>
+                     </li>
+                 </ul>
+             </nav>
+         </header>
+         <div class="content active">
+             <ul>
+                 <li id="basemaps-tab" class="tab-content">
+                 <div class="tab-basemaps">
+                     <ul class="maptype-list scroll-thin-dark"></ul>
+                 </div>
+                 </li>
+                 <li id="analysis-tab" class="tab-content">
+                     <!--Aqui va: { include "main_tool_menu.html" } -->
+                 </li>
+                 <li id="desc-tab" class="tab-content"></li>
+             </ul>
+         </div>
+    </div>
+    <div class="arrow-left" title="Mostrar Analisis"><i class="fa fa-chevron-left fa-1x" aria-hidden="true"></i></div>
+    <!-- Modal para info -->
+    <div id="sourceModal" class="modal modal-hide">
+        <div class="modal-backdrop"></div>
+
+        <div class="modal-window">
+          <a href="#" class="modal-close"><i class="fa fa-times fa-lg"></i></a>
+          <div class="modal-wrapper scroll-dark has-footer">
+            <div class="modal-content">
+              <div class="modal-source">
+                <h2 id="lay-tit" class="modal-title"></h2>
+                <h3 id="lay-date" class="modal-subtitle"></h3>
+                <div class="modal-overview">
+                  <h3>Resumen</h3>
+                  <p id="lay-abst"></p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <div class="m-btncontainer is-center">
+                  <a href="#" id="down-meta" class="btn little green uppercase" target="_blank">Descargar metadato</a>
+                  <a href="#" id="down-shp" target="_blank" class="btn little green uppercase" style="display:none">Descargar capa</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="background-reading">
+       <div id="wait" style="position:absolute;top:48%;left:48%;">
+          <img src='{{STATIC_URL}}idegeo/mviewer/img/loading.gif' title="Loading.."/>
+      </div>
+    </div>
+    <div class="background-reading-sub-ajax">
+       <div id="waiting" style="display:none;position:absolute;top:48%;left:48%;">
+          <img src='{{STATIC_URL}}idegeo/mviewer/img/loading.gif' title="Loading.."/>
+      </div>
+    </div>
+    <!--{ include "FullBlackModal.html" }-->
+    {% include "mviewer_description_modal.html" %}
+    <!--{ include "HalfwayModal.html" }-->
+    <!--{ include "census_modal.html" }-->
+    <!--{ include "dowload_modal_layer.html" }-->
+  </div>
+
+  <script src="{{ STATIC_URL }}idegeo/util/js/L.TileLayer.BetterWMS.js"></script>
+  {% include "idegeo/basemap.js" %}
+  <!--{ include "variables_toolsoa.js" }-->
+  {% include "mviewer_marker_narrative.js" %}
+  {% include "mviewer.js" %}
+  <!--{ include "main_tools_menu.js" }-->
+  <!--{ include "tools_ac.js" }-->
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-80935461-1', 'auto');
+      ga('send', 'pageview');
+  </script>
+</body>

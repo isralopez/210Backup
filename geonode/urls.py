@@ -152,6 +152,10 @@ urlpatterns += [
     url(r'^documents/', include('geonode.documents.urls')),
     url(r'^services/', include('geonode.services.urls')),
 
+    # IDEGEO URLS
+    url(r'^interactive/', include('geonode.interactive.urls')),
+    url(r'^mviewer/', include('geonode.mviewer.urls')),
+
     # OAuth Provider
     url(r'^o/',
         include('oauth2_provider.urls',

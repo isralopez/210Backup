@@ -1,0 +1,143 @@
+{% extends "mviewer_base.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Metadato de Visualizador {% endblock %}
+
+{% block head %}
+  {{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+<link rel="stylesheet" href="{{STATIC_URL}}idegeo/mviewer/css/dd.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6ZJwb2cqgW1YXsmXGT1I-0ujia5UREAg&libraries=places" async defer></script>
+<script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
+<style>
+#map {
+  height: 480px;
+}
+
+#id_bbox_x0, #id_bbox_y0, #id_bbox_x1, #id_bbox_y1 {
+  width: 180px;
+}
+</style>
+{% endblock %}
+
+{% block body_outer %}
+<div class="container_documents">
+  <div id="header">
+	<div class="container">
+	  <div class="logo" style="width:285px;">Metadato de Visualizador</div>
+	</div>
+  </div>
+</div>
+
+<div class="container">
+	<div class="cont_meta">
+		<a href="{% url 'mviewer_list' %}" class="btn btn-primary pull-right">Regresar</a>
+		<div class="col-md-8" id="general">
+			{% if no_group %}
+				<p style="color:red;">No eres parte de un grupo, unete a un grupo para crear panoramas.</p>
+			{% endif %}
+			<form id="formulario" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+				{{ form.media }}
+				{{form|as_bootstrap}}
+				<label>Ajuste el mapa para definir el BBOX</label>
+				<div style="margin-bottom:10px;">Mapa Base:<select id="basemaps" style="margin-left:50px;"></select></div>
+				<div id="map"></div>
+				<p><input type="submit" class="btn btn-primary" value="Confirmar"></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+{% include "idegeo/basemap.js" %}
+
+<script src="{{STATIC_URL}}idegeo/mviewer/js/dd.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+$('#div_id_config').hide();
+$('#div_id_bbox_x0').css('float', 'left');
+$('#div_id_bbox_y0').css('float', 'left');
+$('#div_id_bbox_x1').css('float', 'left');
+
+$('#id_layer_mask-autocomplete').css('width', '310px');
+$('#id_layer_mask-autocomplete').attr("placeholder", "Escriba un nombre para la busqueda...");
+
+/* Fill select with basemaps */
+$.each(basemapsDict, function(k, v){
+  $("#basemaps").append('<option value="'+ k +'">'+ v[1] +'</option>');
+});
+
+var baseMap;
+if($('#id_config').val()!='' && $('#id_config').val() in basemapsDict) {
+	baseMap = basemapsDict[$('#id_config').val()][0];
+	$("#basemaps").val($('#id_config').val());
+} else {
+	baseMap = Stamen_TerrainBackground;
+	$("#basemaps").val('stamenTerrain');
+}
+
+var southWest = L.latLng(-90, -180),
+      northEast = L.latLng(90, 180),
+      bounds = L.latLngBounds(southWest, northEast);
+
+var map = L.map('map', {
+        center: [24, -101],
+        zoom: 5,
+        animate: true,
+        layers: [baseMap],
+        maxBounds: bounds,
+        maxZoom: 12,
+        minZoom: 3
+      });
+
+$("#basemaps").change(function () {
+  basemapsDict[this.value][0].addTo(map);
+  map.removeLayer(baseMap);
+  baseMap = basemapsDict[this.value][0];
+  $('#id_config').val(this.value);
+});
+
+
+var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider();
+
+var searchControl = L.esri.Geocoding.geosearch({
+	providers: [arcgisOnline]
+	}).addTo(map);
+
+var results = L.layerGroup().addTo(map);
+
+var mviewer = {{mviewer|safe}};
+
+if (mviewer.bbox_x0 != 'a') {
+	var bounds = [
+    [mviewer.bbox_y0, mviewer.bbox_x0],
+     [mviewer.bbox_y1, mviewer.bbox_x1]
+  	];
+  	map.fitBounds(bounds);
+} else {
+	set_bbox();
+}
+
+map.on('moveend', function() {
+     set_bbox();
+});
+
+function set_bbox () {
+	 var bbox = map.getBounds();
+	 $('#id_bbox_x0').val(Math.round(bbox._northEast.lng*10000000)/10000000);
+	 $('#id_bbox_y0').val(Math.round(bbox._northEast.lat*10000000)/10000000);
+	 $('#id_bbox_x1').val(Math.round(bbox._southWest.lng*10000000)/10000000);
+	 $('#id_bbox_y1').val(Math.round(bbox._southWest.lat*10000000)/10000000);
+}
+
+<!--// Set logo inicial-->
+<!--$("#webmenu").val(mviewer.logo);-->
+<!--</script>-->
+<!--{% endblock extra_script %}-->

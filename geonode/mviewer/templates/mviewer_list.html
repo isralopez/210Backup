@@ -1,0 +1,139 @@
+{% extends "mviewer_base.html" %}
+
+{% block body_outer %}
+<div class="content">
+  <div class="container_n">
+    <div class='loader'>
+      <div class='loader-container'>
+        <div class='progress progress-striped active' style="height:4px;">
+          <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+        </div>
+      </div>
+    </div>
+    <div class="container_documents">
+      <div id="header">
+        <div class="container">
+          <div class="logo">Panoramas</div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+<div class="container" style="min-height: 440px;">
+  {% if request.user.is_authenticated %}
+  <div class="nav nav-pills btn-group">
+      <div class="btn-add">
+        <a href="{% url 'mviewer_create' %}" class="btn btn-primary pull-right" id="btn-list">Agregar Panorama</a>
+      </div>
+  </div>
+  {% endif %}
+  {% if request.user.username == "admin" %}
+    <div class="nav nav-pills btn-group">
+      <div class="btn-add">
+        <a href="#" class="btn btn-primary pull-right" id="btn-list">Agregar app</a>
+      </div>
+  </div>
+  {% endif %}
+  <div class="nav nav-pills btn-group">
+    <div class="btn-group" style="display: inline-block;">
+        <ul class="dropdown-menu">
+          <li><a class="filter catTag" data-filter="all" name="Palabras claves" href="#">Palabras claves</a></li>
+        </ul>
+    </div>
+  </div>
+  <div class="nav nav-pills" style="float:right;">
+      <div class="btn-group input-group" style="width:200px;">
+        <input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="Buscar" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+      <span class="input-group-btn">
+          <button class="btn btn-primary" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+      </span>
+    </div>
+  </div>
+
+  <div id="single-project">
+    {% if request.user.is_authenticated %}
+        <div style="overflow: hidden;">
+        <ul id="portfolio-grid" class="thumbnails row" style="height: 700px; overflow-y: scroll;">
+        {% for mv in items %}
+              <li class="mix span4">
+                  <div class="thumbnail animated fadeInDown">
+                      <img style="height: 200px; width: 100%;" src="{{MEDIA_URL}}{{mv.image}}" alt="{{mv}}">
+                      <ul class="ms-edit more show_hide">
+                        <li>
+                          <a href="{% url 'mviewer_metadata' mv.id %}" title="Metadato"><i class="fa fa-bars fa-2x"></i></a>
+                        </li>
+                        <li>
+                          <a href="{% url 'mviewer_detail' mv.id %}" title="Configuración"><i class="fa fa-cog fa-2x"></i></a>
+                        </li>
+                        <li>
+                          <a href="{% url 'microviewer' mv.url_id %}" title="Ir a"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+                        </li>
+                      </ul>
+                      <h3>{{mv|truncatechars:55}}</h3>
+                      <div class="mask"></div>
+                  </div>
+              </li>
+        {% empty%}
+            <h2 style="margin-left: 30px;">Aún no hay Panoramas</h2>
+        {% endfor %}
+        <!--Apps-->
+        {% for app in apps %}
+        <li class="mix span4">
+          <div class="thumbnail animated fadeInDown">
+            <img style="height: 200px; width: 100%;" src="{{MEDIA_URL}}{{app.image}}" alt="{{app}}">
+            <ul class="ms-edit more show_hide">
+              <li>
+                <a href="{{app.url}}" title="Ir a"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+              </li>
+            </ul>
+            <h3>{{app|truncatechars:55}}</h3>
+            <div class="mask"></div>
+          </div>
+        </li>
+        {% endfor %}
+        <!--Apps-->
+        </ul>
+        </div>
+    {% endif %}
+  </div>
+</div>
+
+{% block footer %}
+<!--BOTTOM-NAV-->
+<div id="bottom-nav">
+    <div class="container">
+        <div class="bottom-nav-logos col-md-8">
+            <div class="nav-logos"><a href="http://www.conacyt.mx/" target="_blank" title="www.conacyt.mx"><span class="mm-footer-logo">
+                    <img src="{{ STATIC_URL }}carousel/img/logo-conacyt_footer.png" alt="logo-conacyt"></span><span class="mm-footer-name">Consejo Nacional de Ciencia y Tecnología</span></a></div>
+        </div>
+        <div class="bottom-nav-menu col-md-4">
+            <ul class="nav-menu">
+                <li><a href="#">Acerca de la IDEGeo</a></li>
+                <li><a href="http://www.geonode.org/" title="www.geonode.org">Proporcionado por GeoNode v.2.4</a></li>
+                <li><a href="http://www.centrogeo.org.mx/" title="www.centrogeo.org.mx">Extendido por CentroGeo</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+            <div class="bottom-nav-commons">
+                <div class="nav-commons"><a href="http://creativecommons.org/licenses/by-nc-sa/2.5/mx/deed.es_ES" target="_blank" rel="license" title="Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 2.5 México.">
+                    <img style="border: 0px none;" src="{{ STATIC_URL }}carousel/img/cc_by-nc-sa.png" alt="cc by-nc-sa"></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- .:: END BOTTOM-NAV ::.. -->
+<footer id="footer">
+    <div class="container">
+        <div class="footer-copy">2018 IDEGeo: Infraestructura de datos Geoespaciales del CentroGeo</div>
+    </div>
+</footer>
+{% endblock footer %}
+{% endblock %}
+
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}idegeo/util/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}idegeo/util/js/jquery.quicksearch.js'></script>
+<!--<script src="{{STATIC_URL}}geonode/js/colorbox/jquery.colorbox.js"></script>-->
+<!--<link rel="stylesheet" href="{{STATIC_URL}}geonode/css/colorbox/colorbox.css" />-->
+{% include "idegeo/documents.js" %}
+{% endblock extra_script %}
