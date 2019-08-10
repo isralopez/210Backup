@@ -1,0 +1,16 @@
+[
+  {% for nar in narratives %}
+    {
+        "name": "{{nar.name}}",
+        "cat": "{{nar.category}}",
+        "data_id": "{{nar.id}}",
+        "des": "",
+        "link": "{% if nar.url %}{{nar.url}}{%else%}{% url  'ms_narrative' microsite.url_name nar.id %}{%endif%}",
+        "icon":  "{% if nar.image %}{{MEDIA_URL}}{{nar.image}}{%else%}{{nar.name}}{%endif%}",
+        "value": 70
+    }
+    {% ifnotequal forloop.revcounter forloop.last %}
+    ,
+    {% endifnotequal %}
+{% endfor %}
+]

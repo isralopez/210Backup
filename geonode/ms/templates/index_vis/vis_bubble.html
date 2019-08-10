@@ -1,0 +1,32 @@
+{% block extra_head %}
+	<style type="text/css">
+    #mainBubble {
+      font: 10px sans-serif;
+      height: 800px;
+      position: relative;
+      width: 100%;
+    }
+
+    #mainBubble svg {
+      left: 0;
+      position: absolute;
+      top: 0;
+    }
+
+    #mainBubble circle.topBubble {
+      fill: #aaa;
+      stroke: #666;
+      stroke-width: 0px;
+     }
+    </style>
+{% endblock %}
+<div class="container">
+	<div id="main-content">
+		<div id="mainBubble" style="height: 869px;"></div>
+	</div>
+</div>
+{% block extra_script %}
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script type="text/javascript" src="{{ STATIC_URL }}idegeo/colorbrewer/js/colorbrewer_schemes.js"></script>
+	{% include "index_vis/vis_bubble.js" %}
+{% endblock extra_script %}

@@ -1,0 +1,93 @@
+{% for category in category_list %}
+    {
+    "name": "{{category.name}}",
+    "description": "{{category.description}}",
+    "img":  "{{MEDIA_URL}}{{category.image}}",
+    "link": "{% url  'ms_category' microsite.url_name category.id %}",
+    "size": 50000,
+    "children": [
+    {% for catchild in category.children.all %}
+        {
+            "name": "{{catchild.name}}",
+            "description": "{{catchild.description}}",
+            "link": "{% url  'ms_category' microsite.url_name catchild.id %}",
+            "img":  "{{MEDIA_URL}}{{catchild.image}}",
+            "size": 40000,
+            "children": [
+            {% for child in catchild.children.all %}
+                {
+                    "name": "{{child.name}}",
+                    "description": "{{child.description}}",
+                    "link": "{% url  'ms_category' microsite.url_name child.id %}",
+                    "img":  "{{MEDIA_URL}}{{child.image}}",
+                    "size": 30000,
+                    "children": [
+                        {% for nar in child.narrative_set.all %}
+                            {
+                                "name": "{{nar.name}}",
+                                "description": "{{nar.description}}",
+                                "link": "{% url  'ms_narrative' microsite.url_name nar.id %}",
+                                "url":"{{nar.url}}",
+                                "img":  "{{MEDIA_URL}}{{nar.image}}",
+                                "size": 10000,
+                                "public":  "{{nar.public}}",
+                                "children": []
+                            }
+                            {% ifnotequal forloop.revcounter forloop.last %}
+                            ,
+                            {% endifnotequal %}
+                        {% endfor %}
+                    ]
+                }
+                {% ifnotequal forloop.revcounter forloop.last %}
+                ,
+                {% endifnotequal %}
+            {% endfor %}
+            {% if catchild.narrative_set.all and catchild.children.all %}
+            ,
+            {% endif %}
+            {% for nar in catchild.narrative_set.all %}
+                {
+                    "name": "{{nar.name}}",
+                    "description": "{{nar.description}}",
+                    "link": "{% url  'ms_narrative' microsite.url_name nar.id %}",
+                    "url":"{{nar.url}}",
+                    "img":  "{{MEDIA_URL}}{{nar.image}}",
+                    "size": 10000,
+                    "public":  "{{nar.public}}",
+                    "children": []
+                }
+                {% ifnotequal forloop.revcounter forloop.last %}
+                ,
+                {% endifnotequal %}
+            {% endfor %}
+            ]
+        }
+        {% ifnotequal forloop.revcounter forloop.last %}
+        ,
+        {% endifnotequal %}
+    {% endfor %}
+    {% if category.narrative_set.all and category.children.all %}
+    ,
+    {% endif %}
+    {% for nar in category.narrative_set.all %}
+        {
+            "name": "{{nar.name}}",
+            "description": "{{nar.description}}",
+            "link": "{% url  'ms_narrative' microsite.url_name nar.id %}",
+            "url":"{{nar.url}}",
+            "img":  "{{MEDIA_URL}}{{nar.image}}",
+            "size": 10000,
+            "public":  "{{nar.public}}",
+            "children": []
+        }
+        {% ifnotequal forloop.revcounter forloop.last %}
+        ,
+        {% endifnotequal %}
+    {% endfor %}
+    ]
+}
+{% ifnotequal forloop.revcounter forloop.last %}
+,
+{% endifnotequal %}
+{% endfor %}

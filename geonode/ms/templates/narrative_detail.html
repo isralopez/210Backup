@@ -1,0 +1,93 @@
+{% extends "layers/layer_base.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Narrativas{% endblock %}
+
+{% block head %}
+   {{ block.super }}
+   <link href="{{ STATIC_URL }}bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+   <link href="{{ STATIC_URL }}idegeo/interactive/css/base_documents.css" rel="stylesheet" type="text/css">
+   <link href="{{ STATIC_URL }}ms/css/ms.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body_class %}layers{% endblock %}
+{% block body_outer %}
+<div class="content">
+  <div class="container_n">
+    <div class='loader'>
+      <div class='loader-container'>
+        <div class='progress progress-striped active' style="height:4px;">
+          <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+        </div>
+      </div>
+    </div>
+    <div class="container_documents">
+      <div id="header">
+        <div class="logo">Narrativas</div>
+      </div>
+     </div>
+   </div>
+</div>
+<div class="container" style="min-height: 440px;">
+  <div class="nav nav-pills btn-group">
+ 
+    <div class="btn-add">
+        
+        {% if narrative.public == 0 %}
+        <a href="{% url "ms_narrative_publish" narrative.id ms_id %}" class="btn btn-primary pull-right btn_ms_margin_right" title="Publlicar Narrativa" id="btn-list"> Publicar</a>
+         {% else %}
+				<a href="{% url "ms_narrative_unpublish" narrative.id ms_id %}" class="btn btn-primary pull-right btn_ms_margin_right" title="Esta Narrativa ya esta publicada si la marcas como no publicada, los usuarios no la podrán ver, solo tú" id="btn-list"> No Publicar</a>
+        {% endif %}
+          <a href="{% url "ms_narrative_list" ms_id %}" class="btn btn-primary pull-right btn_ms_margin_right" id="btn-list">Narrativas</a>
+      </div>
+    </div>
+ 
+  <div id="ms_detail_nar">
+ 		<article class="description tab-pane active" id="info" style="border-bottom: 1px dotted #CCC;">
+			<dl class="dl-horizontal">
+				<dt>Micro Sitio:</dt><dd>{{narrative.microsite}}</dd>
+				<dt>Nombre:</dt><dd>{{narrative.name}}</dd>
+				<dt>Autor:</dt><dd>{{narrative.author}}</dd>
+
+        {% if narrative.public == 0 %}
+				<dt>Publicada:</dt><dd>La narrativa no se ha publicado</dd>  
+        {% else %}
+				<dt>Publicada:</dt><dd>Narrativa publicada</dd>  
+        {% endif %}
+				<dt>Fecha</dt><dd>{{narrative.creation_date}}</dd>
+			</dl>
+		</article>
+		 
+	<div class="container" style="margin-top: 15px; border-bottom: 2px dotted #CCC;"><!--Narrative-->
+		{% if narrative.narrative %}
+		    <div class="narrative_body">
+                {{ narrative.narrative|safe|escape }}
+            </div>
+		{% else %}
+			<div class="alert alert-danger">
+			<a class="btn btn-default btn-block btn-xs" href="{% url "update2_narrative" narrative.id %}">{% trans "Crear narrativa" %}</a>
+			</div>
+		{% endif %}
+	</div><!--End-Narrative-->
+
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}interactive/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}map_interface/js/jquery.quicksearch.js'></script>
+<script src="{{STATIC_URL}}geonode/js/colorbox/jquery.colorbox.js"></script>
+<link rel="stylesheet" href="{{STATIC_URL}}geonode/css/colorbox/colorbox.css" />
+<script type="text/javascript">
+  $(".iframe").colorbox({iframe:true, width:"90%", height:"90%"});
+</script>
+{% include "documents.js" %}
+{% endblock extra_script %}

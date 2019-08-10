@@ -1,0 +1,35 @@
+{% extends "ms_base.html" %}
+{% block extra_head %}
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{config.name}}" />
+<meta property="og:description"        content="{{config.subtitle}}" />
+<meta property="og:image"              content="http://{{ request.META.HTTP_HOST }}{{MEDIA_URL}}{{config.image_1}}" />
+{% endblock extra_head %}
+{% block body %}
+	<section id="main">
+		<div class="container">
+			<div id="main-content">
+				{% if config.thematic = 0 %}
+				{% include "index_vis/vis_zoom.html" %}
+				{% elif config.thematic = 1 %}
+				{% include "index_vis/vis_flower.html" %}
+				{% elif config.thematic = 2 %}
+				{% include "index_vis/vis_bubble.html" %}
+				{% elif config.thematic = 3 %}
+				{% include "index_vis/lapidarium.html" %}
+				{% elif config.thematic = 4 %}
+				{% include "index_vis/vis_blog.html" %}
+				{% elif config.thematic = 5 %}
+				{% include "index_vis/vis_blog_topic.html" %}
+				{% elif config.thematic = 6 %}
+				<h3>{{config_category}}</h3>
+				{% include "index_vis/vis_topics.html" %}
+				{% elif config.thematic = 7 %}
+				{% include "index_vis/vis_topics.html" %}
+				{% elif config.thematic = 8 %}
+				{% include "index_vis/vis_topics.html" %}
+				{% endif %}
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "layers/layer_base.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Narrativas{% endblock %}
+
+{% block head %}
+{% include "Micrositioheader.html" %}
+   {{ block.super }}
+   <link href="{{ STATIC_URL }}bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+   <link href="{{ STATIC_URL }}idegeo/interactive/css/base_documents.css" rel="stylesheet" type="text/css">
+   <link href="{{ STATIC_URL }}ms/css/ms.css" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body_class %}layers{% endblock %}
+{% block body_outer %}
+<div class="content">
+  <div class="container_n">
+    <div class='loader'>
+      <div class='loader-container'>
+        <div class='progress progress-striped active' style="height:4px;">
+          <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+        </div>
+      </div>
+    </div>
+    <div class="container_documents">
+      <div id="header">
+        <div class="logo">Narrativas</div>
+      </div>
+     </div>
+   </div>
+</div>
+<div class="container" style="min-height: 440px;">
+  <div class="nav nav-pills btn-group">
+
+    <div class="btn-add">
+        <a href="{% url "ms_upload_narrative" ms_id %}" class="btn btn-primary pull-right" id="btn-list">Agregar una Narrativa</a>
+         <a href="{% url "ms_detail" ms_id %}" class="btn btn-primary pull-right btn_ms_margin_right" id="btn-list">Regresar</a>
+      </div>
+    </div>
+
+  <div id="single-project">
+ 
+{% for item in narratives %}
+<div class="eb-post-content">
+            <div class="eb-post-head no-overflow">
+              <h2 class="eb-post-title"><a href="">{{item.name}}</a></h2>
+              <div class="eb-post-meta">
+                <div class="eb-post-date"><i class="fa fa-clock-o"></i> <span class="eb-meta-date">{{item.creation_date|date:"l j, F, Y"}}</span></div>
+                <div class="eb-post-author">
+                    <i class="fa fa-user"></i>
+                    <span itemprop="name">{{item.author}}</span>
+                </div>
+                {% if item.category %}
+                <div class="eb-post-category">
+                  <i class="fa fa-folder-open"></i>
+                  <span>{{item.category}}</span>
+                </div>
+                {% endif %}
+                {% if item.microsite %}
+                <div class="eb-post-category">
+                  <i class="fa fa-folder-open"></i>
+                  <span>{{item.microsite}}</span>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+   
+            <div class="eb-post-body" style="border-bottom: 1px dotted #CCC;">
+              <div class="eb-post-thumb">
+              <a href="{% url 'ms_narrative_detail' item.id ms_id %}" class="eb-post-image">
+                  
+                  <img src="{{item.image.url}}" alt="{{item.name}}" style="width:250px; height: 200px; ">
+                   <span class="ms-med_desc">{{item.description|truncatechars:250}}</span>
+                <div class="mm-img-link-cover"></div>
+                </a>
+                </div>
+              <div class="eb-post-source">
+                   {% if request.user.is_authenticated %}
+                 
+                    <a href="{% url 'ms_remove_narrative' item.id ms_id %}" title="Eliminar" class="fa fa-times fa-1x"></a>
+                    <a href="{% url 'ms_update_narrative_meta' item.id ms_id %}" data-toggle="tooltip" title="Editar metadato" class="fa fa-bars fa-1x"  ></a>
+                    <a href="{% url 'ms_update_narrative' item.id ms_id %}" data-toggle="tooltip" title="Editar narrativa" class="fa fa-file-text-o fa-1x" ></a>
+             
+                {% endif %}
+
+                {% if item.category %}
+                    Esta Narrativa pertenece a la categoria <b>{{item.category}}</b> y al micrositio <b>{{item.microsite}}</b>
+                {% else %}
+                    Esta Narrativa pertenece al micrositio <b>{{item.microsite}}</b>
+                {% endif %}
+   
+                
+              </div>
+              
+            </div>
+          </div>
+
+{%endfor%}
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}interactive/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}map_interface/js/jquery.quicksearch.js'></script>
+<script src="{{STATIC_URL}}geonode/js/colorbox/jquery.colorbox.js"></script>
+<link rel="stylesheet" href="{{STATIC_URL}}geonode/css/colorbox/colorbox.css" />
+<script type="text/javascript">
+  $(".iframe").colorbox({iframe:true, width:"90%", height:"90%"});
+</script>
+{% include "documents.js" %}
+{% endblock extra_script %}

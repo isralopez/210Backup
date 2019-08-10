@@ -1,0 +1,27 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+
+{% block title %}{{ cat.name }} — {{ block.super }}{% endblock %}
+
+{% block body_outer %}
+<div class="container">
+  <div class="row"><br>
+    <div class="col-md-8">
+      <form action="{% url "ms_remove_category" cat.id ms_id %}" method="POST">
+        <h2>
+          {% blocktrans with cat.name as category_title %}
+            ¿Esta seguro que desea eliminar la categoria: {{ category_title }}?
+          {% endblocktrans %}
+        </h2>
+        <br>
+        {% csrf_token %}
+        <input type="hidden" value="{{ cat.name }}" />
+        <div class="form-actions">
+          <input type="submit" value="{% trans "Yes, I am sure" %}" class="btn btn-danger" />
+          <a href="{% url 'ms_detail' ms_id %}" class="btn btn-info">{% trans "No, don't remove it" %}</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,152 @@
+<div id="table_menu">
+    {% if 'category_edit' in request.get_full_path %}
+    <div class="row">
+        <div class="btn-group pull-right">
+            <a href="{% url 'ms_detail' ms.id %}?mode=list" class="btn btn-primary"><i class="fa fa-wrench" aria-hidden="true"></i> Micrositio</a>
+        </div>
+    </div>
+    <div class="btn-group pull-left">
+        <a href="{% url 'ms_upload_category_to_parent_cat' ms.id cat.id %}" class="btn btn-primary">Nueva Categoría</a>
+    </div>
+    {% else %}
+    <div class="btn-group pull-left">
+        <a href="{% url 'ms_upload_category_to_ms' ms.id %}" class="btn btn-primary">Nueva Categoría</a>
+    </div>
+    {% endif %}
+    {% if cat_of_narras %}
+    <table id="tabla_category" data-toggle="table" data-toolbar="#toolbar" data-minimum-count-columns="2" data-pagination="true" data-id-field="id" data-page-list="[10, 25, 50, 100, ALL]" data-show-footer="false" data-response-handler="responseHandler">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Agregar</th>
+                <th>Contenido</th>
+                <th>Activo</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody class="ms-hide-category">
+            {% for item in cat_of_narras %}
+            <tr id="{{item.id}}" class="tr-class-{{item.id}} sort" data-title="bootstrap table">
+                <td id="td-id-{{item.id}}" class="td-class-{{item.id}}" data-title="bootstrap table">
+                    <a href="{% url 'ms_update_category_to_ms' ms.id item.id %}">{{item}}</a>
+                </td>
+                <td data-text="526">
+                    <div class="btn-group">
+                        <a href="{% url 'ms_upload_category_to_parent_cat' ms.id item.id %}" class="btn btn-primary">Categoría</a>
+                        <a href="{% url 'ms_upload_narrative_to_cat' ms.id item.id %}" class="btn btn-primary">Narrativa</a>
+                    </div>
+                </td>
+                <td data-text="526">
+                    <div class="btn-group">
+                        <a href="{% url 'ms_category_edit' ms.id item.id %}" class="btn btn-primary">Administrar</a>
+                    </div>
+                </td>
+                <td data-text="122">{% if item.active %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}<i class="fa fa-times" aria-hidden="true"></i>{% endif %}</td>
+                <td>
+                    <a href="{% url 'ms_remove_category' ms.id item.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% if 'category_edit' in request.get_full_path %}
+    <div class="btn-group pull-left">
+        <a href="{% url 'ms_upload_narrative_to_cat' ms.id cat.id %}" class="btn btn-primary">Nueva Narrativa</a>
+    </div>
+    {% else %}
+    <div class="btn-group pull-left">
+        <a href="{% url 'ms_upload_narrative_to_ms' ms.id %}" class="btn btn-primary">Nueva Narrativa</a>
+    </div>
+    {% endif %}
+    {% if narras %}
+    <table id="tabla_narrative" data-toggle="table" data-toolbar="#toolbar" data-minimum-count-columns="2" data-pagination="true" data-id-field="id" data-page-list="[10, 25, 50, 100, ALL]" data-show-footer="false" data-response-handler="responseHandler">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Narrativa</th>
+                <th>Activo</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody class="ms-hide-narrative">
+            {% for item in narras %}
+            <tr id="{{item.id}}" class="tr-class-{{item.id}} sort" data-title="bootstrap table">
+                <td id="td-id-{{item.id}}" class="td-class-{{item.id}}" data-title="bootstrap table">
+                    <a href="{% url 'ms_update_narrative_meta' item.id ms.id %}">{{item}}</a>
+                </td>
+                <td data-text="526">
+                    <div class="btn-group">
+                        <a href="{% url 'ms_update_narrative' item.id ms.id %}" class="btn btn-primary">Editar</a>
+                    </div>
+                </td>
+                <td data-text="122">{% if item.active %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}<i class="fa fa-times" aria-hidden="true"></i>{% endif %}</td>
+                <td>
+                    <a href="{% url 'ms_remove_narrative' item.id ms.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+<script>
+    /* Sort Category */
+    $(function() {
+        $(".ms-hide-category").sortable({
+            tolerance: 'pointer',
+            revert: 'invalid',
+            items: "> tr.sort",
+            placeholder: 'placeholder',
+            forcePlaceholderSize: true,
+            forceHelperSize: true,
+            axis: "y",
+            //cancel: ".top-tools, .top-exp",
+            cursor: "row-resize",
+            stop: function(event, ui) {
+                var sortedIDs = $(this).sortable('toArray');
+                $.ajax({
+                    url: '{% url "sort_category" %}',
+                    type: 'POST',
+                    data: {
+                        'sorted_ids': JSON.stringify(sortedIDs),
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log('Error en el servidor')
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+    /* Sort Narrative */
+    $(function() {
+        $(".ms-hide-narrative").sortable({
+            tolerance: 'pointer',
+            revert: 'invalid',
+            items: "> tr.sort",
+            placeholder: 'placeholder',
+            forcePlaceholderSize: true,
+            forceHelperSize: true,
+            axis: "y",
+            //cancel: ".top-tools, .top-exp",
+            cursor: "row-resize",
+            stop: function(event, ui) {
+                var sortedIDs = $(this).sortable('toArray');
+                $.ajax({
+                    url: '{% url "sort_narrative" %}',
+                    type: 'POST',
+                    data: {
+                        'sorted_ids': JSON.stringify(sortedIDs),
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log('Error en el servidor')
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>

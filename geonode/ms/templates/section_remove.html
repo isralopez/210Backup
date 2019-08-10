@@ -1,0 +1,27 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+
+{% block title %}{{ sect.name }} — {{ block.super }}{% endblock %}
+
+{% block body_outer %}
+<div class="container">
+  <div class="row"><br>
+    <div class="col-md-8">
+      <form action="{% url "ms_remove_section" sect.id %}" method="POST">
+        <h2>
+          {% blocktrans with sect.name as section_title %}
+            ¿Esta seguro que desea eliminar la sección: {{ section_title }}?
+          {% endblocktrans %}
+        </h2>
+        <br>
+        {% csrf_token %}
+        <input type="hidden" value="{{ sect.name }}" />
+        <div class="form-actions">
+          <input type="submit" value="{% trans "Yes, I am sure" %}" class="btn btn-danger" />
+          <a href="{{ sect.get_absolute_url }}" class="btn btn-info">{% trans "No, don't remove it" %}</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

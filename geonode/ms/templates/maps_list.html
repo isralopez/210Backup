@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Shadows+Into+Light+Two" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ STATIC_URL }}font-awesome-4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+  crossorigin=""/>
+  <link href="{{ STATIC_URL }}layers/css/base_maps_interface.css" rel="stylesheet" type="text/css">
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet-src.js"
+  integrity="sha512-+ZaXMZ7sjFMiCigvm8WjllFy6g3aou3+GZngAtugLzrmPFKFK7yjSri0XnElvCTu/PrifAYQuxZTybAEkA8VOA=="
+  crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/esri-leaflet/2.0.7/esri-leaflet.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB6ZJwb2cqgW1YXsmXGT1I-0ujia5UREAg" async defer></script>
+  <script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
+</head>
+<body>
+  <div class="container_n">
+    <div class='loader' style="top:0;">
+      <div class='loader-container'>
+        <div class='progress progress-striped active' style="height:4px;">
+          <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+        </div>
+      </div>
+    </div>
+    <div class="container_layers">
+      <div id="header">
+        <div class="logo">Mapas</div>
+        <div id="mapTitle" class="animationTransition"></div>
+        <div class="headerButtons" style="padding-top: 0px;">
+          <div class="submit-row" style="width: 100%; display:inline-flex; text-align: center;">
+            <div class="btn-group">
+              <input id="mapurl" href="http://localhost:8000/maps/1057/leaflet_embed" class="btn btn-primary btn-md default embed" type="submit" name="_embed" value="Mapa Embed" />
+              <input id="mapdual" href="http://localhost:8000/maps/1057/map_dual" class="btn btn-primary btn-md default embed" type="submit" name="_embed" value="Mapa Dual" />
+            </div>
+          </div>
+        </div>
+    </div>
+    <!--Panel izquierdo-->
+    <div class="layerMenu translateLayerListRight animationTransition">
+      <div class="layerListIcons">
+        <div id="m1" class="layerMenuIconDiv layerMenuIconDivClicked layerMenuIconDivSelected">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-map-marker"></i></div>
+        </div>
+        <div id="m2" class="layerMenuIconDiv layerMenuIconDivClicked layerMenuIconDivSelected">
+          <div class="layerMenuIcon verticalCenter"><i class="fa fa-map-marker"></i></div>
+        </div>
+      </div>
+      <div class="layerList">
+        <div class="labelsContainer animationTransition translateLayerLabelsLeft">
+          <div id="m1t" data-id="#m1" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Todos los mapas</div>
+          </div>
+          <div id="m2t" data-id="#m2" class="layerMenuTopLevelGroupLabel translatable" style="direction: ltr;">
+            <div class="layerMenuTopLevelGroupLabelText verticalCenter" style="float: left; margin-right: 0px;">Mis Qmaps</div>
+          </div>
+        </div>
+        <div id="m1c" class="layerGroupContainer" style="display: block;">
+          <div class="layerContainerLabel translatable" data-id="m1c" style="direction: ltr;">Filtro por título</div>
+          <div class="layerMenuTopLevelGroupContainer">
+            <div class="input-group">
+              <input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="texto" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+              <span class="input-group-btn">
+                  <button class="btn btn-info" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+              </span>
+            </div>
+            <div id="result_text">
+            {% for map in maps %}
+              <div id="m1c{{category.id}}l{{map.id}}" class="layerMenuTopLevelGroupContainer layer">
+                <div class="layerRow" style="display: block;">
+                  <label for="m1c{{category.id}}l{{map.id}}i" title="{{map.title|capfirst}}">
+                    <input class="checkbox" name="radiomMapa" type="radio" id="m1c{{category.id}}l{{map.id}}i" data-mapid="{{map.id}}" data-mapurl="http://{{ request.META.HTTP_HOST }}{% url 'leaflet_embed' map.id %}" data-mapdualurl="http://{{ request.META.HTTP_HOST }}{% url 'map_dual' map.id %}" data-map="{{map}}">
+                    {{map.title|capfirst}}
+                  </label>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div id="m2c" class="layerGroupContainer" style="display: none;">
+          <div class="layerContainerLabel translatable" data-id="m2c" style="direction: ltr;">Filtro por título</div>
+          <div class="layerMenuTopLevelGroupContainer">
+            <div class="input-group">
+              <input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="texto" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+              <span class="input-group-btn">
+                  <button class="btn btn-info" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+              </span>
+            </div>
+            <div id="result_text">
+            {% for qmap in qmaps %}
+              <div id="m2c{{category.id}}l{{qmap.id}}" class="layerMenuTopLevelGroupContainer layer">
+                <div class="layerRow" style="display: block;">
+                  <label for="m2c{{category.id}}l{{qmap.id}}i" title="{{qmap.title|capfirst}}">
+                    <input class="checkbox" name="radiomMapa" type="radio" id="m2c{{category.id}}l{{qmap.id}}i" data-mapid="{{qmap.id}}" data-mapurl="http://{{ request.META.HTTP_HOST }}{% url 'quickmap_embed' qmap.id %}" data-map="{{qmap}}">
+                    {{qmap.title|capfirst}}
+                  </label>
+                </div>
+              </div>
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div id="m4c" class="layerGroupContainer">
+          <div class="backToListButton"><div>Volver a la lista</div><div class="backToListArrow"></div></div>
+          <div class="layerContainerLabel translatable" data-id="m4c" style="direction: ltr;">Mapa base</div>
+          <div id="baseLayers" class="layerMenuTopLevelGroupContainer"></div>
+        </div>
+      </div>
+        <div data-toggle="tooltip" data-placement="right" title="Capas" class="layerListNub animationTransition translateLayerListNubRight"><div class="verticalCenter layerMenuNubOpen"></div></div>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
+  <script src='{{ STATIC_URL }}map_interface/js/jquery.quicksearch.js'></script>
+  {% include "L.TileLayer.BetterWMS.js" %}
+  <script>{% include "basemap.js" %}</script>
+  {% include "maps_list.js" %}
+</body>
+</html>

@@ -1,0 +1,409 @@
+{% extends "layers/layer_base.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Micrositio{% endblock %}
+
+{% block head %}{{ block.super }}
+<link href="{{ STATIC_URL }}idegeo/interactive/css/base_documents.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}idegeo/ms/css/ms.css" rel="stylesheet" type="text/css">
+<link href="{{STATIC_URL}}idegeo/ms/css/dd_paletas.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{{STATIC_URL}}idegeo/util/css/colorbox.css" />
+<link href="{{ STATIC_URL }}idegeo/bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+<style>
+    .node {
+        cursor: pointer;
+    }
+
+    .node circle {
+        fill: #fff;
+        stroke: steelblue;
+        stroke-width: 3px;
+    }
+
+    .node text {
+        font: 12px sans-serif;
+    }
+
+    .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 2px;
+    }
+
+    div.tooltip-menu {
+        position: absolute;
+        text-align: center;
+        padding: 4px;
+        font: 14px sans-serif;
+        background: lightsteelblue;
+        border: 0px;
+        border-radius: 8px;
+        z-index:999;
+    }
+</style>
+{% endblock %} {% block body_class %}layers{% endblock %} {% block middle %} {% block body_outer %}
+<div id="page-header" class="content">
+  <div class="container">
+    <div class="titulo-blk-row">
+      <div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico11_capas.png" alt=""></div>
+        <div class="titulo-txt blk-cell">
+          <h2>Micrositios</h2>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% if request.user.is_authenticated %} {% if request.user.is_staff %}
+<div class="container">
+    <div class="ms-container-header">
+        <div class="project-title clearfix">
+            <span class="ms-close-detail">
+                       <a href="{% url 'ms_gestor_list' %}"><i class="fa fa-chevron-left" title="Regresar"></i></a>
+                  </span>
+            <h3 title="{{ms.name}}">{{ms.name|truncatechars:55}}</h3>
+            <span class="close_ms">
+                  <a href="{% url 'advanced_ms' ms.id %}"><i class="fa fa-code" title="Edición avanzada" aria-hidden="true"></i></a>
+                   <a href="{% url 'update_ms' ms.id %}"><i class="fa fa-bars" title="Editar Metadata"></i></a>
+                    <a href="{% url 'ms_remove' ms.id %}"><i class="fa fa-trash" title="Eliminar Micro Sitio"></i></a>
+                  </span>
+        </div>
+
+        <table class="hor-minimalist-b">
+            <tr>
+                <td>Subtitulo:</td>
+                <td colspan="2">{{ms.subtitle}}</td>
+            </tr>
+            <tr>
+                <td>Acceso al sitio:</td>
+                <td colspan="2">
+                    <a href="{% url 'ms_index' ms.url_name %}" target="_blank">{{site}}{{ms.url_name}}</a> {% if not ms.public %}
+                    <a href="{% url 'ms_publish' ms.id %}" class="btn btn-primary pull-right btn_ms_margin_center" title="Publlicar Sitio" id="btn-list"> Publicar</a> {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Fecha:</td>
+                <td colspan="2">{{ms.creation_date|date:"l j, F, Y"}} </td>
+            </tr>
+            <tr><td>Tema:</td>
+                <td><div name="theme_ms" class="theme_ms" id="theme_ms_{{ms.id}}"></div></td>
+                <td align="center"><input id="grays" type="checkbox">Menú en gris</td>
+            </tr>
+            <tr>
+                <td>Visualización:</td>
+                <td colspan="2">
+                    <div class="thematic_ms" id="thematic_ms_{{ms.id}}"></div>
+                </td>
+            </tr>
+        </table>
+
+        <table class="hor-minimalist-b">
+            <thead>
+                <tr>
+                    <th scope="col" colspan="3">
+                        Menús
+                        <a href="{% url 'upload_section' ms.id %}">
+                            <span>
+                          <i class="fa fa-plus fa-1x" title="Agregar menús" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        Sub Menús
+                        <span class="ms-minimize-menu" style="float: right;">
+                             <i class="fa fa-compress fa-1x" title="Minimizar"></i>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="ms-hide-menu">
+                {% for sect in section|dictsort:"stack_order" %} {% if sect %}
+                <tr id="{{sect.id}}" class="sort_menu">
+                    <td>
+                        <div>
+                            <i class="fa fa-{{ sect.icon }} fa-1x" title="Ver Sub Menús" aria-hidden="true"></i> </div>
+                    </td>
+                    <td>
+                        <div>{{ sect.name }}</div>
+                    </td>
+                    <td>
+                        <span>
+                                    <a href="{% url 'upload_section_parent' ms.id sect.id %}">
+                                        <i class="fa fa-plus fa-1x"  title="Agregar un sub Menú a {{sect.name}}" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
+                        <span>
+                                    <a href="{% url 'ms_update_section' ms.id sect.id %}">
+                                      <i class="fa fa-pencil fa-1x"  title="Editar Sección" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
+                        <span>
+                                    <a href="{% url 'ms_remove_section' sect.id %}">
+                                      <i class="fa fa-trash fa-1x" title="Eliminar Sección" aria-hidden="true"></i>
+                                    </a>
+                                  </span>
+                    </td>
+                    <td>
+                        <table width="100%">
+                            <tbody class="submenu">
+                                {% for child in sect.children.all|dictsort:"stack_order" %}
+                                <tr id="{{child.id}}" class="sort_submenu">
+                                    <td width="10%">
+                                        <div>
+                                            <i class="fa fa-{{ child.icon }} fa-1x" title="Ver Sub Menús" aria-hidden="true"></i>
+                                        </div>
+                                    </td>
+                                    <td width="70%">
+                                        <div>
+                                            {{child}}
+                                        </div>
+                                    </td>
+                                    <td width="10%">
+                                        <span>
+                                                   <a href="{% url 'ms_update_section' ms.id child.id %}" data-toggle="tooltip" title="Editar Sub Menú" class="fa fa-pencil fa-1x"></a>
+
+                                                  </span>
+                                    </td>
+                                    <td width="10%">
+                                        <span>
+                                                     <a href="{% url 'ms_remove_section' child.id %}" title="Eliminar Sub Menú" class="fa fa-trash fa-1x"></a>
+                                                  </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                {% endif %} {% empty%}
+            </tbody>
+            <h5>Para agregar sub menús debes agregar menús para este micro sitio
+                        <a href="{% url 'upload_section' ms.id %}">
+                        <span>
+                          <i class="fa fa-plus fa-1x" title="Agregar menús" aria-hidden="true"></i>
+                        </span>
+                      </a>
+                   </h5> {% endfor %}
+        </table>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary">Referencias</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+
+        <!--<ul class="dropdown-menu" role="menu">-->
+            <!--<li><a href="{ url 'reference_add' %}">Crear</a></li>-->
+            <!--<li><a href="{ url 'references_admin' %}">Administrar</a></li>-->
+        <!--</ul>-->
+    </div>
+    {% if request.GET.mode == 'list' %}
+    <div class="row">
+        <div class="btn-group pull-right">
+            <a href="{% url 'ms_detail' ms.id %}" class="btn btn-primary">Modo Árbol</a>
+        </div>
+    </div>
+    {% include "ms_detail_table.html" %}
+    <div id="tree_menu" style="display:none;"></div>
+    {% else %}
+    <div class="btn-group pull-right">
+        <a href="{% url 'ms_detail' ms.id %}?mode=list" class="btn btn-primary">Modo lista</a>
+    </div>
+    <div id="tree_menu"></div>
+    {% endif %}
+</div>
+{% else %} {% if request.user.microsite_access %}
+<div class="container">
+    <div class="ms-container-header">
+        <div class="project-title clearfix">
+            <span class="ms-close-detail">
+                           <a href="{% url 'ms_gestor_list' %}"><i class="fa fa-chevron-left" title="Regresar"></i></a>
+                      </span>
+            <h3>{{ms.name|truncatechars:55}}</h3>
+            <span class="close_ms">
+                       <a href="{% url 'upload_ms' %}"><i class="fa fa-plus" title="Agregar Micro Sitio"></i></a>
+                       <a href="{% url 'update_ms' ms.id %}"><i class="fa fa-pencil" title="Editar Micro Sitio"></i></a>
+                        <a href="{% url 'ms_remove' ms.id %}"><i class="fa fa-trash" title="Eliminar Micro Sitio"></i></a>
+                      </span>
+        </div>
+        <!------------------->
+
+        <!------------------->
+        <table class="hor-minimalist-b">
+
+            <thead>
+                <tr>
+                    <th scope="col" colspan="3">
+                        Menús
+                        <a href="{% url 'upload_section' ms.id %}">
+                            <span>
+                              <i class="fa fa-plus fa-1x" title="Agregar menús" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        Sub Menús
+                        <span class="ms-minimize-menu" style="float: right;">
+                                 <i class="fa fa-compress fa-1x" title="Minimizar"></i>
+                            </span>
+                    </th>
+                </tr>
+            </thead>
+            {% for sect in section %} {% if sect %}
+            <tbody class="ms-hide-menu">
+                <tr>
+                    <td>
+                        <div>
+                            <i class="fa fa-{{ sect.icon }} fa-1x" title="Ver Sub Menús" aria-hidden="true"></i> </div>
+                    </td>
+                    <td>
+                        <div>{{ sect.name }}</div>
+                    </td>
+                    <td>
+                        <span>
+                                        <a href="{% url 'upload_section_parent' ms.id sect.id %}">
+                                            <i class="fa fa-plus fa-1x"  title="Agregar un sub Menú a {{sect.name}}" aria-hidden="true"></i>
+                                        </a>
+                                      </span>
+                        <span>
+                                        <a href="{% url 'ms_update_section' ms.id sect.id %}">
+                                          <i class="fa fa-pencil fa-1x"  title="Editar Sección" aria-hidden="true"></i>
+                                        </a>
+                                      </span>
+                        <span>
+                                        <a href="{% url 'ms_remove_section' sect.id %}">
+                                          <i class="fa fa-trash fa-1x" title="Eliminar Sección" aria-hidden="true"></i>
+                                        </a>
+                                      </span>
+                    </td>
+                    <td>
+                        <table width="100%">
+                            {% for child in sect.children.all|dictsort:"name" %}
+                            <tbody>
+                                <tr>
+                                    <td width="10%">
+                                        <a href="{% url 'ms_remove_section' sect.id %}">
+                                            <div>
+                                                <i class="fa fa-{{ child.icon }} fa-1x" title="Ver Sub Menús" aria-hidden="true"></i>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td width="70%">
+                                        <a href="{% url 'ms_remove_section' sect.id %}">
+                                            <div>
+                                                {{child}}
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td width="10%">
+                                        <span>
+                                                       <a href="{% url 'ms_update_section' ms.id child.id %}" data-toggle="tooltip" title="Editar Sub Menú" class="fa fa-pencil fa-1x"></a>
+
+                                                      </span>
+                                    </td>
+                                    <td width="10%">
+                                        <span>
+                                                         <a href="{% url 'ms_remove_section' child.id %}" title="Eliminar Sub Menú" class="fa fa-trash fa-1x"></a>
+                                                      </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            {% endif %} {% empty%} para agregar sub menús debes agregar menús para este micro sitio
+            <a href="{% url 'upload_section' ms.id %}">
+                <span>
+                              <i class="fa fa-plus fa-1x" title="Agregar menús" aria-hidden="true"></i>
+                            </span>
+            </a>
+            {% endfor %}
+        </table>
+    </div>
+    <div>
+        <h3>Editar categorias</h3></div>
+    <div id="tree_menu"></div>
+</div>
+{% else %}
+<h1>Este usuario no tiene persmisos para entrar en este sitio, verificalo con el administrador.</h1> {% endif %} {% endif %} {% else %}
+<h1>Necesitas logearte para entrar a este modulo.</h1> {% endif %} {% endblock %} {% block extra_script %}
+<script src="{{ STATIC_URL }}idegeo/util/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}idegeo/util/js/jquery.quicksearch.js'></script>
+<script src="{{STATIC_URL}}idegeo/util/js/jquery.colorbox.js"></script>
+<script src="{{STATIC_URL}}idegeo/mviewer/js/dd.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{% include "ms_theme.js" %}
+{% include "tree_menu.js" %}
+{% include "idegeo/documents.js" %}
+
+<script>
+    /* Sort menu */
+    $(function() {
+        $(".ms-hide-menu").sortable({
+            tolerance: 'pointer',
+            revert: 'invalid',
+            items: "> tr.sort_menu",
+            placeholder: 'placeholder',
+            forcePlaceholderSize: true,
+            forceHelperSize: true,
+            axis: "y",
+            cancel: ".top-tools, .top-exp",
+            cursor: "row-resize",
+            stop: function(event, ui) {
+                var sortedIDs = $(this).sortable('toArray');
+                $.ajax({
+                    url: '{% url "sort_menu" %}',
+                    type: 'POST',
+                    data: {
+                        'sorted_ids': JSON.stringify(sortedIDs),
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log('Error en el servidor')
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+
+    /* Sort submenu */
+    $(function() {
+        $(".submenu").sortable({
+            tolerance: 'pointer',
+            revert: 'invalid',
+            items: "tr.sort_submenu",
+            placeholder: 'placeholder',
+            forcePlaceholderSize: true,
+            forceHelperSize: true,
+            axis: "y",
+            //cancel: ".top-tools, .top-exp",
+            cursor: "row-resize",
+            stop: function(event, ui) {
+                var sortedIDs = $(this).sortable('toArray');
+                $.ajax({
+                    url: '{% url "sort_menu" %}',
+                    type: 'POST',
+                    data: {
+                        'sorted_ids': JSON.stringify(sortedIDs),
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log('Error en el servidor')
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock extra_script %}

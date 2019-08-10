@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="plus-circle" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 360 360" style="enable-background:new 0 0 360 360;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:1.00;fill:#FFFFFF;fill-opacity:1.00;}
+</style>
+<path class="st0" d="M270,180c0,49.706-40.294,90-90,90s-90-40.294-90-90s40.294-90,90-90S270,130.294,270,180z M180,108
+	c-39.764,0-72,32.236-72,72s32.236,72,72,72s72-32.236,72-72S219.764,108,180,108z M222.5,189H189v33.5h-18V189h-33.5v-18H171v-33.5
+	h18V171h33.5V189z"/>
+</svg>

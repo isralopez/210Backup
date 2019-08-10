@@ -1,0 +1,17 @@
+{% extends "ms_base.html" %}
+{% block extra_head %}
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{config_section.name}}" />
+<meta property="og:image"              content="http://{{ request.META.HTTP_HOST }}{{MEDIA_URL}}{{config.image_1}}" />
+{% endblock extra_head %}
+{% block body %}
+	<section class="section section-gray" style="padding:0px;">
+		<div class="container ms-nar">
+			<div class="section-txt">
+				{{config_section.description|safe|escape}}
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block extra_script %}
+{% endblock extra_script %}

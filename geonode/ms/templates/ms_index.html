@@ -1,0 +1,69 @@
+{% extends "ms_base.html" %}
+{% block extra_head %}
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{config.name}}" />
+<meta property="og:description"        content="{{config.subtitle}}" />
+<meta property="og:image"              content="http://{{ request.META.HTTP_HOST }}{{MEDIA_URL}}{{config.image_1}}" />
+{% endblock extra_head %}
+{% block body %}
+	<!-- main -->
+	<section id="main">
+			{% if config.viewer|length > 10 and config.viewer != None %}
+			{{config.viewer|safe|escape}}
+			{% elif config.thematic == 0 %}
+			{% include "index_vis/vis_zoom.html" %}
+			{% elif config.thematic == 1 %}
+			{% include "index_vis/vis_flower.html" %}
+			{% elif config.thematic == 2 %}
+			{% include "index_vis/vis_bubble.html" %}
+			{% elif config.thematic == 3 %}
+			{% include "index_vis/lapidarium.html" %}
+			{% elif config.thematic == 4 %}
+			{% include "index_vis/vis_blog.html" %}
+			{% elif config.thematic == 5 %}
+			{% include "index_vis/vis_blog_topic.html" %}
+			{% elif config.thematic == 6 %}
+			{% include "index_vis/vis_topics.html" %}
+			{% elif config.thematic == 7 %}
+			{% include "index_vis/vis_slider.html" %}
+			{% endif %}
+	</section>
+
+	<!-- section -->
+	<section class="section section-gray">
+		<div class="container">
+			<div class="section-txt">
+				{{config.description|safe|escape|truncatewords:100}}
+				<p class="btn btn-primary modal_acerca" style="width: 140px; display: block; margin-left: auto; margin-right: auto;">Leer más</p>
+			</div>
+		</div>
+	</section>
+	{% if narratives %}
+	<!--<section class="section">
+		<div class="container">
+			<div class="section-row row">
+				{% for item in narratives|slice:":6" %}
+				<div class="row-item">
+					<a href="{% url  'ms_narrative' config.url_name item.id %}" target="_self">
+						<div class="row-item-image" style="background-image: url({{MEDIA_URL}}{{item.image}})"><img src="{{ STATIC_URL }}ms/images/section-row_item.png" alt=""/></div>
+						<div class="row-item-title">{{item}}</div>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>-->
+	{% endif %}
+{% endblock %}
+{% block extra_script %}
+<script type="text/javascript">
+	$('.section-row').each(function () {
+		varParent = this;
+		varChildsNum = $(this).children('.row-item').length;
+		funcRowColumn();
+	});
+	{% if config.thematic == 7 %}
+	$('#admin').hide();
+	{% endif %}
+</script>
+{% endblock extra_script %}

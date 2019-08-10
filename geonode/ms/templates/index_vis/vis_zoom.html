@@ -1,0 +1,50 @@
+{% block extra_head %}
+	<style>
+
+	.node, .narrative {
+	  cursor: pointer;
+	  transition-duration: 1s;
+	}
+
+	.node:hover {
+	  stroke-width: 16px !important;
+	  cursor: pointer;
+	}
+	.narrative:hover {
+	  stroke-width: 4px !important;
+	  cursor: pointer;
+	}
+	.label {
+	  fill: rgba(226, 226, 226, 0.5);
+	  font-size: 18px;
+	  text-anchor: middle;
+	}
+	.template_yellow-green .label {
+	  fill: #7b7b7b;
+	}
+
+	.node--root,
+	.node--leaf {
+	  pointer-events: none;
+	}
+	svg a:hover {
+	cursor: pointer;
+	}
+	</style>
+{% endblock %}
+<div class="container">
+	<div id="main-content">
+		<div class="row">
+			<div id="vis_tooltip" class="col-sm-3 right-ms"></div>
+		</div>
+		<svg  width="900" height="900" style="margin: 0 auto; display: block;"></svg>
+	</div>
+</div>
+{% block extra_script %}
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+ 	<script src="https://d3js.org/d3-color.v1.min.js"></script>
+ 	<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+ 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+	{% include "index_vis/vis_zoom.js" %}
+{% endblock extra_script %}

@@ -1,0 +1,46 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Micro Sitio {% endblock %}
+
+{% block head %}
+  {{ block.super }}
+{% endblock %}
+
+{% block body_class %}Micro Sitio{% endblock %}
+
+{% block body_outer %}
+
+<!--HEADER-TITULO-->
+<div id="page-header" class="content">
+	<div class="container">
+		<div class="titulo-blk-row">
+			<div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico22_lineas-trabajo.png" alt=""></div>
+			  <div class="titulo-txt blk-cell">
+				  <h2>Crear Micro Sitio</h2>
+			  </div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6" id="general">
+			{% if no_group %}
+				<p style="color:red;">No eres parte de un grupo, unete a un grupo para crear micrositios.</p>
+			{% endif %}
+			<form id="formulario" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+				{{ form.media }}
+				{{form|as_bootstrap}}
+				<p><input type="submit" class="btn btn-primary" value="Confirmar"></p>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+$("#id_group").html('<option value="">---------</option>');
+{% for group in profile.group_list_all %}
+	$("#id_group").append('<option value="{{group.id}}" {% if obj.group.id == group.id %}selected="selected"{% endif %}>{{group.title}}</option>');
+{% endfor %}
+</script>
+{% endblock %}

@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+<title>{{config.name}}</title>
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{config.name}}" />
+<meta property="og:description"        content="{{config.subtitle}}" />
+<meta property="og:image"              content="http://{{ request.META.HTTP_HOST }}{{MEDIA_URL}}{{config.cover_image}}" />
+<link rel="icon" href="favicon.ico">
+<!-- ------- -->
+<link href="{{ STATIC_URL }}idegeo/ms/smooth_scroll/css/bootstrap-3.3.7.min.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}idegeo/ms/smooth_scroll/css/bootstrap-theme-3.3.7.min.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}idegeo/ms/smooth_scroll/css/font-awesome-4.7.0.min.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}idegeo/ms/smooth_scroll/css/styles.css" rel="stylesheet">
+<!-- ------- -->
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/modernizr-2.8.3_respond-1.4.2.min.js"></script>
+</head>
+
+<body class="template-slider">
+<div id="body-wrapper">
+
+	<!-- TOPBAR -->
+	<div id="topbar">
+		<div id="topbar-fixed" class="affix-top">
+			<div class="nav-wrapper">
+				<div class="container-full container-nav">
+					<nav class="navigation" role="navigation">
+						<ul class="nav-menu">
+							<!-- active	-->
+							{% for item in cat_not_parent %}
+							{% if item.narrative_set.all|length == 1 %}
+							{% for nar in item.narrative_set.all %}
+							<li><a href="{% if nar.url %}{{ nar.url }}{% else %}{% url  'ms_narrative' config.url_name nar.id %}{% endif %}" class="nav-item bttn">{{item}}</a></li>
+							{% endfor %}
+							{% else %}
+							<li><a href="{% url  'ms_category' config.url_name item.id %}" class="nav-item bttn">{{item}}</a></li>
+							{% endif %}
+							{% endfor %}
+						</ul>
+					</nav>
+					<!--<div class="nav-acceso">
+						<div class="acceso-item"><a href="#" class="nav-item bttn">Gestión</a></div>
+						<div class="acceso-item"><a href="#" class="nav-item bttn">Acceso</a></div>
+					</div>-->
+					<!--<div class="nav-acceso"><a href="#" class="nav-item bttn">Acceso</a></div>-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- INTRO -->
+	<div id="intro" class="intro-block fs is-active">
+		<div class="bcg" style="background-image: url({{MEDIA_URL}}{{config.cover_image}})"></div>
+		<header class="wrapper" style="padding-bottom: 40px;">
+			<h1 class="sitename"><span>{{config.name}}</span></h1>
+			<div class="sitename-sub"><span>{{config.subtitle}}</span></div>
+		</header>
+		<!--<div class="scroll-hint"><a href="#slide-1" class="bttn bttn-primary">CONTINUAR</a></div>-->
+	</div>
+
+	<!-- BLOCK -->
+	<!--<article id="cb-supported" class="content-block" style="padding-top: 90px;">
+		<div class="wrapper-full">
+			<header class="slideInUp text-center">
+				<h2>Instituciones participantes</h2>
+			</header>
+			<section>
+				<div class="slideInUp slideInUp2">
+					<div id="com_supported" class="component com_supported">
+						<div class="supported-items">
+							<div class="spp-item"><a href="https://www.conacyt.gob.mx/" target="_blank" title="Consejo Nacional de Ciencia y Tecnología (CONACYT)"><img src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/img/logo_conacyt.png" alt="CONACYT"/></a></div>
+							<div class="spp-item"><a href="https://www.centrogeo.org.mx/" target="_blank" title="Centro de Investigación en Ciencias de Información Geoespacial (CentroGeo)"><img src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/img/logo_centrogeo.png" alt="CentroGeo"></a></div>
+							<div class="spp-item"><a href="http://chapultepec.cdmx.gob.mx/" target="_blank" title="Bosque de Chapultepec"><img src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/img/logo_bosque-chapultepec.png" alt="Bosque de Chapultepec"/></a></div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</article>-->
+
+	<!-- SLIDE -->
+	{% for item in cat_not_parent %}
+	<article id="slide-{{ forloop.counter }}" class="slide fs" data-theme="brown">
+		<div class="bcg" style="background-image: url({{MEDIA_URL}}{{item.image}})"></div>
+		<div class="wrapper">
+			<header class="slideInUp">
+				<h2>{{item}}</h2>
+			</header>
+			<section>
+				<p class="slideInUp slideInUp2">{{item.description}}</p>
+				{% if item.narrative_set.all|length == 1 %}
+				{% for nar in item.narrative_set.all %}
+				<div class="slideInUp slideInUp3"><a href="{% if nar.url %}{{ nar.url }}{% else %}{% url  'ms_narrative' config.url_name nar.id %}{% endif %}" class="bttn bttn-primary">EXPLORAR</a></div>
+				{% endfor %}
+				{% else %}
+				<div class="slideInUp slideInUp3"><a href="{% url  'ms_category' config.url_name item.id %}" class="bttn bttn-primary">EXPLORAR</a></div>
+				{% endif %}
+			</section>
+		</div>
+	</article>
+
+	<!-- BLOCK -->
+	<!--<article id="cb-1" class="content-block">
+		<div class="wrapper">
+			<header class="slideInUp">
+				<h2>Lorem ipsum dolor sit amet</h2>
+			</header>
+			<section>
+				<p class="slideInUp slideInUp2">[...]</p>
+				<div class="slideInUp slideInUp3"><a href="#" class="bttn bttn-primary">EXPLORAR</a></div>
+			</section>
+		</div>
+	</article>-->
+	{% endfor %}
+
+	<!-- FOOTER -->
+	<div id="bottom-nav" style="padding-top:20px;">
+		<div class="container">
+			<div class="bottom-nav-logos col-md-8">
+				<div class="nav-logos"><a href="http://www.conacyt.mx/" target="_blank" title="www.conacyt.mx"><span class="mm-footer-logo">
+						<img src="{{ STATIC_URL }}carousel/img/logo-conacyt_footer.png" alt="logo-conacyt"></span><span class="mm-footer-name">Consejo Nacional de Ciencia y Tecnología</span></a></div>
+			</div>
+			<div class="bottom-nav-menu col-md-4">
+				<ul class="nav-menu">
+					<li><a href="#">Acerca de la IDEGeo</a></li>
+					<li><a href="http://www.geonode.org/" title="www.geonode.org">Proporcionado por GeoNode v.2.4</a></li>
+					<li><a href="http://www.centrogeo.org.mx/" title="www.centrogeo.org.mx">Extendido por CentroGeo</a></li>
+					<li><a href="#">Contacto</a></li>
+				</ul>
+				<div class="bottom-nav-commons">
+					<div class="nav-commons"><a href="http://creativecommons.org/licenses/by-nc-sa/2.5/mx/deed.es_ES" target="_blank" rel="license" title="Esta obra está bajo una licencia de Creative Commons Reconocimiento-NoComercial-CompartirIgual 2.5 México.">
+						<img style="border: 0px none;" src="{{ STATIC_URL }}carousel/img/cc_by-nc-sa.png" alt="cc by-nc-sa"></a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- .:: END BOTTOM-NAV ::.. -->
+	<footer id="footer">
+		<div class="container">
+			<div class="footer-copy">2019 IDEGeo: Infraestructura de datos Geoespaciales del CentroGeo</div>
+		</div>
+	</footer>
+
+	<!-- END -->
+</div>
+
+<!-- SLIDENAV -->
+<nav id="slidenav" role="navigation">
+	<ul class="nav-menu">
+		<li><a href="#intro" class="is-active"><span class="nav-dot"></span><span class="nav-label">Inicio</span></a></li>
+		{% for item in cat_not_parent %}
+		<li><a href="#slide-{{ forloop.counter }}"><span class="nav-dot"></span><span class="nav-label">{{item}}</span></a></li>
+		{% endfor %}
+	</ul>
+</nav>
+
+<!-- SCRIPT -->
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/jquery-3.2.0.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/bootstrap-3.3.7.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/TweenMax-1.19.1.min.js"></script>
+<!-- ------- -->
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/ScrollMagic-2.0.5.min.js"></script>
+<!--<script src="js/plugins/debug.addIndicators-2.0.5.min.js"></script> -->
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/plugins/animation.gsap-2.0.5.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/plugins/ScrollToPlugin-1.8.1.min.js"></script>
+<!-- ------- -->
+<script src="{{ STATIC_URL }}idegeo/ms/smooth_scroll/js/scripts.js"></script>
+
+
+<script src="{{ STATIC_URL }}idegeo/colorbrewer/js/colorbrewer_palet9.js"></script>
+{% include "ms_scripts.js" %}
+{% include "idegeo/gtag.js" %}
+</body>
+</html>

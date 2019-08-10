@@ -1,0 +1,264 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Micrositios{% endblock %}
+
+{% block head %}{{ block.super }}
+<link href="{{ STATIC_URL }}idegeo/main.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_URL }}idegeo/bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block body_outer %}
+<div id="page-header" class="content">
+  <div class="container">
+    <div class="titulo-blk-row">
+      <div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico11_capas.png" alt=""></div>
+        <div class="titulo-txt blk-cell">
+          <h2>Micrositios</h2>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="container" style="min-height: 440px;">
+  <div class="nav nav-pills btn-group">
+    {% if request.user.is_authenticated %}
+        {% if request.user.is_staff %}
+          <div class="btn-add">
+            <a href="{% url 'upload_ms' %}" class="btn btn-primary pull-right" id="btn-list">Agregar un Micrositio</a>
+          </div>
+          {% else %}
+              {% if request.user.microsite_access %}
+                <div class="btn-add">
+                  <a href="{% url 'upload_ms' %}" class="btn btn-primary pull-right" id="btn-list">Agregar un Micrositio</a>
+                </div>
+              {% endif %}
+        {% endif %}
+    {% endif %}
+  </div>
+  <div class="nav nav-pills" style="float:right;">
+      <div class="btn-group input-group" style="width:200px;">
+          <input name="text_search_input_l" id="text_search_input_l" type="text" placeholder="Buscar" class="form-control ng-pristine ng-valid ng-touched" autocomplete="off">
+          <span class="input-group-btn">
+              <button class="btn btn-primary" type="submit" id="text_search_btn_l"><i class="fa fa-filter"></i></button>
+          </span>
+      </div>
+  </div>
+  {% if request.user.is_staff %}
+  <div class="l-section">
+      <div class="l-container">
+          <div class="row">
+              {% for ms in items %}
+              <div class="column small-12 medium-4 c-card-column">
+                  <div class="c-card-app ">
+                      <div class="card-background" style="background-image: url({{MEDIA_URL}}{{ms.cover_image}});"></div>
+                      <div class="card-container">
+                          <div class="c-title -default">{{ms|truncatechars:55}}</div>
+                          <div class="card-content" style="padding-bottom: 115px;"></div>
+                          <div class="card-footer">
+                            <a style="margin: 5px 0;" href="{% url 'update_ms' ms.id %}" class="c-button -secondary -fullwidth">Editar metadato</a>
+                            <a style="margin: 5px 0;" href="{% url 'ms_detail' ms.id %}" class="c-button -secondary -fullwidth">Configurar</a>
+                            <a style="margin: 5px 0;" href="{% url 'ms_index' ms.url_name %}" target="_blank" class="c-button -secondary -fullwidth">Ir al Micrositio</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {% empty%}
+              <h2>Aún no hay Micrositios</h2>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+  {% else %}
+    {% if request.user.microsite_access %}
+      <div class="l-section">
+          <div class="l-container">
+              <div class="row">
+                  {% for ms in items %}
+                  <div class="column small-12 medium-4 c-card-column">
+                      <div class="c-card-app ">
+                          <div class="card-background" style="background-image: url({{MEDIA_URL}}{{ms.cover_image}});"></div>
+                          <div class="card-container">
+                              <div class="c-title -default">{{ms|truncatechars:55}}</div>
+                              <div class="card-content" style="padding-bottom: 115px;"></div>
+                              <div class="card-footer">
+                                <a style="margin: 5px 0;" href="{% url 'update_ms' ms.id %}" class="c-button -secondary -fullwidth">Editar metadato</a>
+                                <a style="margin: 5px 0;" href="{% url 'ms_detail' ms.id %}" class="c-button -secondary -fullwidth">Congigurar</a>
+                                <a style="margin: 5px 0;" href="{% url 'ms_index' ms.url_name %}" target="_blank" class="c-button -secondary -fullwidth">Ir al Micrositio</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {% empty%}
+                  <h2>Aún no hay Micrositios</h2>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+    {% else %}
+      <h1>Este usuario no tiene permisos para entrar en este sitio, verificalo con el administrador.</h1>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% endblock %}
+
+
+{% block extra_script %}
+<script src="{{ STATIC_URL }}idegeo/util/js/jquery.mixitup.js" type="text/javascript"></script>
+<script src='{{ STATIC_URL }}idegeo/util/js/jquery.quicksearch.js'></script>
+<script src="{{STATIC_URL}}idegeo/util/js/jquery.colorbox.js"></script>
+<link rel="stylesheet" href="{{STATIC_URL}}idegeo/util/css/colorbox.css" />
+<script type="text/javascript">
+  $(".iframe").colorbox({iframe:true, width:"90%", height:"90%"});
+
+  $(document).ready(function(){
+
+  var tmp_color = ['template_dark-blue','template_blue','template_dark-green','template_green','template_orange','template_white-purple','template_yellow-green'];
+  var tmp_thematic = ['Circulos','Red', 'Circulos Lineales'];
+
+  var id_color = 0;
+  {% for ms in items %}
+      id_color = {{ms.color}};
+      id_thematic = {{ms.thematic}};
+      id_color_old = id_color;
+      id_ms = {{ms.id}};
+      id_color_old[id_ms] = id_color;
+
+      var color_theme = tmp_color[id_color];
+      var thematic_ms = tmp_thematic[id_thematic];
+      var combo_thems = "<select id='ms_theme_cb_"+id_ms+"'' class='ms_themes_cb'><option value='0'>template_dark-blue</option>";
+      var combo_thematic = "<select id='ms_thematic_cb_"+id_ms+"'' class='ms_thematic_cb'><option value='0'>Circulos</option>";
+       if(id_thematic==1){
+        combo_thematic += "<option value='1' selected>Red</option>";
+      }
+      else{
+        combo_thematic += "<option value='1'>Red</option>";
+      }
+
+      if(id_thematic==2){
+        combo_thematic += "<option value='2' selected>Circulos Lineales</option></select>";
+      }
+      else{
+        combo_thematic += "<option value='2'>Circulos Lineales</option></select>";
+      }
+      if(id_color==1){
+        combo_thems += "<option value='1' selected>template_blue</option>";
+      }else{
+        combo_thems += "<option value='1'>template_blue</option>";
+      }
+      if(id_color==2){
+        combo_thems += "<option value='2' selected>template_dark-green</option>";
+      }else{
+        combo_thems += "<option value='2'>template_dark-green</option>";
+      }
+      if(id_color==3){
+        combo_thems += "<option value='3' selected>template_green</option>";
+      }else{
+        combo_thems += "<option value='3'>template_green</option>";
+      }
+      if(id_color==4){
+        combo_thems += "<option value='4' selected>template_orangee</option>";
+      }else{
+        combo_thems += "<option value='4'>template_orangee</option>";
+      }
+      if(id_color==5){
+        combo_thems += "<option value='5' selected>template_white-purple</option>";
+      }else{
+        combo_thems += "<option value='5'>template_white-purple</option>";
+      }
+      if(id_color==6){
+        combo_thems += "<option value='6' selected>template_yellow-green</option></select>";
+      }else{
+        combo_thems += "<option value='6'>template_yellow-green</option></select>";
+      }
+      if(id_color==7){
+        combo_thems += "<option value='7' selected>template_yellow-green</option></select>";
+      }else{
+        combo_thems += "<option value='7'>template_yellow-green</option></select>";
+      }
+
+      //  console.log('<img src="{{STATIC_URL}}ms/images/ms_site_'+id_color+'.png" title="'+color_theme+'">');
+      //  console.log("#theme_ms_"+id_ms+"");
+      $("#theme_ms_"+id_ms).html("<span>Tema:</span><span class='ms_themes_cb'> "+combo_thems+" </span>");
+      $("#thematic_ms_"+id_ms).html("<span>Visualización:</span><span class='ms_themes_cb'> "+combo_thematic+" </span>");
+      $("#img_"+id_ms+"_theme").html('<iframe src="{{site}}{{ms.url_name}}" width="590" height="800"/>');
+
+
+
+      //$("#img_"+id_ms+"_theme").html('<img src="{{STATIC_URL}}ms/images/ms_site_'+id_color+'.png" title="'+color_theme+'">');
+  {% endfor %}
+
+  $(".img_theme").mouseenter(function() {
+    $('.themes_modal').show();
+
+  });
+    $(".img_theme").mouseleave(function() {
+    $('.themes_modal').hide();
+
+  });
+  $(".img_theme").click(function() {
+    $('.themes_modal').hide();
+
+  });
+  $(".ms_themes_cb").change(function(){
+      var id_ms_compuest = $(this).attr('id');
+      var id_ms_compuest_array = id_ms_compuest.split("_");
+      var id_ms = id_ms_compuest_array[3];
+      var id_color = $("#ms_theme_cb_"+id_ms+" option:selected").val();
+
+      query_data = {
+        'id_ms':id_ms,
+        'id_color': id_color
+      }
+      $.ajax({
+        data: {'query_data': JSON.stringify(query_data),
+             csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+        url: '{% url "ms_save_color" %}',
+        type: 'POST',
+        success : function(data) {
+          // console.log('<iframe src="{{site}}'+data[0]+'" width="590" height="800"/>');
+          $("#img_"+id_ms+"_theme").html('<iframe src="{{site}}'+data[0]+'" width="590" height="800"/>');
+        },
+        error : function(message) {
+                console.log(message);
+             }
+        });
+  });
+$(".ms_thematic_cb").change(function(){
+      var id_ms_compuest = $(this).attr('id');
+
+      var id_ms_compuest_array = id_ms_compuest.split("_");
+      var id_ms = id_ms_compuest_array[3];
+
+      var id_tematics = $("#ms_thematic_cb_"+id_ms+" option:selected").val();
+
+      query_data = {
+        'id_ms':id_ms,
+        'id_tematics': id_tematics
+      }
+      $.ajax({
+        data: {'query_data': JSON.stringify(query_data),
+             csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+        url: '{% url "ms_save_thmatizing" %}',
+        type: 'POST',
+        success : function(data) {
+
+          // console.log('<iframe src="{{site}}'+data[0]+'" width="590" height="800"/>');
+          $("#img_"+id_ms+"_theme").html('<iframe src="{{site}}'+data[0]+'" width="590" height="800"/>');
+        },
+        error : function(message) {
+                console.log(message);
+             }
+        });
+  });
+});
+
+</script>
+{% include "idegeo/documents.js" %}
+{% endblock extra_script %}

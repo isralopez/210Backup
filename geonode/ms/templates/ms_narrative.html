@@ -1,0 +1,143 @@
+{% extends "ms_base.html" %}
+{% block extra_head %}
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="{{config_narrative.name}}" />
+<meta property="og:description"        content="{{config_narrative.description}}" />
+<meta property="og:image"              content="http://{{ request.META.HTTP_HOST }}{{MEDIA_URL}}{{config_narrative.image}}" />
+<style>
+	#background{
+		position:fixed;
+		z-index:1;
+		display:block;
+		min-height:50%;
+		min-width:40%;
+		color:yellow;
+	}
+	#bg-text{
+		color:rgba(0, 0, 0, 0.12);
+		font-size:120px;
+		transform:rotate(320deg);
+		-webkit-transform:rotate(320deg);
+		text-align: center;
+	}
+	#ms-narrativ-body{
+		z-index:0;
+	}
+</style>
+{% endblock extra_head %}
+{% block body %}
+	<section class="section section-gray" style="padding:0px;">
+		{% if config_narrative.public != True %}
+        <div class="alert alert-danger" role="alert" style="z-index: 1071;">
+          ¡La narrativa no se a publicado!
+        </div>
+        {% endif %}
+		<div class="container ms-nar">
+			<div class="section-txt">
+				{% if config_narrative.draft %}
+				<div id="background">
+					<p id="bg-text">Draft</p>
+				</div>
+				{% endif %}
+				<div class="ms-narrativ-body" style="min-height:500px; position: sticky;">
+					{{config_narrative.narrative|safe|escape}}
+				</div>
+			</div>
+			<div class="slat-header user team-shot">
+			    <span class="team-avatar">
+			    	<a class="url hoverable" rel="contact" href="#">
+				    	<picture>
+				  			<img class="photo" src="{{ STATIC_URL }}carousel/img/170301_Globo.svg">
+						</picture>
+					</a>
+				</span>
+			    <a class="url hoverable" rel="contact" href="#">
+			    	<picture>
+			  			<img class="photo" src="{{ STATIC_URL }}carousel/img/Grupo.png">
+					</picture>
+				</a>
+			    <h1>{{config_narrative.name}}</h1>
+			    <h2 class="shot-byline">
+			      <span class="attribution ">
+			        <span class="shot-byline-user">
+			          de <a class="url hoverable" rel="contact" href="#">{{config_narrative.author}}</a>
+			        </span>
+			      </span>
+			        <span class="shot-byline-date">
+			          el <a href="#">{{config_narrative.creation_date|date:"l j, F, Y"}}</a>
+			        </span>
+			    </h2>
+			</div>
+		</div>
+	</section>
+	{% if narratives %}
+	<section id="section_content" class="section" style="padding:0px 180px; background-color: #fbfbfb; z-index: 3;">
+		<div class="container">
+			<h4>Más contenido de la sección</h4>
+			<div class="section-row row" style="margin-right: 200px; margin-left: -100px; padding: 0px 20px 30px 0px; text-align: center;">
+				{% for item in narratives|slice:":6" %}
+				<div class="row-item">
+					<a href="{% url  'ms_narrative' config.url_name item.id %}" target="_self">
+						<div class="row-item-title" style="text-align: center;"><i class="fa fa-file-text-o" aria-hidden="true"></i> {{item}}</div>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	{% endif %}
+	{% if categorys %}
+	<section id="section_others" class="section" style="padding:0px 180px; background-color: #fbfbfb; z-index: 3;">
+		<div class="container">
+			<h4>Otras secciones</h4>
+			<div class="section-row row" style="margin-right: 200px; margin-left: -100px; padding: 0px 20px 30px 0px; text-align: center;">
+				{% for item in categorys|slice:":6" %}
+				<div class="row-item">
+					<a href="{% url  'ms_category' config.url_name item.id %}" target="_self">
+						<div class="row-item-title" style="text-align: center;"><i class="fa fa-trello" aria-hidden="true"></i> {{item}}</div>
+					</a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	{% endif %}
+	<section id="section_face" class="section" style="padding:15px 180px; background-color: #fbfbfb; z-index: 3;">
+		<div class="container">
+			<h4 style="margin: 0px 0px 15px 0px;">Comentarios sobre el tema: {{config_narrative.name}}</h4>
+			<div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+			<div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="button_count" data-action="recommend" data-size="large" data-show-faces="true" data-share="true"></div>
+			<a class="twitter-share-button"
+			   data-size="large"
+			  href="https://twitter.com/intent/tweet?via=CentroGeo_">Tweet
+			</a>
+		</div>
+	</section>
+{% endblock %}
+{% block extra_script %}
+<script type="text/javascript">
+	$('.section-row').each(function () {
+		varParent = this;
+		varChildsNum = $(this).children('.row-item').length;
+		funcRowColumn();
+	});
+</script>
+<script>
+	window.twttr = (function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0],
+		t = window.twttr || {};
+	  if (d.getElementById(id)) return t;
+	  js = d.createElement(s);
+	  js.id = id;
+	  js.src = "https://platform.twitter.com/widgets.js";
+	  fjs.parentNode.insertBefore(js, fjs);
+
+	  t._e = [];
+	  t.ready = function(f) {
+		t._e.push(f);
+	  };
+
+	  return t;
+	}(document, "script", "twitter-wjs"));
+</script>
+{% endblock extra_script %}
