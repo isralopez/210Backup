@@ -1844,3 +1844,8 @@ if USE_GEOSERVER:
     baselayers = MAP_BASELAYERS
     MAP_BASELAYERS = [PUBLIC_GEOSERVER]
     MAP_BASELAYERS.extend(baselayers)
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
