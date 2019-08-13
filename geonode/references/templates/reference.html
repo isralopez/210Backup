@@ -1,0 +1,9 @@
+<link href="{{ STATIC_URL }}idegeo/ms/css/bootstrap.min.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}idegeo/narratives/css/styles.css" rel="stylesheet">
+<div class="container">
+    <div class="ms-narrativ-body">
+        {{reference.narrative|safe|escape}}
+    </div>
+</div>
+<script src="{{ STATIC_URL }}idegeo/ms/js/jquery-3.1.1.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/ms/js/bootstrap.min.js"></script>
