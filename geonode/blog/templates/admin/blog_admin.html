@@ -1,0 +1,139 @@
+{% extends "baseAlt.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+
+{% block title %}Blog{% endblock %}
+
+{% block head %}
+{{ block.super }}
+
+<link href="{{ STATIC_URL }}idegeo/bootstrap/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css">
+<link href="{{ STATIC_URL }}idegeo/blog/css/admin_style.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+{% endblock %}
+{% block body_class %}blog{% endblock %}
+{% block middle %}
+{% block body_outer %}
+{% endblock %}
+<div id="page-header" class="content">
+  <div class="container">
+    <div class="titulo-blk-row">
+      <div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico11_capas.png" alt=""></div>
+        <div class="titulo-txt blk-cell">
+          <h2>Blog</h2>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary">Referencias</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <!--<li><a href="{ url 'reference_add' }">Crear</a></li>-->
+            <!--<li><a href="{ url 'references_admin' }">Administrar</a></li>-->
+        </ul>
+    </div>
+    <h3>Historias y Ligas</h3>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary">Crear</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{% url 'blog_post_add' %}">Entrada</a></li>
+            <li><a href="{% url 'blog_link_add' %}">Link</a></li>
+        </ul>
+    </div>
+    <table id="tabla"
+           data-toggle="table"
+           data-toolbar="#toolbar"
+           data-search="true"
+           data-minimum-count-columns="2"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[10, 25, 50, 100, ALL]"
+           data-show-footer="false"
+           data-response-handler="responseHandler">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th data-filter-control="select">Formato</th>
+            <th>Tema</th>
+            <th>Activo</th>
+            <th>Destacado</th>
+            <th>Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr id="tr-id-{{post.id}}" class="tr-class-{{post.id}}" data-title="bootstrap table">
+                <td id="td-id-{{post.id}}" class="td-class-{{post.id}}" data-title="bootstrap table">
+                    <a href="{% if post.format == 'link' %}{% url 'blog_link_edit' post.id %}{% else %}{% url 'blog_post_edit' post.id %}{% endif %}">{{post}}</a>
+                </td>
+                <td data-text="526">{% if post.format == 'link' %}Liga{% else %}Historia{% endif %}</td>
+                <td data-text="526">{{ post.topic }}</td>
+                <td data-text="122">{% if post.active %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}<i class="fa fa-times" aria-hidden="true"></i>{% endif %}</td>
+                <td data-text="122">{% if post.fix_index %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}<i class="fa fa-times" aria-hidden="true"></i>{% endif %}</td>
+                <td>
+                    <a href="{% url 'blog_post_remove' post.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Temas</h3>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary">Crear</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{% url 'blog_topic_add' %}">Tema</a></li>
+        </ul>
+    </div>
+    <table id="tabla2"
+           data-toggle="table"
+           data-toolbar="#toolbar"
+           data-search="true"
+           data-minimum-count-columns="2"
+           data-pagination="true"
+           data-id-field="id"
+           data-page-list="[10, 25, 50, 100, ALL]"
+           data-show-footer="false"
+           data-response-handler="responseHandler">
+        <thead>
+        <tr>
+            <th>Título</th>
+            <th>Activo</th>
+            <th>Eliminar</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for topic in topics %}
+            <tr id="tr-id-{{topic.id}}" class="tr-class-{{topic.id}}" data-title="bootstrap table">
+                <td id="td-id-{{topic.id}}" class="td-class-{{topic.id}}" data-title="bootstrap table">
+                    <a href="{% url 'blog_topic_edit' topic.id %}">{{topic}}</a>
+                </td>
+                <td data-text="122">{% if topic.active %}<i class="fa fa-check" aria-hidden="true"></i>{% else %}<i class="fa fa-times" aria-hidden="true"></i>{% endif %}</td>
+                <td>
+                    <a href="{% url 'blog_topic_remove' topic.id %}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+{% endblock extra_script %}

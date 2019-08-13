@@ -1,0 +1,660 @@
+{% load i18n avatar_tags %}
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#" class="html_stretched responsive av-preloader-disabled av-custom-lightbox  html_header_top html_logo_left html_main_nav_header html_menu_right html_custom html_header_sticky html_header_shrinking_disabled html_mobile_menu_phone html_header_searchicon_disabled html_content_align_center html_header_unstick_top_disabled html_header_stretch_disabled html_minimal_header html_elegant-blog html_av-overlay-side html_av-overlay-side-classic html_av-submenu-noclone html_entry_id_222 av-no-preview html_text_menu_active ">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <!-- mobile setting -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Scripts/CSS and wp_head hook -->
+    <title>Blog - IDEGeo</title>
+    <link href="/static/idegeo/ms/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/idegeo/ms/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+    <link rel="icon" href="{{ STATIC_URL }}idegeo/blog/favicon.ico" class="next-head" />
+    <link href="{{ STATIC_URL }}lib/css/assets.min.css?v={{ VERSION }}" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- google webfont font replacement -->
+    <link rel='stylesheet' id='avia-google-webfont' href='//fonts.googleapis.com/css?family=Lato:300,400,700' type='text/css' media='all' />
+    <meta property="fb:app_id" content="1836632479933553" />
+	<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' id='bodhi-svgs-attachment-css' href='{{ STATIC_URL }}idegeo/blog/css/svgs-attachment.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='wpml-legacy-dropdown-click-0-css' href='{{ STATIC_URL }}idegeo/blog/css/style.css' type='text/css' media='all' />
+    <style id='wpml-legacy-dropdown-click-0-inline-css' type='text/css'>
+        .wpml-ls-statics-shortcode_actions,
+        .wpml-ls-statics-shortcode_actions .wpml-ls-sub-menu,
+        .wpml-ls-statics-shortcode_actions a {
+            border-color: #EEEEEE;
+        }
+
+        .wpml-ls-statics-shortcode_actions a {
+            color: #444444;
+            background-color: #ffffff;
+        }
+
+        .wpml-ls-statics-shortcode_actions a:hover,
+        .wpml-ls-statics-shortcode_actions a:focus {
+            color: #000000;
+            background-color: #eeeeee;
+        }
+
+        .wpml-ls-statics-shortcode_actions .wpml-ls-current-language>a {
+            color: #444444;
+            background-color: #ffffff;
+        }
+
+        .wpml-ls-statics-shortcode_actions .wpml-ls-current-language:hover>a,
+        .wpml-ls-statics-shortcode_actions .wpml-ls-current-language>a:focus {
+            color: #000000;
+            background-color: #eeeeee;
+        }
+
+        #lang_sel img,
+        #lang_sel_list img,
+        #lang_sel_footer img {
+            display: inline;
+        }
+    </style>
+    <link rel='stylesheet' id='avia-wpml-css' href='{{ STATIC_URL }}idegeo/blog/css/wpml-mod.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='mediaelement-css' href='{{ STATIC_URL }}idegeo/blog/css/mediaelementplayer-legacy.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='wp-mediaelement-css' href='{{ STATIC_URL }}idegeo/blog/css/wp-mediaelement.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-grid-css' href='{{ STATIC_URL }}idegeo/blog/css/grid.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-base-css' href='{{ STATIC_URL }}idegeo/blog/css/base.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-layout-css' href='{{ STATIC_URL }}idegeo/blog/css/layout.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-scs-css' href='{{ STATIC_URL }}idegeo/blog/css/shortcodes.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-print-css' href='{{ STATIC_URL }}idegeo/blog/css/print.css' type='text/css' media='print' />
+    <link rel='stylesheet' id='avia-dynamic-css' href='{{ STATIC_URL }}idegeo/blog/css/resource_watch_theme.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-custom-css' href='{{ STATIC_URL }}idegeo/blog/css/custom.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='avia-style-css' href='{{ STATIC_URL }}idegeo/blog/css/style2.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='jetpack-widget-social-icons-styles-css' href='{{ STATIC_URL }}idegeo/blog/css/social-icons.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='the-grid-css' href='{{ STATIC_URL }}idegeo/blog/css/the-grid.min.css' type='text/css' media='all' />
+    <style id='the-grid-inline-css' type='text/css'>
+        .tolb-holder {
+            background: rgba(0, 0, 0, 0.8)
+        }
+
+        .tolb-holder .tolb-close,
+        .tolb-holder .tolb-title,
+        .tolb-holder .tolb-counter,
+        .tolb-holder .tolb-next i,
+        .tolb-holder .tolb-prev i {
+            color: #ffffff
+        }
+
+        .tolb-holder .tolb-load {
+            border-color: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid #ffffff
+        }
+
+        .to-heart-icon,
+        .to-heart-icon svg,
+        .to-post-like,
+        .to-post-like .to-like-count {
+            position: relative;
+            display: inline-block
+        }
+
+        .to-post-like {
+            width: auto;
+            cursor: pointer;
+            font-weight: 400
+        }
+
+        .to-heart-icon {
+            float: left;
+            margin: 0 4px 0 0
+        }
+
+        .to-heart-icon svg {
+            overflow: visible;
+            width: 15px;
+            height: 14px
+        }
+
+        .to-heart-icon g {
+            -webkit-transform: scale(1);
+            transform: scale(1)
+        }
+
+        .to-heart-icon path {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            transition: fill .4s ease, stroke .4s ease
+        }
+
+        .no-liked .to-heart-icon path {
+            fill: #999;
+            stroke: #999
+        }
+
+        .empty-heart .to-heart-icon path {
+            fill: transparent!important;
+            stroke: #999
+        }
+
+        .liked .to-heart-icon path,
+        .to-heart-icon svg:hover path {
+            fill: #ff6863!important;
+            stroke: #ff6863!important
+        }
+
+        @keyframes heartBeat {
+            0% {
+                transform: scale(1)
+            }
+            20% {
+                transform: scale(.8)
+            }
+            30% {
+                transform: scale(.95)
+            }
+            45% {
+                transform: scale(.75)
+            }
+            50% {
+                transform: scale(.85)
+            }
+            100% {
+                transform: scale(.9)
+            }
+        }
+
+        @-webkit-keyframes heartBeat {
+            0%,
+            100%,
+            50% {
+                -webkit-transform: scale(1)
+            }
+            20% {
+                -webkit-transform: scale(.8)
+            }
+            30% {
+                -webkit-transform: scale(.95)
+            }
+            45% {
+                -webkit-transform: scale(.75)
+            }
+        }
+
+        .heart-pulse g {
+            -webkit-animation-name: heartBeat;
+            animation-name: heartBeat;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%
+        }
+
+        .to-post-like a {
+            color: inherit!important;
+            fill: inherit!important;
+            stroke: inherit!important
+        }
+    </style>
+    <link rel='stylesheet' id='jetpack_css-css' href='{{ STATIC_URL }}idegeo/blog/css/jetpack.css' type='text/css' media='all' />
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/jquery-3.3.1.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/frontend.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/jquery-migrate-3.0.0.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/script.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/custom.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/wpml-mod.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/avia-compat.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/mediaelement-and-player.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/mediaelement-migrate.min.js'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/ai.js'></script>
+    <style type='text/css'>
+        img#wpstats {
+            display: none
+        }
+    </style>
+
+    <style type='text/css' media='screen'>
+        #top #header_main > .container,
+        #top #header_main > .container .main_menu .av-main-nav > li > a,
+        #top #header_main #menu-item-shop .cart_dropdown_link {
+            height: 75px;
+            line-height: 75px;
+        }
+
+        .html_top_nav_header .av-logo-container {
+            height: 75px;
+        }
+
+        .html_header_top.html_header_sticky #top #wrap_all #main {
+            padding-top: 73px;
+        }
+    </style>
+    <!--[if lt IE 9]><script src="{{ STATIC_URL }}idegeo/blog/js/html5shiv.js"></script><![endif]-->
+
+    <!--
+Debugging Info for Theme support:
+
+Theme: Enfold
+Version: 4.2.2
+Installed: enfold
+AviaFramework Version: 4.6
+AviaBuilder Version: 0.9.5
+- - - - - - - - - - -
+ChildTheme:  Theme
+ChildTheme Version:
+ChildTheme Installed: enfold
+
+ML:256-PU:19-PLA:24
+WP:4.9.6
+Updates: disabled
+-->
+
+    <style type='text/css'>
+        @font-face {
+            font-family: 'entypo-fontello';
+            font-weight: normal;
+            font-style: normal;
+            src: url('{{ STATIC_URL }}idegeo/blog/fonts/entypo-fontello.eot');
+            src: url('{{ STATIC_URL }}idegeo/blog/fonts/entypo-fontello.eot?v=3#iefix') format('embedded-opentype'), url('{{ STATIC_URL }}idegeo/blog/fonts/entypo-fontello.woff?v=3') format('woff'), url('{{ STATIC_URL }}idegeo/blog/fonts/entypo-fontello.ttf?v=3') format('truetype'), url('{{ STATIC_URL }}idegeo/blog/entypo-fontello.svg?v=3#entypo-fontello') format('svg');
+        }
+
+        #top .avia-font-entypo-fontello,
+        body .avia-font-entypo-fontello,
+        html body [data-av_iconfont='entypo-fontello']:before {
+            font-family: 'entypo-fontello';
+        }
+    </style>
+    {% block extra_head %}
+	{% endblock %}
+</head>
+
+<body id="top" class="home page-template-default page page-id-222 stretched lato no_sidebar_border" itemscope="itemscope" itemtype="https://schema.org/WebPage">
+
+    <div id='wrap_all'>
+
+        <header id='header' class='all_colors header_color light_bg_color  av_header_top av_logo_left av_main_nav_header av_menu_right av_custom av_header_sticky av_header_shrinking_disabled av_header_stretch_disabled av_mobile_menu_phone av_header_searchicon_disabled av_header_unstick_top_disabled av_minimal_header av_bottom_nav_disabled  av_header_border_disabled' role="banner" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
+
+            <div id='header_main' class='container_wrap container_wrap_logo'>
+
+                <div class='container av-logo-container'>
+                    <div class='inner-container'><span class='logo'><a href='{% url 'home' %}'><img style="width: 160px;" src='{{ STATIC_URL }}idegeo/blog/images/OP_1_blanco.png' alt='Plataforma GeoWeb ADESUR' /></a></span>
+                        <nav class='main_menu' data-selectname='Select a page' role="navigation" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
+                            <div class="avia-menu av-main-nav-wrap">
+                                <ul id="avia-menu" class="menu av-main-nav">
+                                    <li id="menu-item-449" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home page_item page-item-222 menu-item-top-level menu-item-top-level-2"><a href="{% url 'blog_index' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Inicio</span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a></li>
+                                    <li id="menu-item-449" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home page_item page-item-222 menu-item-top-level menu-item-top-level-2"><a href="{% url 'blog' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Blog</span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a></li>
+                                    <li id="menu-item-1121" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-top-level menu-item-top-level-3"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Temas</span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a>
+                                        <ul class="sub-menu">
+                                            {% for topic in topics %}
+                                            <li id="menu-item-1123" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url  'blog_topic_detail' topic.slug %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">{{topic}}</span></a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <li id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-top-level menu-item-top-level-1"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">GeoWeb</span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a>
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-450" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'layer_interface' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Explorar datos</span></a></li>
+                                            <li id="menu-item-453" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'maps_interface' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Mapas</span></a></li>
+                                            <li id="menu-item-452" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'ms_public_list' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Micrositios</span></a></li>
+                                            <li id="menu-item-453" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'mviewer_public' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Galería de Apps</span></a></li>
+                                            <li id="menu-item-453" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'documents_interface' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Documentos</span></a></li>
+                                        </ul>
+                                    </li>
+                                    {% if request.user.is_authenticated %}
+                                    {% if request.user.ide_access or request.user.microsite_access or request.user.is_superuser %}
+                                    <li id="menu-item-6" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-top-level menu-item-top-level-1"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Gestión</span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a>
+                                        <ul class="sub-menu">
+                                            {% if request.user.ide_access or request.user.is_superuser %}
+                                            <li id="menu-item-450" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'layer_browse' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Vectoriales</span></a></li>
+                                            <li id="menu-item-452" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'maps_browse' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Mapas</span></a></li>
+                                            <!--<li id="menu-item-453" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{ url 'tables_browse' }" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Tabulares</span></a></li>-->
+                                            <li id="menu-item-450" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'document_browse' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Documentos</span></a></li>
+                                            {% endif %}
+                                            {% if request.user.microsite_access or request.user.is_superuser %}
+                                            <li id="menu-item-450" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'blog_admin' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Blog</span></a></li>
+                                            <li id="menu-item-452" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'ms_gestor_list' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Micrositios</span></a></li>
+                                            <li id="menu-item-453" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'mviewer_list' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Panoramas</span></a></li>
+                                            {% endif %}
+                                            {% if request.user.is_superuser %}
+                                            <li id="menu-item-452" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'profile_browse' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Usuarios</span></a></li>
+                                            <li id="menu-item-453" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="{% url 'group_list' %}" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Grupos</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                    {% endif %}
+                                    {% endif %}
+                                    <!--<li id="menu-item-581" class="menu-search menu-item menu-item-type-custom menu-item-object-custom menu-item-top-level menu-item-top-level-6"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text"><img class="style-svg" src="{{ STATIC_URL }}idegeo/blog/images/search.svg" /></span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a></li>-->
+                                    <li id="menu-item-576" class="logged-out-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-top-level menu-item-top-level-7"><a href="#" data-toggle="modal" data-target="#UserModal" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text"><img class="style-svg" style="vertical-align: initial;" src="{{ STATIC_URL }}idegeo/blog/images/user.svg" /></span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a>
+                                        <ul class="sub-menu">
+                                            {% if user.is_authenticated %}
+                                            <li id="menu-item-578" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#" data-toggle="modal" data-target="#UserModal" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">{% avatar user 20 %} {{ user.username }}</span></a></li>
+                                            <li id="menu-item-578" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#" itemprop="url" href="javascript:{}" onclick="document.getElementById('logout_form').submit();"><span class="avia-bullet"></span><span class="avia-menu-text">{% trans "Log out" %}</span></a></li>
+                                            {% else %}
+                                            <li id="menu-item-577" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#" data-toggle="modal" data-target="#SigninModal" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">{% trans 'Sign in' %}</span></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </li>
+                                    <li id="menu-item-1584" class="logged-in-menu menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-top-level menu-item-top-level-8"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text"><img class="style-svg" src="{{ STATIC_URL }}idegeo/blog/images/user.svg" /></span><span class="avia-menu-fx"><span class="avia-arrow-wrap"><span class="avia-arrow"></span></span></span></a>
+
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-1585" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Profile</span></a></li>
+                                            <li id="menu-item-1586" class="admin menu-item menu-item-type-custom menu-item-object-custom"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Admin</span></a></li>
+                                            <li id="menu-item-1587" class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#" itemprop="url"><span class="avia-bullet"></span><span class="avia-menu-text">Logout</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="av-burger-menu-main menu-item-avia-special ">
+                                        <a href="#">
+                                            <span class="av-hamburger av-hamburger--spin av-js-hamburger">
+					        <span class="av-hamburger-box">
+						          <span class="av-hamburger-inner"></span>
+                                            <strong>Menu</strong>
+                                            </span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end container_wrap-->
+            </div>
+
+            <div class='header_bg'></div>
+
+            <!-- end header -->
+        </header>
+
+        <div id='main' class='all_colors' data-scroll-offset='73'>
+            {% block body %}{% endblock %}
+            <div class='container_wrap footer_color' id='footer'>
+
+                <div class='container'>
+
+                    <div class='flex_column   first el_before_'>
+                        <section id="custom_html-2" class="widget_text widget clearfix widget_custom_html">
+                            <div class="textwidget custom-html-widget">
+                                <div class="responsive strech-footer">
+                                    <img class="alignleft size-full wp-image-30 " src="{{ STATIC_URL }}idegeo/blog/images/OP_1_negro.png" alt="" width="100">
+                                    <div class="flex_column av_one_fifth  flex_column_div   ">
+                                        <div class='avia-builder-widget-area clearfix '>
+                                            <div id="nav_menu-8" class="widget clearfix widget_nav_menu">
+                                                <h3 class="widgettitle">Blog</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex_column av_one_fifth  flex_column_div   ">
+                                        <div class='avia-builder-widget-area clearfix '>
+                                            <div id="nav_menu-10" class="widget clearfix widget_nav_menu">
+                                                <h3 class="widgettitle">Temas</h3>
+                                                <div class="menu-topics-container">
+                                                    <ul id="menu-topics" class="menu">
+                                                        {% for topic in topics %}
+                                                        <li class="item"><a href="{% url  'blog_topic_detail' topic.slug %}">{{topic}}</a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex_column av_one_fifth  flex_column_div  ">
+                                        <div class='avia-builder-widget-area clearfix '>
+                                            <div id="nav_menu-6" class="widget clearfix widget_nav_menu">
+                                                <h3 class="widgettitle">GeoWeb</h3>
+                                                <div class="menu-data-container">
+                                                    <ul id="menu-data" class="menu">
+                                                        <li id="menu-item-10" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10"><a href="{% url 'layer_interface' %}">Explorar datos</a></li>
+                                                        <li id="menu-item-12" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12"><a href="{% url 'ms_public_list' %}">Micrositios</a></li>
+                                                        <li id="menu-item-1561" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1561"><a href="{% url 'mviewer_public' %}">Galería de apps</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5>Instituciones participantes &#10095;</h5>
+                                <div class="strech-footer">
+                                    <div data-autoplay='true' data-interval='5' data-animation='slide' class='avia-logo-element-container av-border-deactivate avia-logo-slider avia-content-slider avia-smallarrow-slider avia-content-slider-active noHover avia-content-slider1 avia-content-slider-odd  partner-footer '>
+                                        <div class='avia-smallarrow-slider-heading  no-logo-slider-navigation  no-logo-slider-heading '></div>
+                                        <div class='avia-content-slider-inner'>
+                                            <div class='slide-entry-wrap' itemprop="ImageObject" itemscope="itemscope" itemtype="https://schema.org/ImageObject">
+                                                {% for item in institutions %}
+                                                <div class='slide-entry flex_column no_margin post-entry slide-entry-overview slide-loop-{{item.id}} slide-parity-odd  av_one_seventh first real-thumbnail'>
+                                                    <a href='{{item.url}}' data-rel='slide-{{item.id}}' class='slide-image' title='{{item.name}}'><img itemprop="thumbnailUrl" width="110" height="29" src="{{MEDIA_URL}}{{item.image}}" class="attachment-no scaling size-no scaling" alt="{{item.name}}" /></a>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><span class="seperator extralight-border"></span></section>
+                    </div>
+
+                </div>
+
+                <!-- ####### END FOOTER CONTAINER ####### -->
+            </div>
+
+            <footer class='container_wrap socket_color' id='socket' role="contentinfo" itemscope="itemscope" itemtype="https://schema.org/WPFooter">
+                <div class='container'>
+
+                    <span class='copyright'><div class="flex_column av_one_half  flex_column_div first  " ><img class="alignleft size-full wp-image-66" src="{{ STATIC_URL }}carousel/img/logo-conacyt_footer.png" alt="" style="padding-top:20px;" /></div> <div class="flex_column av_one_half  flex_column_div   " ><p style="text-align:right; line-height: 24px; font-size: 14px;"><b>Acerca de la IDEGeo</b><br/>Proporcionado por GeoNode v.2.4<br/>Extendido por CentroGeo<br/>Contacto</p></div></span>
+
+                </div>
+
+                <!-- ####### END SOCKET CONTAINER ####### -->
+            </footer>
+
+            <!-- end main -->
+        </div>
+
+        <!-- end wrap_all -->
+    </div>
+    <div style="display:none">
+    </div>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/avia.js?ver=4.2.2'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/shortcodes.js?ver=4.2.2'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/wp-mediaelement.min.js?ver=4.9.6'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/comment-reply.min.js?ver=4.9.6'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/new-tab.min.js?ver=2.9.8'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/effect.min.js?ver=1.11.4'></script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var tg_global_var = {
+            "url": "https:\/\/ide.ide\/blog\/wp-admin\/admin-ajax.php",
+            "nonce": "d651abdaa9",
+            "is_mobile": null,
+            "mediaelement": "",
+            "mediaelement_ex": null,
+            "lightbox_autoplay": "",
+            "debounce": "",
+            "meta_data": null,
+            "main_query": {
+                "error": "",
+                "m": "",
+                "p": "222",
+                "post_parent": "",
+                "subpost": "",
+                "subpost_id": "",
+                "attachment": "",
+                "attachment_id": 0,
+                "name": "",
+                "static": "",
+                "pagename": "",
+                "page_id": "222",
+                "second": "",
+                "minute": "",
+                "hour": "",
+                "day": 0,
+                "monthnum": 0,
+                "year": 0,
+                "w": 0,
+                "category_name": "",
+                "tag": "",
+                "cat": "",
+                "tag_id": "",
+                "author": "",
+                "author_name": "",
+                "feed": "",
+                "tb": "",
+                "paged": 0,
+                "meta_key": "",
+                "meta_value": "",
+                "preview": "",
+                "s": "",
+                "sentence": "",
+                "title": "",
+                "fields": "",
+                "menu_order": "",
+                "embed": "",
+                "category__in": [],
+                "category__not_in": [],
+                "category__and": [],
+                "post__in": [],
+                "post__not_in": [],
+                "post_name__in": [],
+                "tag__in": [],
+                "tag__not_in": [],
+                "tag__and": [],
+                "tag_slug__in": [],
+                "tag_slug__and": [],
+                "post_parent__in": [],
+                "post_parent__not_in": [],
+                "author__in": [],
+                "author__not_in": [],
+                "ignore_sticky_posts": false,
+                "suppress_filters": false,
+                "cache_results": true,
+                "update_post_term_cache": true,
+                "lazy_load_term_meta": true,
+                "update_post_meta_cache": true,
+                "post_type": "",
+                "posts_per_page": 10,
+                "nopaging": false,
+                "comments_per_page": "50",
+                "no_found_rows": false,
+                "order": "DESC"
+            }
+        };
+        /* ]]> */
+    </script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/the-grid.min.js?ver=2.6.0'></script>
+    <script type='text/javascript' src='{{ STATIC_URL }}idegeo/blog/js/wp-embed.min.js?ver=4.9.6'></script>
+    <a href='#top' title='Scroll to top' id='scroll-top-link' aria-hidden='true' data-av_icon='' data-av_iconfont='entypo-fontello'><span class="avia_hidden_link_text">Vuelve al comienzo</span></a>
+
+    <div id="fb-root"></div>
+    <!-- Modal must stay outside the navbar -->
+    {% if not user.is_authenticated %}
+    <div class="modal fade" id="SigninModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{% trans "Sign in" %}</h4>
+                </div>
+                <form class="form-signin" role="form" action="{% url "account_login" %}?next={{ request.path }}" method="post">
+                <div class="modal-body">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <label for="id_username" class="sr-only">{% trans "Username" %}:</label>
+                    <input id="id_username" class="form-control" name="username" placeholder="{% trans "Username" %}" type="text" />
+                  </div>
+                  <div class="form-group">
+                    <label for="id_password" class="sr-only">{% trans "Password" %}:</label>
+                    <input id="id_password" class="form-control" name="password" placeholder="Password" type="password" />
+                  </div>
+                  <label class="checkbox">
+                    <input type="checkbox" /> {% trans "Remember Me" %}
+                  </label>
+                  <label class="checkbox">
+                    Click <a href="{% url 'account_signup' %}" style="color: #089fcf;">aquí</a> para registrarte.
+                  </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-block">{% trans "Sign in" %}</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">{% trans "Menu" %}</h4>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-unstyled">
+                        <!--<li><a href="{% url "layer_upload" %}"><i class="fa fa-cloud-upload"></i> {% trans "Upload Layers" %}</a></li>-->
+                        <li class="modal-divider"></li>
+                        {% if request.user.is_authenticated and request.user.ide_access %}
+                        <li><a href="{% url 'layer_browse' %}"><i class="fa fa-cog"></i> Gestión del catálogo</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'layer_interface' %}"><i class="fa fa-globe"></i> Visualizador de capas</a></li>
+                        {% if user.microsite_access or user.is_superuser %}
+                        <li><a href="{% url 'ms_gestor_list' %}"><i class="fa fa-cubes"></i> Micrositios</a></li>
+                        <li><a href="{% url 'mviewer_list' %}"><i class="fa fa-window-maximize"></i> Panoramas</a></li>
+                        <li><a href="{% url 'blog_admin' %}"><i class="fa fa-th-large" aria-hidden="true"></i> Blog</a></li>
+                        {% endif %}
+                        <hr>
+                        <li><a href="{{ user.get_absolute_url }}"><i class="fa fa-user"></i> {% trans "Profile" %}</a></li>
+                        <!--<li><a href="{% url "recent-activity" %}"><i class="fa fa-fire"></i> {% trans "Recent Activity" %}</a></li>-->
+                        <!--<li><a href="{% url "messages_inbox" %}"><i class="fa fa-inbox"></i> {% trans "Inbox" %}</a></li>-->
+
+                        {% if perms.announcements.can_manage %}
+                        <li><a href="{% url "announcements_list" %}"><i class="fa fa-bullhorn"></i> {% trans "Announcements" %}</a></li>
+                        {% endif %}
+                        {% if user.is_superuser %}
+                        <li><a href="{% url "services" %}"><i class="fa fa-globe"></i> {% trans "Remote Services" %}</a></li>
+                        <!--<li><a href="{ url "account_invite_user" }"><i class="fa fa-edit"></i> {% trans "Invite User" %}</a></li>-->
+                        <li class="modal-divider"></li>
+                        <li><a href="{{ GEOSERVER_BASE_URL }}"><i class="fa fa-gears"></i> {% trans "GeoServer" %}</a></li>
+                        {% endif %}
+                        {% if user.is_staff %}
+                        <li><a href="{% url "admin:index" %}"><i class="fa fa-cog"></i> {% trans "Admin" %}</a></li>
+                        {% endif %}
+                        {% block extra_user_menu %}
+                        {% endblock %}
+                        <li class="modal-divider"></li>
+                        <li><a title="Help" rel="tooltip" href="/help/"><i class="fa fa-question-circle"></i> {% trans "Help" %}</a></li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <form action="{% url "account_logout" %}" id="logout_form" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn-warning btn-block" href="javascript:{}" onclick="document.getElementById('logout_form').submit();">{% trans "Log out" %}</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- End of Modal -->
+    <script src="{{ STATIC_URL }}lib/js/assets.min.js?v={{ VERSION }}"></script>
+    <script type="text/javascript" src="{% url "lang" %}"></script>
+    {% include "idegeo/gtag.js" %}
+    <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.8&appId=1836632479933553";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</body>
+
+</html>

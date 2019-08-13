@@ -5,7 +5,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from fontawesome.fields import IconField
 from geonode.maps.models import Map
-# from geonode.blog.models import Topic
+from geonode.blog.models import Topic
 from geonode.groups.models import GroupProfile
 from django.core.urlresolvers import reverse
 from django.template import defaultfilters
@@ -27,8 +27,8 @@ class Microsite(models.Model):
     ('v', 'Vertical (1080x608)'),
     )
     group = models.ForeignKey(GroupProfile, verbose_name = "Grupo")
-    # topic = models.ManyToManyField(Topic, verbose_name="Tematicas", null=True, blank=True,
-    #                                help_text='Seleccione las tematicas.')
+    topic = models.ManyToManyField(Topic, verbose_name="Tematicas", null=True, blank=True,
+                                    help_text='Seleccione las tematicas.')
     name = models.CharField(verbose_name = "Nombre", max_length=200, unique=True)
     subtitle = models.CharField(verbose_name="Sub-Titulo", max_length=200, null=False, blank=True)
     description = RichTextField(verbose_name="Descripcion")

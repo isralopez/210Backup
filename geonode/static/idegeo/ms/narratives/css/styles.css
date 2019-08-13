@@ -94,7 +94,7 @@ h3.sectionline1 {
     font-weight: 400;
     color: rgba(255, 255, 255, 1.00);
     text-align: center;
-    background: url(/static/blog/images/fondo_header.png), linear-gradient(86deg, #883f25 0%, #7d5142 100%);
+    background: url(/static/idegeo/blog/images/fondo_header.png), linear-gradient(86deg, #883f25 0%, #7d5142 100%);
 }
 h3.sectionline2 {
     font-family: sans-serif;
@@ -104,7 +104,7 @@ h3.sectionline2 {
     font-weight: 400;
     color: rgba(255, 255, 255, 1.00);
     text-align: center;
-    background: url(/static/blog/images/fondo_header.png), linear-gradient(86deg, #003f63 0%, #808898 100%);
+    background: url(/static/idegeo/blog/images/fondo_header.png), linear-gradient(86deg, #003f63 0%, #808898 100%);
 }
 h3.sectionline3 {
     font-family: sans-serif;
@@ -114,7 +114,7 @@ h3.sectionline3 {
     font-weight: 400;
     color: rgba(255, 255, 255, 1.00);
     text-align: center;
-    background: url(/static/blog/images/fondo_header.png), linear-gradient(86deg, #5E0931 0%, #5e0931b8 100%);
+    background: url(/static/idegeo/blog/images/fondo_header.png), linear-gradient(86deg, #5E0931 0%, #5e0931b8 100%);
 }
 div.sectionwhite {
     font-size: 2.42857rem;

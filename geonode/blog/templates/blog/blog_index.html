@@ -1,0 +1,186 @@
+{% extends "blog/blog_base.html" %}
+{% block extra_head %}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}idegeo/blog/css/main.css" class="next-head" />
+{% endblock extra_head %}
+{% block body %}
+<div id="#main" class="l-page page-home">
+    <div class="video-intro">
+        <div class="video-foreground "><span><div></div></span></div>
+        <div class="video-text">
+            <div>
+                <h1>IDEGeo</h1><a class="c-button -alt -primary" href="{% url 'layer_interface' %}">Explorar datos</a>
+            </div>
+        </div>
+    </div>
+    <section id="discoverIsights" class="l-section">
+        <div class="l-container">
+            <header>
+                <div class="row">
+                    <div class="column small-12 medium-8">
+                        <h2>Resultados Recientes</h2>
+                        <p>Descubra información sobre los datos en el blog de la Plataforma Geoweb ADESUR.</p>
+                    </div>
+                </div>
+            </header>
+            <div class="c-blog-latest-posts insight-cards">
+                <div class="row">
+                    <div class="column small-12 medium-8">
+                        {% for post in posts|slice:":1" %}
+                        <div onclick="location.href='{% if post.format == 'link' %}{{ post.link}}{% else %}{% url 'blog_post' post.slug %}{% endif %}';" class="c-card-static -alt -clickable" style="background:url({{MEDIA_URL}}{{post.image}});background-size:cover" role="link" tabindex="0">
+                            <div>
+                                <h4>{{post.created|date:"l j, F, Y"}}</h4>
+                                <h3>{{post}}</h3></div>
+                            <div class="footer">
+                                <div class="source"><span style="background-image:url({{ STATIC_URL }}carousel/img/Grupo.png)"></span>
+                                    <div class="source-name">De <a href="#" target="_blank">{{post.author}}</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="column small-12 medium-4">
+                        <div class="dual">
+                            {% for post in posts|slice:":3" %}
+                            {% if forloop.counter0 > 0 %}
+                            <div onclick="location.href='{% if post.format == 'link' %}{{ post.link }}{% else %}{% url 'blog_post' post.slug %}{% endif %}';" class="c-card-static -alt -clickable" style="background:url({{MEDIA_URL}}{{post.image}});background-size:cover" role="link" tabindex="0">
+                                <div>
+                                    <h4>{{post.created|date:"l j, F, Y"}}</h4>
+                                    <h3>{{post}}</h3></div>
+                                <div class="footer">
+                                    <div class="source"><span style="background-image:url({{ STATIC_URL }}carousel/img/Grupo.png)"></span>
+                                        <div class="source-name">De <a href="#" target="_blank">{{post.author}}</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="-text-center">
+                <div class="row">
+                    <div class="column small-12 medium-12">
+                        <div class=" buttons">
+                            <button style="border: none;" class="c-button -secondary join-us-button"></button><a href="{% url  'blog' %}" class="c-btn -primary">Más historias</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="l-section -secondary">
+        <div class="l-container">
+            <header>
+                <div class="row">
+                    <div class="column small-12 medium-8">
+                        <h2>Temas</h2>
+                    </div>
+                </div>
+            </header>
+            <div class="topics-container">
+                <div class="row">
+                    <div class="column small-12">
+                        <div class="c-topics-thumbnail-list">
+                            <div class="row l-row -equal-height">
+                                {% for topic in topics %}
+                                <div class="column small-12 medium-6 large-3">
+                                    <button tabindex="0" onclick="location.href='{% url  'blog_topic_detail' topic.slug %}';" class="thumbnail-list-item" style="background-image:url({{MEDIA_URL}}{{topic.image}})">
+                                        <div style="box-sizing: inherit;" class="content" for="topic-cities">{{topic}}</div>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!--<section class="l-section">
+    <div class="l-container">
+        <header>
+            <div class="row">
+                <div class="column small-12 medium-8">
+                    <h2>Dive into the data</h2>
+                    <p>Create overlays, share visualizations, and subscribe to updates on your favorite issues.</p>
+                </div>
+            </div>
+        </header>
+        <div class="explore-cards">
+            <div class="row">
+                <div class="column small-12 medium-6">
+                    <div class="c-card-static -alt -clickable" style="background:url({{ STATIC_URL }}blog/images/homepage/home-data-bg4.png) 67% center;background-size:cover" role="link" tabindex="0">
+                        <div>
+                            <h4 class="tag-name">Planet Pulse</h4>
+                            <h3 class="title">View near-real-time data on the planet</h3>
+                            <p></p>
+                        </div>
+                        <div class="buttons -align-center"><a href="/data/pulse" class="c-btn -alt -primary">Launch Planet Pulse</a></div>
+                    </div>
+                </div>
+                <div class="column small-12 medium-6">
+                    <div class="c-card-static -alt -clickable" style="background:url({{ STATIC_URL }}blog/images/homepage/home-data-bg1.png);background-size:cover" role="link" tabindex="0">
+                        <div>
+                            <h4 class="tag-name">Explore Data</h4>
+                            <h3 class="title">Access data on the map</h3>
+                            <p>Identify patterns between data sets on the map or download data for analysis.</p>
+                        </div>
+                        <div class="buttons -align-center"><a class="c-btn -alt -primary" href="/data/explore">Explore data</a></div>
+                    </div>
+                </div>
+                <div class="column small-12 medium-6">
+                    <div class="c-card-static -alt -clickable" style="background:url({{ STATIC_URL }}blog/images/homepage/home-data-bg2.png);background-size:cover" role="link" tabindex="0">
+                        <div>
+                            <h4 class="tag-name">Dashboards</h4>
+                            <h3 class="title">Create and share visualizations</h3>
+                            <p>Create and share custom visualizations or craft your own personal monitoring system.</p>
+                        </div>
+                        <div class="buttons -align-center">
+                            <fragment>
+                                <div class="c-login-required"><a href="/myrw/dashboards" class="c-btn -alt -primary">Create a dashboard</a></div>
+                            </fragment>
+                        </div>
+                    </div>
+                </div>
+                <div class="column small-12 medium-6">
+                    <div class="c-card-static -alt -clickable" style="background:url({{ STATIC_URL }}blog/images/homepage/home-data-bg3.png) 67% center;background-size:cover" role="link" tabindex="0">
+                        <div>
+                            <h4 class="tag-name">Alerts</h4>
+                            <h3 class="title">Track data in near-real-time</h3>
+                            <p>Get updates on world events as they unfold.</p>
+                        </div>
+                        <div class="buttons -align-center">
+                            <fragment>
+                                <div class="c-login-required"><a href="/myrw/areas" class="c-btn -alt -primary">Sign up for alerts</a></div>
+                            </fragment>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>-->
+<!--<section class="c-banner -light -use-background get-involved">
+    <div class="l-container">
+        <div class="l-container">
+            <div class="l-row row">
+                <div class="column small-12 medium-8">
+                    <h2>Get involved</h2>
+                    <p>Use data to drive change in your community and around the world.</p>
+                </div>
+            </div>
+            <div class="buttons">
+                <div class="l-row row">
+                    <div class="column small-12 medium-3"><a class="c-btn -b -alt -fullwidth" href="/get-involved/join-community?source=home">Join the community</a></div>
+                    <div class="column small-12 medium-3"><a class="c-btn -b -alt -fullwidth" href="/get-involved/contribute-data?source=home">Contribute data</a></div>
+                    <div class="column small-12 medium-3"><a class="c-btn -b -alt -fullwidth" href="/get-involved/submit-an-insight?source=home">Suggest a story</a></div>
+                    <div class="column small-12 medium-3"><a class="c-btn -b -alt -fullwidth" href="/get-involved/develop-app?source=home">Develop your app</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>-->
+{% endblock %}
+{% block extra_script %}
+{% endblock extra_script %}

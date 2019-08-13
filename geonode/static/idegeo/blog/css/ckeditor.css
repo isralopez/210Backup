@@ -1,0 +1,25 @@
+p {
+	font-weight: 400 !important;
+    line-height: 30px !important;
+    margin: 0.85em 0;
+    color: #393f44;
+    font-family: 'Lato', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+h3 {
+    font-size: 42px;
+    line-height: 50px;
+    margin-bottom: 10px;
+    margin-top: 40px;
+    font-weight: 300;
+    color: #a96927f5;
+    font-family: 'Lato', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+em {
+	font-style: italic;
+	font-family: 'Lato', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+strong {
+	color: #000000;
+	font-weight: bold;
+	font-family: 'Lato', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
