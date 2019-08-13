@@ -157,6 +157,7 @@ urlpatterns += [
     url(r'^mviewer/', include('geonode.mviewer.urls')),
     url(r'^ms/', include('geonode.ms.urls')),
     url(r'^blog/', include('geonode.blog.urls')),
+    url(r'^references/', include('geonode.references.urls')),
 
     # OAuth Provider
     url(r'^o/',

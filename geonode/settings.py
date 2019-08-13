@@ -302,11 +302,11 @@ GEONODE_CONTRIB_APPS = (
 
 IDEGEO_APPS = (
     # My Geonode Apps
-    # 'geonode.ms',
     'geonode.interactive',
     'geonode.mviewer',
     'geonode.ms',
     'geonode.blog',
+    'geonode.references',
 )
 
 # Uncomment the following line to enable contrib apps
