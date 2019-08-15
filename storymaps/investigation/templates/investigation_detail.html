@@ -1,0 +1,158 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Narrativas {% endblock %}
+
+{% block head %}
+{{ block.super }}
+<link href="{{STATIC_URL}}network/css/network.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}/ymenu/css/component.css" />
+{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<!--HEADER-TITULO-->
+<div id="page-header" class="content">
+	<div class="container">
+		<div class="titulo-blk-row">
+			<div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico24_narrativas.png" alt=""></div>
+			<div class="titulo-txt blk-cell"><h2>{{investigation.title}}</h2></div>
+		</div>
+	</div>
+</div>
+{% endblock header %}
+
+{% block body %}
+<div class="container">
+	<h2 style="margin: 10px 0px 0px 10px;">StoryMaps</h2>
+	{% if request.user.is_authenticated %}
+	<div class="btn-add">
+		<a href="{% url 'upload_narrative' investigation.id %}" class="btn btn-primary pull-right" id="btn-list">Crear StoryMap</a>
+	</div>
+	{% endif %}
+
+	<div class="row">
+		<!--content-main-->
+		<div id="cnt-main" class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+			<div class="cnt-posts">
+				{% for item in narratives %}
+				<!-- post -->
+				<div class="eb-post {{item.category.identifier}}">
+					<div class="eb-post-side">
+						<div class="eb-post-avatar"><img src="{{STATIC_URL}}idegeo/style_publishing/img/avatar_divulgacion.png" width="60" height="60" alt="Divulgación"></div>
+						<div class="eb-post-calendar">
+							<div class="eb-post-calendar-d">{{item.creation_date|date:"j"}}</div>
+							<div class="eb-post-calendar-m">{{item.creation_date|date:"F"}}</div>
+							<div class="eb-post-calendar-y">{{item.creation_date|date:"Y"}}</div>
+						</div>
+					</div>
+					<div class="eb-post-content">
+						<div class="eb-post-head no-overflow">
+							<h2 class="eb-post-title"><a href="{% url 'detail_narrative' item.id %}">{{item.title}}</a></h2>
+							<div class="eb-post-meta">
+								<div class="eb-post-date"><i class="fa fa-clock-o"></i> <span class="eb-meta-date">{{item.creation_date|date:"l j, F, Y"}}</span></div>
+								<div class="eb-post-author">
+									{% for author in item.author.all %}
+										<i class="fa fa-user"></i>
+										<span itemprop="name"><a href="/people/profile/{{author}}">{{author}}</a></span>
+									{% endfor %}
+								</div>
+								{% if item.category %}
+								<div class="eb-post-category">
+									<i class="fa fa-folder-open"></i>
+									<span>{{item.category}}</span>
+								</div>
+								{% endif %}
+							</div>
+						</div>
+						<div class="eb-post-body">
+							<div class="eb-post-thumb"><a href="{% url 'detail_narrative' item.id %}" class="eb-post-image" style="width: 200px;"><img src="{{item.image.url}}" alt="{{item.title}}" style="width:250px">
+								<div class="mm-img-link-cover"></div>
+								</a></div>
+							<div class="eb-post-source"><i class="fa fa-pencil-square"></i> CentroGeo
+								{% if request.user.is_authenticated %}
+									{% if request.user.username == 'admin' %}
+										<a href="#" data-toggle="modal" data-target="#deleteStoryMap{{ forloop.counter }}" data-toggle="tooltip" title="Eliminar" class="fa fa-times fa-1x" style="position:relative; left:390px;"></a>
+										<a href="{% url 'metadata_narrative' item.id %}" data-toggle="tooltip" title="Editar metadato" class="fa fa-bars fa-1x" style="position:relative; left:390px;"></a>
+										<a href="{% url 'content_narrative' item.id %}" data-toggle="tooltip" title="Editar narrativa" class="fa fa-file-text-o fa-1x" style="position:relative; left:390px;"></a>
+									{% elif request.user in item.author.all %}
+										<a href="#" data-toggle="modal" data-target="#deleteStoryMap{{ forloop.counter }}" data-toggle="tooltip" title="Eliminar" class="fa fa-times fa-1x" style="position:relative; left:390px;"></a>
+										<a href="{% url 'metadata_narrative' item.id %}" data-toggle="tooltip" title="Editar metadato" class="fa fa-bars fa-1x" style="position:relative; left:390px;"></a>
+										<a href="{% url 'content_narrative' item.id %}" data-toggle="tooltip" title="Editar narrativa" class="fa fa-file-text-o fa-1x" style="position:relative; left:390px;"></a>
+									{% elif request.user in item.publisher.all %}
+										<a href="{% url 'content_narrative' item.id %}" data-toggle="tooltip" title="Editar narrativa" class="fa fa-file-text-o fa-1x" style="position:relative; left:435px;"></a>
+									{% endif %}
+								{% endif %}
+							</div>
+							<p>{{item.description|truncatechars:250}}</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Contenido oculto para eliminar storymap -->
+				<div id="deleteStoryMap{{ forloop.counter }}" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Borrar StoryMap</h4>
+							</div>
+							<div class="del-modal-body">
+								<form action="{% url "remove_narrative" item.id %}" method="POST">
+									<h4>
+									  {% blocktrans with item.title as item_title %}
+										¿Esta seguro que desea eliminar: <i>{{ item_title }}?</i>
+									  {% endblocktrans %}
+									</h4>
+									{% csrf_token %}
+									<div class="form-actions">
+									  <input type="submit" value="{% trans "Yes, I am sure" %}" class="btn btn-danger" />
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% empty %}
+					<p>Aún no hay Storymaps</p>
+				{% endfor %}
+
+				<div class="posts-pager"> <a href="#" class="disabled"><i class="fa fa-chevron-left"></i> Siguiente </a><a href="#"> Anterior <i class="fa fa-chevron-right"></i></a>
+					<div><a href="#" class="disabled active">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a></div>
+				</div>
+			</div>
+		</div>
+		<!--content-sidebar-->
+		<aside id="cnt-sidebar" class="col-xs-12 col-sm-4 col-md-3 col-lg-3 hidden-xs">
+			<ul class="sidebar-nav">
+				<li role="navigation">
+					<div class="sidebar-nav-header"><a href="#"><b>Lineas de Investigación</b></a></div>
+					<ul>
+						{% for e in invest_list %}
+							{% if investigation.title == e.title %}
+								<li class="active"><a class="cat" href="{% url 'detail_investigation' e.id %}">{{e.title}}</a></li>
+							{% else %}
+								<li><a class="cat" href="{% url 'detail_investigation' e.id %}">{{e.title}}</a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+					<div class="sidebar-nav-header"><a href="#"><b>Categorias</b></a></div>
+					<ul class="nav-child">
+						{% for e in categories %}
+						<li class="category"><a class="cat" id="{{e.identifier}}" href="#">{{e.gn_description}}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+		</aside>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+{% include "category_filter.js" %}
+{% endblock %}

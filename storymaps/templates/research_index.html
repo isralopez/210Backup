@@ -1,0 +1,58 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load base_tags %}
+
+{% block title %} {% trans "Corredor Seco Centroamericano: Infraestructura de Datos Geoespaciales" %}  {% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
+<!--HEADER-TITULO-->
+<div id="page-header" class="content">
+	<div class="container">
+		<div class="titulo-blk-row">
+			<div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico24_narrativas.png" alt=""></div>
+			<div class="titulo-txt blk-cell">
+				<h2>Red CentroGeo</h2>
+			</div>
+		</div>
+	</div>
+</div>
+{% include 'latest.html' %}
+<!--bottom-->
+<section id="bottom">
+	<div class="container">
+		<div class="bottom-banners"><h3>Storymaps Recientes</h3></div>
+
+		<div id="fd" class="eb eb-mod mod_easybloglatestblogs mm-main-section mm-section-divulgacion">
+			<div class="eb-mod mod-items-grid clearfix">
+				<div class="mod-grid mod-grid-1" style="width: calc(20% - 20px);">
+					<div class="mod-item">
+						<div class="eb-mod-head mod-table align-middle">
+							<div class="mod-cell">
+							</div>
+						</div>
+						<div class="eb-mod-context">
+							<div class="eb-mod-thumb is-center">
+								<a href="{% url 'detail_narrative' 2 %}" class="eb-mod-image-cover" style="width: 300px; height: 127px; background-image: url(&quot;/static/style_sci/images/img-box.jpg&quot;);">
+									<img src="/uploaded/images/Ca%C3%B1%C3%B3n_del_Usumacinta.jpg" alt="Nacimiento del río Usumacinta" style="width:250px">
+									<div class="mm-thumb-cover"></div>
+								</a>
+							</div>
+							<div class="eb-mod-title" style="height: 48px;"><a href="{% url 'detail_narrative' 2 %}" class="eb-mod-media-title" style="color:gray;">Nacimiento rio usumacinta</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+{% endblock %}
+
+{% block body %}{% endblock %}
