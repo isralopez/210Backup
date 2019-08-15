@@ -70,7 +70,7 @@ def mviewer_create(request):
         return render(request, "mviewer_metadata.html",
                       context={'form': mv_form, 'mviewer': json.dumps({'bbox_x0': 'a', 'logo': 'B'}), 'no_group': no_group})
 
-
+@login_required
 def mviewer_metadata(request, mv_id):
     mviewer = get_object_or_404(MViewer, id=mv_id)
     if request.method == 'POST':
@@ -154,6 +154,7 @@ def mviewer_detail(request, mv_id):
         'sty_dict': json.dumps(sty_dict)})
 
 
+@login_required
 def mviewer_remove(request, mv_id):
     mviewer = get_object_or_404(MViewer, id=mv_id)
     if request.method == 'GET':

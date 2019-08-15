@@ -17,7 +17,7 @@ class MViewer(models.Model):
     is_public = models.BooleanField(default=False, verbose_name="Es público")
     image = models.ImageField(verbose_name="Imagen", upload_to="images/", null=True, blank=True)
     description = RichTextField(verbose_name="Descripcion", blank=True, null=True)
-    layer_mask = models.ForeignKey(Layer, verbose_name="Capa de mascara", null=True, blank=True)
+    layer_mask = models.ForeignKey(Layer, verbose_name="Capa de mascara", null=True, blank=True, help_text='Seleccione una capa tipo poligono como mascara.')
     bbox_x0 = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     bbox_y0 = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
     bbox_x1 = models.DecimalField(max_digits=19, decimal_places=10, blank=True, null=True)
