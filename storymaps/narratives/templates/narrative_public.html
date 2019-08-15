@@ -1,0 +1,407 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load dialogos_tags %}
+{% load agon_ratings_tags %}
+{% load bootstrap_tags %}
+{% load base_tags %}
+{% load guardian_tags %}
+{% load i18n avatar_tags %}
+
+{% block title %} Narrativas {% endblock %}
+
+{% block head %}{{ block.super }}{% endblock %}
+
+{% block body_class %}narrative{% endblock %}
+
+{% block body_outer %}
+<div class="page-header">
+  <h2>{{narrative.title}}</h2>
+</div>
+<div class="row">
+	<div class="col-md-8" id="general">
+		{% if narrative.public == 0 %}
+		<div class="alert alert-danger">La narrativa no se ha publicado</div>
+		{% endif %}
+		<article class="description tab-pane active" id="info" style="border-bottom: 1px dotted #CCC;">
+			<dl class="dl-horizontal">
+				<dt style="border-left: 2px solid #3276b1;">Vertiente</dt><dd>{{narrative.product.line.slope}}</dd>
+				<dt style="border-left: 2px solid #3276b1;">Línea de investigación</dt><dd>{{narrative.product.line}}</dd>
+				<dt style="border-left: 2px solid #3276b1;">Producto</dt><dd>{{narrative.product}}</dd>
+				<dt style="border-left: 2px solid #3276b1;">Autor</dt>
+				<dd>
+				{% for author in narrative.author.all %}
+					<span class="label label-primary">{{ author }}</span>
+				{% endfor %}
+				</dd>
+				<dt style="border-left: 2px solid #3276b1;">Editor</dt>
+				<dd>
+				{% for publisher in narrative.publisher.all %}
+					<span class="label label-info">{{ publisher }}</span>
+				{% endfor %}
+				</dd>
+				<dt style="border-left: 2px solid #3276b1;">Descripción</dt><dd>{{narrative.description}}</dd>
+				<dt style="border-left: 2px solid #3276b1;">Cobertura</dt><dd>{{narrative.coverage}}</dd>
+				<dt style="border-left: 2px solid #3276b1;">Fecha</dt><dd>{{narrative.creation_date}}</dd>
+			</dl>
+
+		</article>
+
+		<div style="padding: 15px 0; border-bottom: 1px dotted #CCC;">
+
+		{% if narrative.narrative %}
+
+			{% for listNarr in listNarrativeRow %}
+			    {{ listNarr|safe|escape }}
+			{% empty %}
+				No hay narrativa
+			{% endfor %}
+
+		{% else %}
+
+			<div class="alert alert-danger"><a class="btn btn-default btn-block btn-xs" href="{% url "update2_narrative" narrative.id %}">{% trans "Crear narrativa" %}</a></div>
+
+		{% endif %}
+		</div>
+		<div style="padding: 15px 0;">
+		<!--{% get_comment_count for narratives.narratives narrative.id as comment_count %}
+		<p>{{ comment_count }} comentarios se han publicado.</p>-->
+		<p>Comentarios::::::::::::::</p>
+			{% get_comment_list for narratives.narratives narrative.id as comment_list %}
+{% for comment in comment_list %}
+			{% if comment.id_comment_row == "0" %}
+
+			<p>
+<hr>
+			{% avatar comment.user 30 %}
+			<span class="user_comments"> {{ comment.user_name }}</span>  {{ comment.submit_date }} </p>
+			<p>{{ comment.comment|safe|escape }}</p>
+</hr>
+			{% endif %}
+{% endfor %}
+		{% get_comment_form for narratives.narratives narrative.id as form %}
+
+            {% avatar user 30 %}<span class="user_comments"> {{ user.username }}</span>
+            <div id="result"></div>
+			<form id="fo3" action="{% comment_form_target %}" method="post" name="fo3">{% csrf_token %}
+    {{ form.object_pk }}
+
+    {{ form.content_type }}
+
+    {{ form.timestamp }}
+
+    {{ form.security_hash }}
+
+    {% if node.id %}
+
+        <input type="hidden" name="parent" id="parent_id2" value="{{ node.id }}" />
+
+    {% endif %}
+				<input type="hidden" name="id_comment_row" id="id_comment_row_gloabal" value="0" />
+				<input type="hidden" name="next" value="{% url 'storymaps.narratives.views.detail_narrative_public' narrative.id %}" />
+               <textarea name="comment" id="comment" rows="4" cols="50" placeholder="Deja tu comentario"></textarea>
+
+    <input type="submit" value="Enviar" class="btn-comment"/>
+  </form>
+
+		</div>
+	</div>
+
+	<div class="col-md-4">
+
+	<ul class="list-group">
+	<li class="list-group-item">
+	<button class="btn btn-primary btn-md btn-block" data-toggle="modal" data-target="#edit-document">Editar narrativa</button>
+	</li>
+	<div class="modal fade" id="edit-document" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title" id="myModalLabel">Editar narrativa</h4>
+	    </div>
+	    <div class="modal-body">
+	      <div class="row edit-modal">
+	        <div class="col-sm-3">
+	          <i class="fa fa-file-text-o fa-3x"></i>
+	          <h4>Narrativa</h4>
+	          <a class="btn btn-default btn-block btn-xs" href="{% url "update_narrative" narrative.id %}">{% trans "Editar metadato" %}</a>
+	        </div>
+	        <div class="col-sm-3">
+	          <i class="fa fa-file-text-o fa-3x"></i>
+	          <h4>Narrativa</h4>
+	          <a class="btn btn-default btn-block btn-xs" href="{% url "update2_narrative" narrative.id %}">{% trans "Editar narrativa" %}</a>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+	    </div>
+	  </div>
+	</div>
+	</div>
+
+	<li class="list-group-item">
+	<h4>Recursos relacionados con este narrativa</h4>
+	<p>Lista de recursos utilizando este narrativa</p>
+	<ul class="list-unstyled">
+	  <p>Este narrativa esta relacionado con: </p>
+	  <a href=''></a>
+	  <p>Este narrativa no esta relacionado con ningún mapa o capa</p>
+	</ul>
+	</li>
+	<li class="list-group-item">
+	<h4></h4>
+	<p>Haga clic en el botón de abajo para cambiar los permisos de esta narrativa</p>
+	<p><a href="#modal_perms" data-toggle="modal" class="btn btn-primary btn-block" data-target="#_permissions">Cambiar Permisos de la narrativa</a></p>
+	</li>
+
+	{% include "base/_resourcebase_contact_snippet.html" %}
+
+	</ul>
+	</div>
+</div>
+{% endblock %}
+{% block extra_script %}
+<!-- Modal -->
+<div class="modal fade" id="iframeModal" tabindex="-1" role="dialog" aria-labelledby="iframeModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="iframeModalTitle"></h4>
+	      	</div>
+	     	<div class="modal-body" id="iframeModalBody">
+	     		<iframe width="100%" height="100%" frameborder="0" scrolling="yes" allowtransparency="true" src="#">
+	     			#document
+	     		</iframe>
+	    	</div>
+	    </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--  Modal Comments -->
+<div class="modal fade" id="modal_comments" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title" id="myModalLabel2">Comentarios</h4>
+	    </div>
+	    <div class="modal-body">
+	      <div class="row edit-modal">
+
+	        <div class="col-sm-3">
+				<!-- Here content-->
+	          <div class="content" id='comment_style'></div>
+				<!--  Start  comments-->
+				{% get_comment_form for narratives.narratives narrative.id as form %}
+			<form action="{% comment_form_target %}" method="post">{% csrf_token %}<!-- action="{% comment_form_target %}"-->
+
+
+    {{ form.object_pk }}
+				{{ form.timestamp }}
+				<input type="hidden" name="flag_date" id="flag_date" value="{{ timestamp }}"/>
+    {{ form.security_hash }}
+
+    {{ form.content_type }}
+
+
+    {% if node.id %}
+
+        <input type="hidden" name="parent" id="parent_id" value="{{ node.id }}" />
+
+    {% endif %}
+				<input type="hidden" name="id_comment_row" id="id_comment_row" />
+				<input type="hidden" name="next" value="{% url 'storymaps.narratives.views.detail_narrative_public' narrative.id %}" />
+
+ {{ form.comment }}
+
+
+    <input type="submit" value="Enviar" class="btn-comment">
+  </form>
+
+				<!-- End from comments-->
+	        </div>
+	      </div>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+	    </div>
+	  </div>
+	</div>
+	</div>
+<!--  end Modal Comments -->
+  <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"/><!-- /.comments -->
+ <link href="{{STATIC_URL}}geonode/css/comments/base_comments.css" rel="stylesheet" type="text/css"/><!-- /.comments css style-->
+    <script type="text/javascript" src="{{STATIC_URL}}geonode/js/comments/jquery.formtooltip.js"></script><!-- /.comments js -->
+
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script><!-- /.jquery for comments -->
+<script type="text/javascript">
+	$('a.external').click(function(e) {
+        e.preventDefault();
+        var title = $(this).attr('data-title');
+        var url = $(this).attr('href');
+        $("#iframeModalTitle").text(title);
+        $('#iframeModalBody iframe').attr('src', url);
+        //$('#iframeModalBody iframe').reload();
+    });
+
+    $('#iframeModal').on('show.bs.modal', function () {
+
+        $(this).find('.modal-dialog').css({
+                  width:'80%', //choose your width
+                  height:'90%',
+                  'padding':'0'
+           });
+         $(this).find('.modal-content').css({
+                  height:'100%',
+                  'border-radius':'0',
+                  'padding':'0'
+           });
+         $(this).find('.modal-body').css({
+                  width:'auto',
+                  height:'100%',
+                  'padding':'0'
+           });
+    });
+
+   /*Codigo para iteractuar con los mensajes*/
+ $(document).ready(function(){
+   // Interceptamos el evento submit
+
+    $('#form, #fat, #fo3').submit(function() {
+  // Enviamos el formulario usando AJAX
+   if($('#comment').val()=="")
+   {
+        alert("esta mal");
+        return false;
+   }
+   else
+   {
+        alert("ok");
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            // Mostramos un mensaje con la respuesta
+            success: function(data) {
+                var comentario = $('#comment').val();
+                $('#result').text(comentario);
+                $('#comment').val("");
+            }
+        })
+        return false;
+   }
+        return false;
+    });
+
+
+  id_com = {{narrative.id}};
+  /*
+  $(".btn-comment").click(function(){
+        $.ajax({
+            url: "save_comment/"+id_com,
+            type: "post",
+            success: function (data) {
+                if(data == 0){
+                      alert("Comentar");
+                }else{
+                      alert(data);
+                }
+
+            },
+            error: function (data) {
+                alert("Error. " + "Status: " + data.status + " Text: " + data.statusText);
+            }
+       });
+    });
+    */
+
+ /*Cuando pasan el puntero sobre un parrafo*/
+  $(".coment_id").mouseenter(function(){
+		id_narrative = {{narrative.id}};
+        id_comentario = $(this).attr('id');
+       $.ajax({
+            url: "count_coments/"+id_comentario+"/"+id_narrative,
+            type: "get",
+            success: function (data) {
+                if(data == 0){
+                      $('.tip').text("Comentar");
+                }else{
+                      $('.tip').text(data);
+                    // $('.tip').css({"background-color": "yellow", "font-size": "200%"});
+                }
+
+            },
+            error: function (data) {
+                alert("Error. " + "Status: " + data.status + " Text: " + data.statusText);
+            }
+       });
+
+        });
+        /*Fin de comentario_id*/
+        /*Codigo para el listener del mensage*/
+        $(".tip").on({
+        mouseenter: function(){
+            $(".tip").css("opacity", "1.0");
+        },
+        mouseleave: function(){
+            $(".tip").css("opacity", "0.9");
+        },
+        click: function(){
+        id_narrative = {{narrative.id}};
+
+              $.ajax({
+            url: "search_comments/"+id_comentario+"/"+id_narrative,
+            type: "get",
+            success: function (data) {
+                $('#id_comment_row').val(id_comentario);
+                if(data == 0){
+                    $('.content').text("Ingresa tus comentarios");
+                    $('.content').css({"width": "550px","font-weight": "bold", "font-size": "110%"});
+                }else{
+                     	$('.content').html('<p>'+data+'</p>')
+                     	$('.content').css({"width": "550px", "font-size": "100%"});
+                }
+
+            },
+            error: function (data) {
+                alert("Error. " + "Status: " + data.status + " Text: " + data.statusText);
+            }
+       }).done(function( msg ) {
+             $("#contenido").html(data);
+  });
+            //$(".chats").slideToggle("slow");
+            //$("#ref").val(id_comentario)
+           // $("#com").val(id_comentario)
+
+        }
+    });
+});
+ /*Funsion para hacer el efecto del mensaje*/
+ $.fn.mousetip = function(tip, x, y) {
+
+    var $this = $(this);
+
+    $this.hover(function() {
+
+        $(tip, this).show();
+
+    }, function() {
+
+        $(tip, this).hide().removeAttr('style');
+
+    });
+};
+    $(function() {
+
+    // Default
+    $('p').mousetip('.tip');
+
+    // Custom Position
+    $('p').mousetip('.tip', 20, 300);
+
+});
+
+</script>
+
+{% endblock extra_script %}

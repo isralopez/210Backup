@@ -1,0 +1,116 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Narrativas {% endblock %}
+
+{% block head %}{{ block.super }}{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<!--<link rel="stylesheet" href="{{ STATIC_URL }}lib/css/leaflet.css" />
+<script src="{{ STATIC_URL }}lib/js/leaflet.js"></script>
+<script src="//cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>-->
+<!-- Load Leaflet from CDN-->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet.css" />
+<script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.1/leaflet-src.js"></script>
+<script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+<script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+
+<style>
+	#map {
+		height: 480px;
+ 	}
+</style>
+
+<!--HEADER-TITULO-->
+<div id="page-header" class="content">
+	<div class="container">
+		<div class="titulo-blk-row">
+			<div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico24_narrativas.png" alt=""></div>
+			  <div class="titulo-txt blk-cell">
+				  <h2>Metadato de StoryMap</h2>
+			  </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block body_class %}narrative{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-6" id="general">
+			<form id="formulario" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+				{{form|as_bootstrap}}
+				<div id="map"></div>
+				<br>
+				<div class="col-md-12">
+					<label class="control-label required-field">{% trans "Category" %}</label>
+					<fieldset id="category_form">
+					  {% autoescape off %}
+					  {% for choice in category_form.category_choice_field.field.choices %}
+					  <div class="radio col-md-6">
+						<input type="radio" name="category_choice_field" value="{{ choice.0 }}"
+						  {% ifequal category_form.initial choice.0 %} checked="checked" {% endifequal %}>
+						  {{ choice.1 }}
+						</input>
+					  </div>
+					  {% endfor %}
+					  {% endautoescape %}
+					</fieldset>
+				</div>
+				<p><input type="submit" class="btn btn-primary" value="Confirmar"></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript">
+var coverage = {{coverage|safe}}
+var southWest = L.latLng(-90, -180),
+      northEast = L.latLng(90, 180),
+      bounds = L.latLngBounds(southWest, northEast);
+
+var map = L.map('map', {
+        center: [24, -101],
+        zoom: 5,
+        animate: true,
+        // layers: [terrain, terr_labels],
+        maxBounds: bounds,
+        maxZoom: 12,
+        minZoom: 3
+      });
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+lat_lng = coverage.split(',')
+var marker = L.marker([lat_lng[0], lat_lng[1]], {draggable:true}).addTo(map);
+
+var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider();
+
+var searchControl = L.esri.Geocoding.geosearch({
+	providers: [arcgisOnline]
+	}).addTo(map);
+
+var results = L.layerGroup().addTo(map);
+
+searchControl.on('results', function(data){
+	results.clearLayers();
+	for (var i = data.results.length - 1; i >= 0; i--) {
+  		marker.setLatLng(data.results[i].latlng);
+  		$('#id_coverage').val(data.results[i].latlng['lat']+ ',' + data.results[i].latlng['lng']);
+	}
+});
+
+marker.on('dragend', function(e) {
+				$('#id_coverage').val(e.target._latlng['lat'] + ',' + e.target._latlng['lng']);
+            });
+</script>
+{% endblock extra_script %}

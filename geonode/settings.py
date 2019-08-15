@@ -302,6 +302,9 @@ GEONODE_CONTRIB_APPS = (
 
 IDEGEO_APPS = (
     # My Geonode Apps
+    'storymaps',
+    'storymaps.investigation',
+    'storymaps.narratives',
     'geonode.interactive',
     'geonode.mviewer',
     'geonode.ms',

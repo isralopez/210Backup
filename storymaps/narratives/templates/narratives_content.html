@@ -1,0 +1,40 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Narrativas {% endblock %}
+
+{% block head %}{{ block.super }}{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<!--HEADER-TITULO-->
+<div id="page-header" class="content">
+	<div class="container">
+		<div class="titulo-blk-row">
+			<div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico24_narrativas.png" alt=""></div>
+			  <div class="titulo-txt blk-cell">
+				  <h2>Creando: {{narrative.title}}</h2>
+			  </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block body_class %}StoryMap{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-8" id="general">
+			<form id="formulario" method="post" enctype="multipart/form-data" action="">
+				<p style="font-weight: 700; margin: 25px 0 25px 10px;">Redacte el contenido o introduzca la dirección de un contenido externo.</p>
+				{% csrf_token %}
+				{{ form.media }}
+				{{form|as_bootstrap}}
+				<p><input type="submit" class="btn btn-primary" value="Confirmar"></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

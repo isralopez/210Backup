@@ -1,0 +1,38 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load bootstrap_tags %}
+
+{% block title %} Productos {% endblock %}
+
+{% block head %}{{ block.super }}{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<!--HEADER-TITULO-->
+<div id="page-header" class="content">
+	<div class="container">
+		<div class="titulo-blk-row">
+			<div class="titulo-img blk-cell"><img src="{{STATIC_URL}}carousel/images/ico23_productos.png" alt=""></div>
+			<div class="titulo-txt blk-cell">
+				<h2>Crear Investigación</h2>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block body_class %}products{% endblock %}
+
+{% block body %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6" id="general">
+			<form id="formulario" method="post" enctype="multipart/form-data" action="">{% csrf_token %}
+				{{form|as_bootstrap}}
+				<p><input type="submit" class="btn btn-primary" value="Confirmar"></p>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

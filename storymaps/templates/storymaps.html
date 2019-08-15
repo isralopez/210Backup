@@ -1,0 +1,51 @@
+{% extends "research_base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load base_tags %}
+
+{% block body_class %}home{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<link href="{{ STATIC_URL }}idegeo/style_publishing/css/storymaps.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+<link href="{{ STATIC_URL }}idegeo/style_publishing/css/notice.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+<script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
+
+<div id="main-container">
+  <div class='loader'>
+    <div class='loader-container'>
+      <div class='progress progress-striped active' style="height:4px;">
+        <div class='progress-bar progress-bar-info' id='bar' role='progressbar' style='width: 0%;'></div>
+      </div>
+    </div>
+  </div>
+  <div class="map-container">
+      <div id="wrapper">
+        <div id="map"></div>
+      </div>
+  </div>
+</div>
+{% include "storymaps.js" %}
+{% endblock %}
+
+{% block body %}
+<div class="overlay" id="overlay" style="display:none;"></div>
+<div class="box" id="box">
+    <!--<a class="boxclose" id="boxclose"></a>-->
+    <h1 align="center" style="font-size:20px;">AÑO INTERNACIONAL DEL MAPA</h1>
+    <div id="wrapper-notice">
+        <div class="text-notice">
+            Con motivo del Año Internacional del Mapa, se busca celebrar este acontecimiento
+            mostrando los trabajos ganadores del concurso &quot;Mapa del Mes&quot;, organizado por
+            CentroGeo. Al tiempo que se reconoce y valora el trabajo de los autores en esta plataforma colaborativa.
+        </div>
+        <br>
+        <div align="center" class="text-notice">
+            ¡FELICIDADES A LOS GANADORES!
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}{% endblock footer%}
