@@ -1,22 +1,13 @@
 # -*- encoding: utf-8 -*-
 """farming_siap views."""
-# imports
-import urllib2
 import psycopg2
 import json
-import tempfile
 
-# django
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.http import HttpResponseServerError
-from django.template import RequestContext
-from django.conf import settings
-from django.template.loader import render_to_string
 from django.contrib.sites.models import Site
-from django.db import connections
 
-# geonode
 from geonode.geoserver.helpers import ogc_server_settings
 
 table_crop = "trd_produccion_agricola"
@@ -30,7 +21,7 @@ def daca(request, template="arecedpoliline.html"):
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 """
 este metodo es para los inmigrantes que van de mixico a EU de la doctora Regina
@@ -40,7 +31,7 @@ def immigrant(request, template="MarkerDataLayerImmigrate.html"):
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 """
 este metodo es para el programa daca de la doctora Regina
@@ -50,7 +41,7 @@ def immigrant_page(request, template="inmigrant_pages.html"):
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 """
 este metodo es para el programa daca de la doctora Regina
@@ -60,238 +51,265 @@ def mapa1(request, template="mapa1.html"):
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa2(request, template="mapa2.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa3(request, template="mapa3.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa4(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa5(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa6(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa7(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa8(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa9(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa10(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa11(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa12(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 def mapa13(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa14(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa15(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa16(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa17(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa18(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa19(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa20(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa21(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa22(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa23(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa24(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa25(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa26(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa27(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa28(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
+
 
 def mapa29(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 def mapa30(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 def mapa31(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 def mapa32(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 def mapa33(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 def mapa34(request, template="mapa1.html"):
     site = Site.objects.get(id=1)
     cultivos = []
     ciclos = []
     modalidades = []
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 """
 trae los datos cultivos del SIAP HOME
@@ -307,7 +325,7 @@ def farming(request, template="farmingVanillaa.html"):
     # cultivos = get_siap_crops(table_crop, republic(edo), year, clvcultivo, cultivo)
     ciclos = get_siap_crops(table_crop, republic(edo), year, "clvciclo", "ciclo")
     modalidades = get_siap_crops(table_crop, republic(edo), year, "clvmodalidad", "modalidad")
-    return render_to_response(template, RequestContext(request, {'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades}))
+    return render(request, template, context={'crops': cultivos, 'site':site, 'ciclos':ciclos, 'modalidades':modalidades})
 
 """
 trae los datos cultivos del SIAP
