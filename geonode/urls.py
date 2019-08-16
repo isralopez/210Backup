@@ -122,6 +122,9 @@ urlpatterns += [
     url(r'^social/', include('geonode.social.urls')),
     url(r'^security/', include('geonode.security.urls')),
 
+    # Python Social Auth URLs
+    # url('', include('social.apps.django_app.urls', namespace='social')),
+
     # Accounts
     url(r'^account/ajax_login$',
         geonode.views.ajax_login,
@@ -159,6 +162,7 @@ urlpatterns += [
     url(r'^blog/', include('geonode.blog.urls')),
     url(r'^references/', include('geonode.references.urls')),
     url(r'^storymaps/', include('storymaps.urls')),
+    url(r'^apps/', include('geonode.geo_apps.urls')),
 
     # OAuth Provider
     url(r'^o/',

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+text{
+	font-size:12px;
+}
+.label, .mainBars, .perc{
+  color: red;
+}
+.mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+	shape-rendering:crispEdges;
+}
+.edges{
+	stroke:none;
+	fill-opacity:0.5;
+}
+.header{
+	text-anchor:middle;
+	font-size:16px;
+}
+line{
+	stroke:grey;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+<script>
+
+var data=[['Ixhuatlancillo','"Contra el medioambiente"',16,0],
+['Ixhuatlancillo','"Violacion equiparada"',53,35],
+// ['Ixhuatlancillo','Otros delitos que atentan contra la vida y la integridad corporal',15001,449],
+// ['Coahuayutla de Jose Maria Izazaga','"Contra el medioambiente"',1278,4],
+// ['Coahuayutla de Jose Maria Izazaga','"Violacion equiparada"',683,1],
+['Coahuayutla de Jose Maria Izazaga','Secuestro',527,3],
+['Tecate','"Contra el medioambiente"',27,0],
+['Tecate','Secuestro',836,0],
+['Tecate','"Violacion equiparada"',862,0],
+['Playas','"Contra el medioambiente"',1551,15],
+['Playas','"Violacion equiparada"',6228,30],
+['Ensenada','"Contra el medioambiente"',58,0],
+['Tijuana','"Contra el medioambiente"',141,0],
+['Ensenada','Secuestro',28648,1419],
+['Playas','Secuestro',3,0],
+// ['Ixhuatlancillo','"Otros delitos contra la familia"',13,0],
+// ['Coahuayutla de Jose Maria Izazaga','"Otros delitos contra la familia"',396,0],
+// ['Tecate','"Otros delitos contra la familia"',362,0],
+['Ensenada','"Otros delitos contra la familia"',78,10],
+['Playas','"Otros delitos contra la familia"',2473,32],
+['Tijuana','"Otros delitos contra la familia"',2063,64],
+['Tecate','Trafico de menores',203,0],
+['Playas','Trafico de menores',686,2],
+['Tijuana','Trafico de menores',826,0],
+['Ixhuatlancillo','Otros delitos',1738,110],
+['Coahuayutla de Jose Maria Izazaga','Otros delitos',12925,13],
+['Tecate','Otros delitos',15413,0],
+// ['Coahuayutla de Jose Maria Izazaga','"Allanamiento de morada"',2166,2],
+['Tecate','"Allanamiento de morada"',86,0],
+['Ensenada','"Allanamiento de morada"',348,3],
+['Playas','"Allanamiento de morada"',4244,18],
+['Tijuana','"Allanamiento de morada"',1536,1],
+// ['Coahuayutla de Jose Maria Izazaga','"Otros delitos del Fuero comun"',351,0],
+// ['Playas','"Otros delitos del Fuero comun"',405,1],
+// ['Coahuayutla de Jose Maria Izazaga','Daño a propiedad',914,1],
+['Tecate','Daño a propiedad',127,0],
+['Playas','Daño a propiedad',1470,7],
+['Tijuana','Daño a propiedad',516,1],
+['Ixhuatlancillo','Violencia familiar',43,0],
+// ['Coahuayutla de Jose Maria Izazaga','Violencia familiar',667,1],
+['Tecate','Violencia familiar',172,0],
+['Ensenada','Violencia familiar',149,1],
+['Playas','Violencia familiar',1380,5],
+['Tijuana','Violencia familiar',791,23],
+// ['Coahuayutla de Jose Maria Izazaga','"Otros delitos contra la sociedad"',1,0],
+// ['Playas','"Otros delitos contra la sociedad"',1,0],
+// ['Coahuayutla de Jose Maria Izazaga','Ayanamiento',1070,1],
+['Playas','Ayanamiento',1171,2],
+['Tijuana','Ayanamiento',33,0],
+['Ensenada','Abuso sexual',1,0],
+// ['Coahuayutla de Jose Maria Izazaga','Violación simple',407,0],
+['Tecate','Violación simple',3,0],
+['Playas','Violación simple',457,2],
+['Tijuana','Violación simple',20,0],
+// ['Coahuayutla de Jose Maria Izazaga','"Delitos cometidos por servidores publicos"',557,0],
+// ['Tecate','"Delitos cometidos por servidores publicos"',167,0],
+// ['Ensenada','"Delitos cometidos por servidores publicos"',95,1],
+// ['Playas','"Delitos cometidos por servidores publicos"',1090,5],
+// ['Tijuana','"Delitos cometidos por servidores publicos"',676,6],
+// ['Ixhuatlancillo','Abuso de confianza',1195,99],
+// ['Coahuayutla de Jose Maria Izazaga','Abuso de confianza',350,3],
+['Tecate','Abuso de confianza',212,0],
+['Playas','Abuso de confianza',1509,8],
+['Ixhuatlancillo','Despojo',3899,389],
+// ['Coahuayutla de Jose Maria Izazaga','Despojo',147,0],
+['Tecate','Despojo',455,0],
+['Ensenada','Despojo',1,1],
+['Playas','Despojo',100,16],
+['Ixhuatlancillo','Falsificación',12,0],
+// ['Coahuayutla de Jose Maria Izazaga','Falsificación',634,2],
+['Tecate','Falsificación',749,0],
+['Ensenada','Falsificación',119,1],
+['Playas','Falsificación',305,19],
+['Tijuana','Falsificación',456,25],
+// ['Coahuayutla de Jose Maria Izazaga','Corrupción de menores',828,2],
+['Tecate','Corrupción de menores',288,0],
+['Ensenada','Corrupción de menores',141,0],
+['Playas','Corrupción de menores',2625,7],
+['Tijuana','Corrupción de menores',1920,10],
+// ['Coahuayutla de Jose Maria Izazaga','Pornografía infantil',1146,2],
+['Tecate','Pornografía infantil',212,0],
+['Ensenada','Pornografía infantil',223,4],
+['Playas','Pornografía infantil',1803,6],
+['Tijuana','Pornografía infantil',761,8],
+// ['Coahuayutla de Jose Maria Izazaga','Trata de blancas',527,0],
+// ['Tecate','Trata de blancas',90,0],
+// ['Playas','Trata de blancas',930,4],
+// ['Tijuana','Trata de blancas',395,1],
+// ['Ixhuatlancillo','Falsedad',7232,58],
+// ['Coahuayutla de Jose Maria Izazaga','Falsedad',1272,0],
+// ['Tecate','Falsedad',1896,0],
+// ['Ensenada','Falsedad',1,0],
+// ['Playas','Falsedad',10782,33],
+// ['Tijuana','Falsedad',1911,3],
+// ['Coahuayutla de Jose Maria Izazaga','Aborto',495,0],
+// ['Tecate','Aborto',32,0],
+// ['Ensenada','Aborto',7,0],
+// ['Playas','Aborto',1557,12],
+// ['Tijuana','Aborto',24,0],
+// ['Coahuayutla de Jose Maria Izazaga','hostigamiento sexual',460,1],
+// ['Ensenada','hostigamiento sexual',88,3],
+// ['Playas','hostigamiento sexual',956,3],
+// ['Coahuayutla de Jose Maria Izazaga','Violación multiple',232,0],
+['Tecate','Violación multiple',71,0],
+['Playas','Violación multiple',575,2],
+['Tijuana','Violación multiple',368,3]
+];
+// var color ={Tijuana:"#3366CC", Playas:"#DC3912",  Ixhuatlancillo:"#FF9900", Tecate:"#109618", Ensenada:"#990099", Coahuayutla de Jose Maria Izazaga:"#0099C6"};
+let colors = ["#cab2d6", "#DC3912", "#FF9900", "#109618", "#990099", "#0099C6",
+"#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99", "#e31a1c",
+"#3366CC", "#DC3912", "#FF9900", "#109618", "#990099", "#0099C6",
+"#fdbf6f", "#ff7f00"];
+let colors_full = ["red", "blue", "green", "yellow", "pink",
+"red", "blue", "green", "yellow", "pink"];
+console.log(colors);
+console.log(colors[0]);
+var svg = d3.select("body").append("svg").attr("width", 1560).attr("height", 800);
+
+svg.append("text").attr("x",250).attr("y",70)
+	.attr("class","header").text("Riesgos 2015");
+
+svg.append("text").attr("x",850).attr("y",70)
+	.attr("class","header").text("Riesgos 2018");
+
+var g =[svg.append("g").attr("transform","translate(150,100)")
+		,svg.append("g").attr("transform","translate(750,100)")];
+
+
+var bp=[ viz.bP()
+		.data(data)
+		.min(12)
+		.pad(1)
+		.height(600)
+		.width(300)
+		.barSize(35)
+		.fill(d=>colors[getColor(d.primary)])
+	,viz.bP()
+		.data(data)
+		.value(d=>d[3])
+		.min(12)
+		.pad(1)
+		.height(600)
+		.width(300)
+		.barSize(35)
+		.fill(d=>colors[getColor(d.primary)])
+];
+
+[0,1].forEach(function(i){
+	g[i].call(bp[i])
+
+	g[i].append("text").attr("x",-50).attr("y",-8).style("text-anchor","middle").text("Municipio");
+	g[i].append("text").attr("x", 350).attr("y",-8).style("text-anchor","middle").text("Tipo");
+
+	g[i].append("line").attr("x1",-100).attr("x2",0);
+	g[i].append("line").attr("x1",450).attr("x2",300);
+
+	g[i].append("line").attr("y1",610).attr("y2",610).attr("x1",-100).attr("x2",0);
+	g[i].append("line").attr("y1",610).attr("y2",610).attr("x1",300).attr("x2",450);
+
+	g[i].selectAll(".mainBars")
+		.on("mouseover",mouseover)
+		.on("mouseout",mouseout);
+
+	g[i].selectAll(".mainBars").append("text").attr("class","label")
+		.attr("x",d=>(d.part=="primary"? -30: 30))
+		.attr("y",d=>+6)
+		.text(d=>d.key)
+		.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+
+	g[i].selectAll(".mainBars").append("text").attr("class","perc")
+		.attr("x",d=>(d.part=="primary"? -100: 150))
+		.attr("y",d=>+6)
+		.text(function(d){ return d3.format("0.0%")(d.percent)})
+		.attr("text-anchor",d=>(d.part=="primary"? "end": "start"));
+});
+
+function mouseover(d){
+	[0,1].forEach(function(i){
+		bp[i].mouseover(d);
+
+		g[i].selectAll(".mainBars").select(".perc")
+		.text(function(d){ return d3.format("0.0%")(d.percent)});
+	});
+}
+function mouseout(d){
+	[0,1].forEach(function(i){
+		bp[i].mouseout(d);
+
+		g[i].selectAll(".mainBars").select(".perc")
+		.text(function(d){ return d3.format("0.0%")(d.percent)});
+	});
+}
+d3.select(self.frameElement).style("height", "800px");
+function getColor(mun){
+  // let ran_color = mun.length;
+  // console.log(mun.length);
+  if (mun.length>=10) {
+    let str_color = mun.length +"";
+    let int_color = str_color.substr(1,2);
+    // console.log(int_color);
+    return parseInt(int_color);
+    // console.log(mun.length);
+    // let media_color = (mun.length/2).toFixed();
+    // console.log("media_color");
+    // console.log(media_color);
+    // if (media_color>=20) {
+    //   let med_c = media_color-19;
+    //   console.log("wow");
+    //   return med_c;
+    // }else {
+    //   console.log("debes de ser menor a 20");
+    //   let leg_c = media_color.length;
+    //   console.log("se supone que menor" +leg_c);
+    //   return leg_c;
+    // }
+  }else {
+    let str_colors = mun.length+"";
+    // console.log(str_colors);
+    let int_colors = str_colors.substr(0,1);
+    return parseInt(int_colors);
+  }
+}
+
+
+</script>
+</body>
+</html>

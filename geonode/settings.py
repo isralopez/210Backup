@@ -310,6 +310,13 @@ IDEGEO_APPS = (
     'geonode.ms',
     'geonode.blog',
     'geonode.references',
+
+    # apps
+    'geonode.geo_apps',
+    'geonode.geo_apps.destination_exp',
+    'geonode.geo_apps.mugs',
+    'geonode.geo_apps.farming_siap',
+    'geonode.geo_apps.lidar'
 )
 
 # Uncomment the following line to enable contrib apps
@@ -370,6 +377,7 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    # 'social.apps.django_app.default',
 
     # GeoNode
     'geonode',
@@ -521,7 +529,10 @@ TEMPLATES = [
                 # 'django.core.context_processors.request',
                 'geonode.context_processors.resource_urls',
                 'geonode.geoserver.context_processors.geoserver_urls',
-                'geonode.themes.context_processors.custom_theme'
+                'geonode.themes.context_processors.custom_theme',
+                # Python Social Auth Context Processors
+                # 'social.apps.django_app.context_processors.backends',
+                # 'social.apps.django_app.context_processors.login_redirect',
             ],
             # Either remove APP_DIRS or remove the 'loaders' option.
             # 'loaders': [
@@ -594,6 +605,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
+    # Facebook
+    # 'social.backends.facebook.FacebookOAuth2',
 )
 
 if 'announcements' in INSTALLED_APPS:

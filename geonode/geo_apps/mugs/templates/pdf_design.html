@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Centro de Investigación en Ciencias de Información Geoespacial">
+<meta name="keywords" content="CONACYT, CentroGeo, Centro de Investigación, Información Geoespacial, Investigación, Geoespacial">
+<meta name="author" content="Centro de Investigación en Ciencias de Información Geoespacial (CentroGeo)">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CentroGeo: Ficha</title>
+<link rel="stylesheet" href="{{ STATIC_URL }}/apps/mugs/css/styles.css"/>
+<style>
+
+/*******************************************************
+    color: #948A54; rgba(148,138, 84,1.00);
+*******************************************************/
+
+html {
+    height: 100%;
+    font-size: 16px;
+    font-family: sans-serif;
+}
+html * {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body,
+td,
+th {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.3em;
+    color: #000000;
+    text-transform: none;
+}
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: #FFFFFF;
+}
+@media print {
+    body {
+        width: 1000px !important;
+        margin: 0px auto !important;
+        padding: 0px !important;
+    }
+}
+/* -------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 30px 0px;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    line-height: 1.3em;
+    letter-spacing: -0.02em;
+    color: #000000;
+    cursor: default;
+}
+h1 {
+    font-size: 36px;
+}
+h2 {
+    font-size: 30px;
+}
+h3 {
+    font-size: 25px;
+}
+h4 {
+    font-size: 20px;
+}
+h5 {
+    font-size: 16px;
+}
+h6 {
+    font-size: 16px;
+    font-style: italic;
+}
+/* -------------------------------------------------- */
+
+* {
+    outline: none !important;
+}
+p {
+    margin: 0em 0em 1.5em 0em;
+}
+b,
+strong,
+.font-weight-bold {
+    font-weight: 600 !important;
+}
+a {
+    text-decoration: none;
+    outline: none;
+    color: #2887E1;
+}
+a:hover,
+a:focus {
+    text-decoration: none;
+    outline: none;
+    color: #2887E1;
+}
+.dp-nowrap {
+    white-space: nowrap;
+}
+.dp-break {
+    display: block;
+}
+::-moz-selection {
+    color: #FFFFFF;
+    background-color: #2887E1;
+}
+::selection {
+    color: #FFFFFF;
+    background-color: #2887E1;
+}
+/*******************************************************
+    BODY-WRAPPER
+*******************************************************/
+
+#body-wrapper {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+    cursor: default;
+}
+#body-wrapper.dp-print-width {
+    box-sizing: border-box;
+    width: 1000px;
+    max-width: 1000px;
+    min-width: 1000px;
+    margin: 0px auto;
+    padding: 0px;
+}
+/*******************************************************
+    HEADER
+*******************************************************/
+
+header {
+    /* VACIO */
+}
+#header {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    width: 650px;
+    background-color: transparent;
+    cursor: default;
+}
+#header .header-wrapper {
+    position: relative;
+    margin: 0px;
+    padding: 6px 15px 8px 15px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3em;
+    text-align: center;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: rgba(148, 138, 84, 0.50);
+    /*background-color: rgba(0, 0, 0, 0.08);*/
+}
+/*******************************************************
+    SECTION
+*******************************************************/
+
+section {
+    /* VACIO */
+}
+#section-content {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+    cursor: default;
+}
+#section-content .section-wrapper {
+    position: relative;
+    margin: 20px -10px;
+    padding: 0px;
+}
+/*******************************************************
+    SECTION [COLUMNS]
+*******************************************************/
+
+#section-content .content-cols {
+    margin: 20px 0px;
+    padding: 0px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.3em;
+    /** FLEX **/
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+}
+/* -------------------------------------------------- */
+
+#section-content .content-cols.cols-1 .cols-item {
+    -webkit-flex-basis: 100%;
+    flex-basis: 100%;
+}
+#section-content .content-cols.cols-2 .cols-item {
+    -webkit-flex-basis: 50%;
+    flex-basis: 50%;
+}
+#section-content .content-cols.cols-3 .cols-item {
+    -webkit-flex-basis: 33.333%;
+    flex-basis: 33.333%;
+}
+#section-content .content-cols.cols-4 .cols-item {
+    -webkit-flex-basis: 25%;
+    flex-basis: 25%;
+}
+#section-content .content-cols.cols-5 .cols-item {
+    -webkit-flex-basis: 20%;
+    flex-basis: 20%;
+}
+/* -------------------------------------------------- */
+
+#section-content .content-cols .cols-item {
+    margin: 0px 10px;
+    padding: 15px 5px 8px 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: rgba(148, 138, 84, 0.16);
+    /*background-color: rgba(0, 0, 0, 0.08);*/
+}
+#section-content .content-cols .cols-item .col-title {
+    margin: 0px 0px 12px 0px;
+    padding: 0px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+}
+#section-content .content-cols .cols-item .col-row {
+    margin: 0px;
+    padding: 0px;
+    /** FLEX **/
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    /*-webkit-align-items: flex-start;
+    align-items: flex-start;*/
+}
+#section-content .content-cols .cols-item .col-row span {
+    display: block;
+    margin: 2px 5px;
+    padding: 2px 8px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    /** FLEX **/
+    -webkit-flex-basis: 50%;
+    flex-basis: 50%;
+}
+#section-content .content-cols .cols-item .col-row span .dp-row-small {
+    font-size: 80%;
+    font-weight: 400;
+    line-height: 1.3em;
+    font-style: normal;
+}
+/* -------------------------------------------------- */
+
+#section-content .content-cols .cols-item.col-n1-head .col-row span:nth-child(1) {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    background-color: transparent;
+}
+#section-content .content-cols .cols-item .col-row.row-head span {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5em;
+    background-color: rgba(148, 138, 84, 0.20);
+    /*border: 1px solid #FFFFFF;*/
+    /*background-color: rgba(255, 255, 255, 1.00);*/
+}
+#section-content .content-cols .cols-item .col-row.row-head-full span {
+    -webkit-flex-basis: 100% !important;
+    flex-basis: 100% !important;
+    padding-right: 0px;
+    margin-right: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5em;
+    background-color: transparent;
+}
+/* -------------------------------------------------- */
+
+#section-content .content-cols .cols-item .col-row.row-center span,
+#section-content .content-cols .cols-item .col-row.row-n1-center span:nth-child(1),
+#section-content .content-cols .cols-item .col-row.row-2n-center span:nth-child(n+2) {
+    text-align: center;
+}
+#section-content .content-cols .cols-item .col-row.row-2n-right span:nth-child(n+2),
+#section-content .content-cols .cols-item .col-row.row-odd-right span:nth-child(odd),
+#section-content .content-cols .cols-item .col-row.row-eve-right span:nth-child(even),
+#section-content .content-cols .cols-item .col-row.row-3n-odd-right span:nth-child(n+3):nth-child(odd) {
+    text-align: right;
+}
+#section-content .content-cols .cols-item .col-row.row-n1-list span:nth-child(1) {
+    padding-left: 8px;
+    border-left: 2px solid #FFFFFF;
+}
+/* -----------------------------------------------------
+    COLS CUSTOMS [LEVEL-1]
+----------------------------------------------------- */
+#table-01, #table-02, #table-03, #table-04{
+  width: 670px;
+}
+#table-01.content-cols .cols-item .col-row span {
+    -webkit-flex-basis: 10px;
+    flex-basis: 10px;
+}
+#table-01.content-cols .cols-item .col-row span:nth-child(1) {
+    -webkit-flex-basis: 150px;
+    flex-basis: 150px;
+}
+#table-01.content-cols .cols-item .col-row span:nth-child(n+2) {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+#table-01.content-cols .cols-item .col-row.row-n1-list span:nth-child(1) {
+    -webkit-flex-basis: calc(150px - 10px);
+    flex-basis: calc(150px - 10px);
+}
+/* -------------------------------------------------- */
+
+#table-02.content-cols .cols-item .col-row span {
+    -webkit-flex-basis: 10px;
+    flex-basis: 10px;
+}
+#table-02.content-cols .cols-item .col-row span:nth-child(1) {
+    -webkit-flex-basis: 120px;
+    flex-basis: 120px;
+}
+#table-02.content-cols .cols-item .col-row span:nth-child(n+2) {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+#table-02.content-cols .cols-item .col-row.row-n1-list span:nth-child(1) {
+    -webkit-flex-basis: calc(120px - 10px);
+    flex-basis: calc(120px - 10px);
+}
+/* -------------------------------------------------- */
+
+#table-03.content-cols .cols-item .col-row span {
+    -webkit-flex-basis: 10px;
+    flex-basis: 10px;
+}
+#table-03.content-cols .cols-item .col-row span:nth-child(1) {
+    -webkit-flex-basis: 70px;
+    flex-basis: 70px;
+}
+#table-03.content-cols .cols-item .col-row span:nth-child(n+2) {
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+}
+#table-03.content-cols .cols-item .col-row.row-n1-list span:nth-child(1) {
+    -webkit-flex-basis: calc(70px - 10px);
+    flex-basis: calc(70px - 10px);
+}
+/* -----------------------------------------------------
+    COLS CUSTOMS [LEVEL-2] [BRUTE-FORCE]
+----------------------------------------------------- */
+
+#table01-col01 .col-row span:nth-child(1) {
+    -webkit-flex-basis: 125px !important;
+    flex-basis: 125px !important;
+}
+#table-02 .cols-item .col-row span:nth-child(6) {
+    -webkit-flex-grow: 1.3 !important;
+    flex-grow: 1.3 !important;
+}
+#table-03 .cols-item .col-row:nth-child(2) span:nth-child(1) {
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    border-radius: 4px !important;
+    background-color: rgba(148, 138, 84, 0.20) !important;
+}
+#table-03 .cols-item .col-row:nth-child(n+4) span:nth-child(even) {
+    -webkit-flex-grow: 1.3 !important;
+    flex-grow: 1.3 !important;
+    background-color: transparent !important;
+}
+#table-03 .cols-item .col-row:nth-child(n+4) span:nth-child(n+6) {
+    text-align: left !important;
+}
+#table-04 .cols-item .col-row:nth-child(n+4) span:nth-child(odd) {
+    -webkit-flex-grow: 1.3 !important;
+    flex-grow: 1.3 !important;
+    background-color: transparent !important;
+}
+/*******************************************************
+    FOOTER
+*******************************************************/
+
+footer {
+    /* VACIO */
+}
+#footer {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+    cursor: default;
+}
+#footer .footer-wrapper {
+    position: relative;
+    margin: 0px;
+    padding: 10px 15px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5em;
+    border-top: 1px dotted rgba(0, 0, 0, 0.20);
+    border-bottom: 1px dotted rgba(0, 0, 0, 0.20);
+}
+/*******************************************************
+    FOOTBAR
+*******************************************************/
+
+#footbar {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+    cursor: default;
+}
+#footbar .footbar-wrapper {
+    position: relative;
+    margin: 0px;
+    padding: 10px 15px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5em;
+    text-align: left;
+}
+/* -------------------------------------------------- */
+</style>
+</head>
+<body>
+<!-- BODY-WRAPPER -->
+<div id="body-wrapper" class="dp-print-width">
+    <!-- HEADER -->
+    <header id="header">
+        <div class="header-wrapper">
+            <div class="content">Cuauhtémoc, Ciudad de México</div>
+        </div>
+
+    </header>
+    <!-- SECTION-CONTENT -->
+    <section id="section-content">
+        <div class="section-wrapper">
+            <!-- TABLE-01 -->
+            <div id="table-01" class="content-cols cols-3">
+                <div id="table01-col01" class="cols-item cols-2 col-n1-head" style="-webkit-flex-basis: 42%; flex-basis: 42%;">
+                    <div class="col-title">Datos base</div>
+                    <div class="col-row"><span>Clave INEGI</span><span>09015</span></div>
+                    <div class="col-row"><span>Tipo</span><span>Central</span></div>
+                    <div class="col-row"><span>Zona Metropolitana</span><span>Valle de México</span></div>
+                    <div class="col-row"><span>Criterio de centralidad</span><span>Conurbación urbana</span></div>
+                </div>
+                <div id="table01-col02" class="cols-item cols-2 col-n1-head" style="-webkit-flex-basis: 29%; flex-basis: 29%;">
+                    <div class="col-title">INEGI 2010</div>
+                    <div class="col-row row-head row-2n-right"><span>Población total</span><span>531,831</span></div>
+                    <div class="col-row row-head row-2n-right"><span>Mujeres</span><span>280,106</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Menores</span><span>24.3%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Adultas</span><span>60.8%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Adultas mayores</span><span>15.0%</span></div>
+                    <div class="col-row row-head row-2n-right"><span>Hombres</span><span>251,725</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Menores</span><span>27.7%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Adultos</span><span>61.3%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Adultos mayores</span><span>11.0%</span></div>
+                </div>
+                <div id="table01-col03" class="cols-item cols-2 col-n1-head" style="-webkit-flex-basis: 29%; flex-basis: 29%;">
+                    <div class="col-title">ENVIPE 2017</div>
+                    <div class="col-row row-head-full"><span>Contexto de vivienda</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Urbano</span><span>100%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Complemento urbano</span><span>0%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Rural</span><span>0%</span></div>
+                    <div class="col-row row-head-full"><span>Estatus</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Víctima</span><span>40%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>No víctima</span><span>60%</span></div>
+                </div>
+            </div>
+            <!-- TABLE-02 -->
+            <div id="table-02" class="content-cols cols-1">
+                <div class="cols-item cols-6 col-n1-head">
+                    <div class="col-title">Incidencia delictiva (Secretariado ejecutivo)</div>
+                    <div class="col-row row-head row-center">
+                        <!--\--><span>&nbsp;</span>
+                        <!--\--><span>Contexto municipal <i class="dp-row-small dp-break">(c/100,000 hab.)</i></span>
+                        <!--\--><span>Contexto estatal <i class="dp-row-small dp-break">(c/100,000 hab.)</i></span>
+                        <!--\--><span>Incidencia <i class="dp-row-small dp-break">JUL 2016-2017</i></span>
+                        <!--\--><span>Incidencia <i class="dp-row-small dp-break">JUL 2017-2018</i></span>
+                        <!--\--><span>Variación <i class="dp-row-small dp-break">JUL 2016-2017 vs JUL 2017-2018</i></span>
+                        <!--\-->
+                    </div>
+                    <div class="col-row row-head-full"><span>Delitos prioritarios</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Extorsión</span><span>14.5</span><span>5.7</span><span>63</span><span>7</span><span>22.2%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Homicidio doloso</span><span>20.5</span><span>12.5</span><span>103</span><span>109</span><span>5.8%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Secuestro</span><span>0.2</span><span>0.4</span><span>3</span><span>1</span><span>-6.7%</span></div>
+                    <div class="col-row row-head-full"><span>Delitos reincidentes</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Robo</span><span>3,463.7</span><span>1,245.8</span><span>14,132</span><span>18,421</span><span>30.3%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Fraude</span><span>571.6</span><span>257.2</span><span>3,017</span><span>3,040</span><span>0.8%</span></div>
+                    <div class="col-row row-n1-list row-2n-right"><span>Otros delitos <i class="dp-row-small dp-break">(Fuero común)</i></span><span>427.4</span><span>154.6</span><span>2,132</span><span>2,273</span><span>6.6%</span></div>
+                </div>
+            </div>
+            <!-- TABLE-03 -->
+            <div id="table-03" class="content-cols cols-1">
+                <div class="cols-item cols-9 col-n1-head">
+                    <div class="col-title">ENVIPE</div>
+                    <div class="col-row row-head row-center">
+                        <!--\--><span>Posición</span>
+                        <!--\--><span>Percepción del entorno</span>
+                        <!--\--><span>Autoridades</span>
+                        <!--\-->
+                    </div>
+                    <div class="col-row row-head row-center">
+                        <!--\--><span>&nbsp;</span>
+                        <!--\--><span>Conductas delictivas</span>
+                        <!--\--><span>Problemas relevantes</span>
+                        <!--\--><span>Confianza (%)</span>
+                        <!--\--><span>Desempeño (%)</span>
+                        <!--\-->
+                    </div>
+                    <div class="col-row row-n1-center row-3n-odd-right"><span>1</span><span>Robos frecuentes</span><span>354</span><span>Inseguridad</span><span>41</span><span>Ejercito</span><span>Mucha: 30.0</span><span>Ejercito</span><span>Mucho: 21.8</span></div>
+                    <div class="col-row row-n1-center row-3n-odd-right"><span>2</span><span>Consumo de droga</span><span>318</span><span>Corupción</span><span>217</span><span>Marina</span><span>Mucha: 21.4</span><span>Marina</span><span>Mucho: 15.3</span></div>
+                    <div class="col-row row-n1-center row-3n-odd-right"><span>3</span><span>Consumo de alcohol en calle</span><span>313</span><span>Delincuentes sin castigo</span><span>153</span><span>Policía federal</span><span>Mucha: 7.7</span><span>Policía federal</span><span>Mucho: 2.6</span></div>
+                </div>
+            </div>
+            <!-- TABLE-04 -->
+            <div id="table-04" class="content-cols cols-1">
+                <div class="cols-item cols-8">
+                    <div class="col-title">ENVIPE (Delincuencia)</div>
+                    <div class="col-row row-head row-center">
+                        <!--\--><span>Victimas y Delito</span>
+                        <!--\--><span>Proceso de denuncia</span>
+                        <!--\-->
+                    </div>
+                    <div class="col-row row-head row-center">
+                        <!--\--><span>Horario (%)</span>
+                        <!--\--><span>Daño (%)</span>
+                        <!--\--><span>Tiempo empleado (hrs.)</span>
+                        <!--\--><span>Trato recibido (%)</span>
+                        <!--\-->
+                    </div>
+                    <div class="col-row row-eve-right"><span>Mañana</span><span>10.4</span><span>Económico</span><span>68.5</span><span>Menor a 1</span><span>9.4%</span><span>Excelente</span><span>6.2</span></div>
+                    <div class="col-row row-eve-right"><span>Tarde</span><span>34.4</span><span>Emocional</span><span>8.2</span><span>Entre 1 y 2</span><span>21.9%</span><span>Bueno</span><span>21.9</span></div>
+                    <div class="col-row row-eve-right"><span>Noche</span><span>3.3</span><span>Físico</span><span>3.6</span><span>Entre 3 y 4</span><span>21.9%</span><span>Malo</span><span>65.6</span></div>
+                    <div class="col-row row-eve-right"><span>Madrugada</span><span>19.0</span><span>Laboral</span><span>0.0</span><span>Mayor a 4</span><span>40.6%</span><span>Muy malo</span><span>6.0</span></div>
+                </div>
+            </div>
+            <!-- TABLE-END -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+        <div class="footer-wrapper">
+            <div class="content">INEGI: Instituto Nacional de Estadística y Geografía.</div>
+            <div class="content">ENVIPE: Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública.</div>
+        </div>
+    </footer>
+
+    <!-- FOOTBAR -->
+    <div id="footbar">
+        <div class="footbar-wrapper">
+            <div class="content">Copyright ©<span class="footbar-year">2018</span> <a href="https://www.centrogeo.org.mx/" target="_blank">Centro de Investigación en Ciencias de Información Geoespacial (CentroGeo)</a>.
+              <div>
+                Todos los derechos reservados.
+             </div>
+           </div>
+        </div>
+    </div>
+
+    <!-- END -->
+</div>
+
+<!-- SCRIPTS -->
+<!-- <script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/scripts.js"></script> -->
+</body>
+</html>

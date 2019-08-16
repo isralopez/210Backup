@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Producción Agricola SIAP 2003-2017</title>
+  <meta name="description" content="Datos Abiertos de Incidencia Delictiva - CentroGeo CONACYT">
+  <meta property="og:url"                content="http://idegeo.centrogeo.org.mx/apps/mgs/" />
+  <meta property="og:type"               content="article" />
+  <meta property="og:title"              content="Producción Agricola SIAP 2003-2017 - CentroGeo CONACYT" />
+  <meta property="og:description"        content="Producción Agricola SIAP 2003-2017" />
+  <meta property="og:image"              content="{{STATIC_URL}}idegeo/apps/farming/img/infosiap.jpg" />
+   <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/apps/farming/css/farming.css" />
+   <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/apps/farming/css/bootstrap-slider.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE" id="_fed_an_ua_tag"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/d3.v3.min.js"></script>
+      <script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/jquery.scrolly.min.js"></script>
+      <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+      <script src="{{ STATIC_URL }}idegeo/apps/farming/js/bootstrap-slider.js"></script>
+      <script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+      <!--Do responsive charts-->
+      <script src="https://www.google.com/jsapi"></script>
+      
+</head>
+  <style>
+#map_edo {
+  height: 418px;
+  width: 380px;
+  float: right;
+}
+#map_mun {
+  height: 400px;
+  width: 50%;
+}
+#logo_nav {
+    position: absolute;
+    top: 35px;
+    right: 33px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 15px 15px 10px;
+}
+
+.select-wrapper1 div {
+    float: left;
+    padding-left: 10px;
+}
+.fa-area-chart {
+    cursor: pointer;
+}
+.fa-area-chart:hover {
+    color:#777777;
+}
+#AreaChartModal .modal-body {
+    padding: 30px;
+}
+#AreaChartModal .modal-body-content{
+        max-height: 800px;
+}
+.leaflet-control-layers-overlays, .leaflet-control-layers-base {
+    text-align: left;
+}
+.background-reading {
+    position: absolute;
+    /* Para Navegadores que no soportan RGBa mostramos color sólido sin transparencia */
+    background: rgb(0, 0, 0);
+    /* Para navegadores que soportan RGBa mostramos el color sólido con un 50% de opacidad */
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display:none;
+}
+text{
+	font-size:12px;
+}
+.label, .mainBars, .perc{
+  color: red;
+}
+.mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+	shape-rendering:crispEdges;
+}
+.edges{
+	stroke:none;
+	fill-opacity:0.5;
+}
+.header{
+	text-anchor:middle;
+	font-size:16px;
+}
+line{
+	stroke:grey;
+}
+</style>
+  <body>
+    <div class="logo_header">
+        <a href="https://www.centrogeo.org.mx/" target="_blank"></a><img src="/static/mviewer/img/CentroGeo-CMX_Logo-H1.png" width="190px;" title="CentroGeo">
+        <span class="header-title"><span class="header-title-h1">Producción Agricola SIAP 2003-2017</span>
+        </span>
+    </div>
+    <div id="waitingfor">
+       <div id="waiting" style="position:absolute;top:48%;left:48%; display: none;">
+          <img width="50" src='{{STATIC_URL}}geonode/img/throbber_12.gif' title="Loading.."/>
+      </div>
+    </div>
+        <article id="main">
+  <section class="wrapper">
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          <button type="button" class="btn btn-primary historic">
+          Datos de todos los años
+        </button>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="chart_div_historic"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="one" class="viz-section center-text">
+    <div class="viz-bkgd" style="background-color: #d5eff1">
+
+        <div id="panel1InstructionsModal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                   <!-- <div class="modal-body-title">Descargar</div>-->
+                    <div class="modal-body-content">
+                        <div id="chart_div_historic2"></div>
+                       
+                    </div>
+                  
+                    <span class="modal-body-bye">Cerrar</span>
+                </div>
+            </div>
+        </div>
+        <div id="AreaChartModal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                    <div class="modal-body-title">Descripción</div>
+                    <div class="modal-body-content">
+                    </div>
+                    <span class="modal-body-close">Cerrar</span>
+                </div>
+            </div>
+        </div>
+        <div id="line-chart-modal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                    <div class="modal-body-title">Descripción</div>
+                  <div class="container">
+                    <form>
+                      <div class="form-group row">
+                          <div class="col-xs-5">
+                          <label for="typess">Selecciona el tipo de delito</label>
+                          <select class="form-control" id="typess" onchange="ChangeType()">
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                    <div class="modal-body-content">
+                        <div id="linechart_risk"></div>
+                    </div>
+
+                    <span class="modal-body-bye">Cerrar</span>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById('panel1InstructionsModal').querySelector("div > div.modal-body > span").onclick = function() {
+                document.getElementById('panel1InstructionsModal').style.display = "none";
+            }
+            document.getElementById('AreaChartModal').querySelector("div > div.modal-body > span").onclick = function() {
+                document.getElementById('AreaChartModal').style.display = "none";
+            }
+            document.getElementById('line-chart-modal').querySelector("div > div.modal-body > span.modal-body-bye").onclick = function() {
+                document.getElementById('line-chart-modal').style.display = "none";
+            }
+        </script>
+
+        <div class="container">
+         	<form id="SankeyRadio" class="row">
+              <div class="form-group col-12 col-md-6 col-lg-4 mb-4" id="years" style="display: None;">
+                <label for="contactChoice3">Año</label>
+                <select id="contactChoice3" onchange="ChangeYear();" multiple class="form-control">
+                  <option value="2003">2003</option>
+                  <option value="2004">2004</option>
+                  <option value="2005">2005</option>
+                  <option value="2006">2006</option>
+                  <option value="2007">2007</option>
+                  <option value="2008">2008</option>
+                  <option value="2009">2009</option>
+                  <option value="2010">2010</option>
+                  <option value="2011">2011</option>
+                  <option value="2012">2012</option>
+                  <option value="2013">2013</option>
+                  <option value="2014">2014</option>
+                  <option value="2015">2015</option>
+                  <option value="2016">2016</option>
+                  <option selected="" value="2017">2017</option>
+                </select>
+              </div>
+              <div class="form-group col-12 col-md-6 col-lg-4 mb-4" style="display: None;">
+                <label for="contactChoice5">Estado</label>
+                <select id="contactChoice5" class="form-control">
+                    <!-- <option value="0">--SELECCIONA EL ESTADO--</option> -->
+                    <option selected="" value="99">Republica Mexicana</option>
+                    <option value="01">Aguascalientes</option>
+                    <option value="02">Baja California</option>
+                    <option value="03">Baja California Sur</option>
+                    <option value="04">Campeche</option>
+                    <option value="05">Coahuila de Zaragoza</option>
+                    <option value="06">Colima</option>
+                    <option value="07">Chiapas</option>
+                    <option value="08">Chihuahua</option>
+                    <option value="09">CDMX</option>
+                    <option value="10">Durango</option>
+                    <option value="11">Guanajuato</option>
+                    <option value="12">Guerrero</option>
+                    <option value="13">Hidalgo</option>
+                    <option value="14">Jalisco</option>
+                    <option value="15">México</option>
+                    <option value="16">Michoacán de Ocampo</option>
+                    <option value="17">Morelos</option>
+                    <option value="18">Nayarit</option>
+                    <option value="19">Nuevo León</option>
+                    <option value="20">Oaxaca</option>
+                    <option value="21">Puebla</option>
+                    <option value="22">Querétaro</option>
+                    <option value="23">Quintana Roo</option>
+                    <option value="24">San Luis Potosí</option>
+                    <option value="25">Sinaloa</option>
+                    <option value="26">Sonora</option>
+                    <option value="27">Tabasco</option>
+                    <option value="28">Tamaulipas</option>
+                    <option value="29">Tlaxcala</option>
+                    <option value="30">Veracruz de Ignacio de la Llave</option>
+                    <option value="31">Yucatán</option>
+                    <option value="32">Zacatecas</option>
+                </select>
+              </div>
+              <div class="form-group col-12 col-md-6 col-lg-4 mb-4">
+                <!-- <label for="cicles">Ciclos</label> -->
+                <select id="cicles" onchange="ChangeCicle();" class="form-control">
+                </select>
+             </div>
+
+             <div class="form-group col-12 col-md-6 col-lg-4 mb-4">
+               <!-- <label for="cicles">Ciclos</label> -->
+               <select id="modalidad" onchange="ChangeModal();" class="form-control">
+               </select>
+            </div>
+
+              <div class="form-group col-12 col-md-6 col-lg-4 mb-4">
+                <!-- <label for="contactChoice4">Cultivos</label> -->
+                <select id="contactChoice4" onchange="changeCrops();" class="form-control">
+                </select>
+              </div>
+            <div id="sliderpanel" class="form-group col-12 col-md-8 col-lg-8 mb-4 draggable ui-corner-all ui-widget-content uipanel ui-accordion ui-widget ui-helper-reset ui-draggable ui-draggable-handle">
+              
+            <h3 id="sliderpaneltitle" class="ui-accordion-header ui-corner-top ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active"
+              role="tab" aria-controls="sliderpanelcontent" aria-selected="true" aria-expanded="true" tabindex="0">
+               <span class="min-win-year" style="display: block; cursor: pointer;"><i class="fa fa-minus fa-1x" title="Minimizar" aria-hidden="true"></i></span>
+               <span class="max-win-year" style="display: None; cursor: pointer;"><i class="fa fa-window-maximize fa-1x" title="Maximizar" aria-hidden="true"></i></span>
+               Año a consultar <span id="anio_selected"></span>  
+               <span class="historic_by_year" data-toggle="modal" data-target="#exampleModalLong">
+                    <i class="fa fa-bar-chart fa-1x" title="Historico" site="{{site.name}}" aria-hidden="true" style="cursor: pointer;"></i>
+               </span>
+              </h3>
+                <div id="sliderpanelcontent" class="ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active"
+                aria-labelledby="sliderpaneltitle" role="tabpanel" aria-hidden="false" style="display: block;">
+                    <input id="ex13" type="text"
+                    data-slider-ticks="[2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017]"
+                    style="display: block; width:600px;"
+                    data-slider-value="2017"
+                    data-slider-tooltip:"booton"
+                    data-slider-ticks-labels='["2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"]'/>
+                </div>
+            </div>
+                <div class="form-group col-12 col-md-4 col-lg-4 mb-4">
+                    <!-- <label for="contactChoice4">Cultivos</label> -->
+                  <button type="button"class="btn btn-default btn-block from-control" id="restart">
+                        Reiniciar
+                  </button>
+               </div>
+          </from>
+        </div>
+
+		<!-- <div class="mask" class="container"> -->
+
+			<div class="siap-container container">
+				<!-- <element class="budget-sankey"> -->
+          <!-- <div id="changes_div"></div> -->
+					<!-- <div id="sankey-container"> -->
+
+            <div class="row">
+            
+              <div id="map_mun" class="col-6 col-md-6 col-sm-12 col-lg-6 mb-3">
+
+                <div class="legend-r" id="legend_risk" style="display: None;">
+                  <div id="window-legend">
+                  	 <label for="tematizer_mun_var">Variable tematizada</label>
+                    <select id="tematizer_mun_var_clone"  onchange="tematizerClone()" class="form-control">
+                        <option selected="" value="sembrada">Superficie sembrada</option>
+                        <option value="cosechada">Superficie cosechada</option>
+                        <option value="siniestrada">Siniestrada</option>
+                        <option value="columen">Volumen</option>
+                        <option value="rendimiento">Rendimiento</option>
+                        <option value="valor">Valor de la producción</option>
+
+                    </select>
+                    <span class="min-win-risk" style="display: None; cursor: pointer;"><i class="fa fa-minus fa-1x" title="Minimizar" aria-hidden="true"></i></span>
+                    <span class="max-win-risk" style="display: None; cursor: pointer;"><i class="fa fa-window-maximize fa-1x" title="Maximizar" aria-hidden="true"></i></span>
+                    <span class="titles-leg"></span>
+                    <span class="download-data-risk"><i class="fa fa-download fa-1x" id="download-r" title="Descargar JSON a nivel nacional" site="{{site.name}}" aria-hidden="true"></i></span>
+                  </div>
+                  <span id="lbl-legend-risk"></span>
+                </div>
+              </div>
+              <div class="col-6 col-md-6 col-sm-12 col-lg-6 mb-3" id="dashboard_div">
+                  <!--Divs that will hold each control and chart-->
+                  <div id="filter_div"></div>
+                  <div id="chart_div"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 col-md-6 col-sm-12 col-lg-6 mb-3" id="dashboard_mun">
+                  <div id="filter_mun"></div>
+                  <div id="chart_mun"></div>
+              </div>
+              <div id="mapkeypanel" class="col-2 col-md-2 col-sm-4 col-lg-2 mb-4" role="tablist"
+              style="display: None;">
+                <span class="min-win-mun" style="display: block; cursor: pointer;"><i class="fa fa-minus fa-1x" title="Minimizar" aria-hidden="true"></i></span>
+                <span class="max-win-mun" style="display: None; cursor: pointer;"><i class="fa fa-window-maximize fa-1x" title="Maximizar" aria-hidden="true"></i></span>
+              <h3 class="ui-accordion-header ui-corner-top ui-state-default ui-accordion-icons ui-accordion-header-active ui-state-active" role="tab" id="ui-id-5" aria-controls="mapkeypanelcontent" aria-selected="true" aria-expanded="true" tabindex="0"><span class="ui-accordion-header-icon ui-icon ui-icon-triangle-1-s"></span></h3>
+              <div id="mapkeypanelcontent" class="ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active" aria-labelledby="ui-id-5" role="tabpanel" aria-hidden="false" style="display: block;">
+                <div>
+                  <div><span id="lead"></span></div>
+                  <div id="clvedo" style="display: None;"></div>
+                  <div id="moreinfo">
+                    <label for="tematizer_mun_var">Variable tematizada</label>
+                    <select id="tematizer_mun_var" onchange="tematizerVar()" class="form-control">
+                        <option selected="" value="sembrada">Superficie sembrada</option>
+                        <option value="cosechada">Superficie cosechada</option>
+                        <option value="siniestrada">Siniestrada</option>
+                        <option value="columen">Volumen</option>
+                        <option value="rendimiento">Rendimiento</option>
+                        <option value="valor">Valor de la producción</option>
+
+                    </select>
+                  </div>
+                  <div id="download"></div>
+                  <span class="download-data-mun">Descargar datos
+                    <i class="fa fa-download fa-1x" id="download-mun" title="Descargar JSON del estado" site="{{site.name}}" aria-hidden="true" style="cursor: pointer;"></i>
+                  </span>
+                 
+                  <div id="keypanel"></div>
+                </div>
+              </div>
+            </div>
+              <div id="map_edo" class="col-4 col-md-2 col-sm-8 col-lg-2 mb-4">
+                <div class="arrow-map-up">
+                  <i class="fa fa-arrow-up fa-2x" aria-hidden="true"></i>
+                </div>
+                <div class="arrow-map-down">
+                  <i class="fa fa-arrow-down fa-2x" aria-hidden="true"></i>
+                </div>
+                <div class="map_black_modal">
+                    <table class='tb-ag'>
+                      <caption id="municipal">
+                        
+                      </caption>
+                      <tr>
+                        <td class='tb-ag' style='width:50%'>
+                          Superficie sembrada: 
+                          <div class='cricle-base' >
+                            <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;' height='70%;' title='Superficie sembrada' alt='pv'/>
+                            <span id='sembrada' class="circles"></span>
+                          </div>
+                        </td>
+                         <td class='tb-ag' style='width:50%'>
+                          Superficie cosechada:
+                          <div class='cricle-base' >
+                            <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;'  height='70%;' title='Superficie cosechada' alt='pv'/>
+                            <span id='cosechada' class="circles"></span>
+                          </div>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td class='tb-ag' style='width:50%'>
+                          Superficie siniestrada:
+                            <div class='cricle-base' >
+                              <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;' height='70%;' title='Superficie siniestrada' alt='pv'/>
+                              <span id='siniestrada' class="circles"></span>
+                          </div>
+                        </td>
+                         <td class='tb-ag' style='width:50%'>
+                          Volumen:
+                           <div class='cricle-base' >
+                              <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;' height='70%;' title='Volumen' alt='pv'/>
+                              <span id='volumen' class="circles"></span>
+                          </div>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td class='tb-ag' style='width:50%'>
+                          Valor de la producción:
+                          <div class='cricle-base' >
+                              <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;' height='70%;' title='Valor de la producción' alt='pv'/>
+                              <span id='valor' class="circles"></span>
+                          </div>
+                        </td>
+                          <td class='tb-ag' style='width:50%'>
+                          Rendimiento:
+                          <div class='cricle-base' >
+                              <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;' height='70%;' title='Rendimiento' alt='pv'/>
+                              <span id='rendimiento' class="circles"></span>
+                          </div>
+                        </td>
+                      </tr>
+                       <tr>
+                         <td class='tb-ag' style='width:50%'>
+                          Unidad:
+                           <div class='cricle-base' >
+                              <img src='{{STATIC_URL}}soa_toolkit/img/ac/purple_bullet.png' width='37%;' height='70%;' title='Unidad' alt='pv'/>
+                              <span id='unidad' class="circles"></span>
+                          </div>
+                        </td>
+                        <td class='tb-ag' style='width:50%'>
+                          Precio:
+                           <div class='cricle-base' >
+                              <img src='{{STATIC_URL}}soa_toolkit/img/ac/blue_bullet.png' width='37%;' height='70%;' title='Precio' alt='pv'/>
+                              <span id='precio' class="circles"></span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                </div>
+              </div>
+            </div>
+					<!-- </div> -->
+				<!-- </element> -->
+			</div>
+		<!-- </div> -->
+	</div>
+
+</section>
+<!-- d3 scripts -->
+<script>
+{% include "variables.js" %}
+{% include "farmingVanilla.js" %}
+</script>
+  </section>
+</article>
+        <footer id="footer">
+            <ul class="copyright">
+                <li>2019 <a href="https://www.centrogeo.org.mx/" target="_blank">CentroGeo</a></li>
+                <li><a href="http://www.conacyt.mx/" target="_blank">CONACYT</a></li>
+            </ul>
+            <div class="footer-important-info">
+                <span class="important-db-info">
+                    <b><a href="http://idegeo.centrogeo.org.mx/" target="_blank">IDEGeo</a>: </b>
+                    Infraestructura de datos Geoespaciales del <a href="https://www.centrogeo.org.mx/" target="_blank">CentroGeo</a>
+                </span>
+            </div>
+        </footer>
+  </body>
+</html>

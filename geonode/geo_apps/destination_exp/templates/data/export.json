@@ -1,0 +1,13 @@
+[
+  {% for i,j,k,l in rows %}
+  {
+    "source": "{{i}}",
+    "target": "{{j}}",
+    "value": {{k}},
+    "code_mun": "{{l}}"
+  }
+  {% ifnotequal forloop.revcounter forloop.last %}
+  ,
+  {% endifnotequal %}
+  {% endfor %}
+]

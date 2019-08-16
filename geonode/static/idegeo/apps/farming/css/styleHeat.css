@@ -1,0 +1,206 @@
+#progress {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    width: 200px;
+    height: 25px;
+    margin-top: -20px;
+    margin-left: -100px;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    padding: 2px;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: #76A6FC;
+    border-radius: 4px;
+    padding-left: 45px;
+}
+
+.green{
+	color: #74b027;
+}
+.orange{
+	color: #f59631;
+}
+.red{
+	color: #d43b2a;
+}
+.blue{
+	color: #39abdb;
+}
+.purple{
+	color: #d154b8;
+}
+.black{
+	color: #2e2e2e;
+}
+.cadetblue {
+	color: #436a78;
+}
+.darkred{
+	color: #a13335;
+}
+
+
+ 
+/* 
+BEGIN HACKS para el background en el tour
+*/
+.tour-backdrop{
+	opacity: 0;
+}
+.tour-step-background{
+	background: none;
+	border: 2px solid white;
+}
+
+.mytour-step-backdrop{
+	position: relative;
+	z-index: 1101;
+}
+.mytour-step-backdrop-retina{
+	background-image: url(images/layers-2x.png);
+	background-size: 26px 26px;
+}
+
+.tour-tourUser-element.tour-tourUser-1-element{
+	background: white;
+}
+
+.tour-tourGral-element.tour-tourGral-4-element{
+	background: white;
+}
+.tour-tourGral-element.tour-tourGral-5-element{
+	background: white;
+}
+
+/* 
+END HACKS para el background en el tour
+*/
+.required:before{
+	content: '*';
+	color: red;
+	position: absolute;
+ 	right: 10px;
+}
+
+.form-control{
+	width: 99%;
+}
+
+#selectCategoria1{
+	display: block;
+	position: absolute;
+	/*width: 285px;*/
+	z-index: 101;
+	background: #cbddf3;
+	border: 1px solid #999;
+	padding: 5px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px #999;
+	top: 56px;
+	left: 45px;
+}
+
+#selectCategoria2{
+	display: block;
+	position: absolute;
+	/*width: 285px;*/
+	z-index: 100;
+	background: #cbddf3;
+	border: 1px solid #999;
+	padding: 5px;
+	border-radius: 5px;
+	box-shadow: 0px 0px 15px #999;
+	top: 90px;
+	left: 45px;
+}
+
+body {
+	padding-top: 50px;
+	margin: 0;
+}
+html, body, #map {
+	height: 100%;
+}
+
+#storeIcons{
+	position: absolute;
+	left: 155px;
+	top: 8px;
+}
+
+#retrieveIcons{
+	//position: absolute;
+	//top: 25px;
+	//left: 50%;
+	text-align: center;
+}
+
+.errorMessage {
+	position: fixed;
+	top: 45%;
+	left: 50%;
+	margin-left: -150px;
+	width: 300px;
+	z-index: 9999;
+}
+
+select option[disabled]:first-child {
+	display: none;
+}
+
+.white {
+	color: #FFFFFF;
+}
+
+.navbar .navbar-brand {
+  font-weight: bold;
+  font-size: 21px;
+  color: #FFFFFF;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  color: #ffffff;
+}
+
+.navbar .navbar-nav > li > a:hover, .navbar .navbar-nav > li > a:focus {
+    //background-color: #FFFF00;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.navbar-inverse {
+	background-color: #9c1611;
+	border-color: #9c1611;	
+}
+
+.navbar-collapse.in {
+	overflow-y: hidden;
+}
+.navbar-header .navbar-icon-container {
+	margin-right: 15px;
+}
+.navbar-header .navbar-icon {
+	line-height: 50px;
+	height: 50px;
+}
+.navbar-header a.navbar-icon {
+	margin-left: 25px;
+}
+
+#addMarkerForm .form-control-feedback {
+	top: 0px;
+	right: 70px;
+}
+
+#addMarkerForm .rightFeedback .form-control-feedback {
+	top: 0px;
+	right: 10px;
+}

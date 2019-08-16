@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cambios en la composición de delitos del Fuero Común 2015 – 2018</title>
+  <meta name="description" content="Datos Abiertos de Incidencia Delictiva - CentroGeo CONACYT">
+  <meta property="og:url"                content="http://idegeo.centrogeo.org.mx/apps/mugs/compare/" />
+  <meta property="og:type"               content="article" />
+  <meta property="og:title"              content="Cambios en la composición de delitos del Fuero Común 2015 – 2018 - CentroGeo CONACYT" />
+  <meta property="og:description"        content="Datos Abiertos de Incidencia Delictiva de 2015 – 2018 " />
+  <meta property="og:image"              content="http://idegeo.centrogeo.org.mx/uploaded/images/delitos.jpg" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/apps/destination_exp/css/main.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/apps/mugs/css/mug.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE" id="_fed_an_ua_tag"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/jquery.scrolly.min.js"></script>
+</head>
+  <style>
+#map {
+  height: 591px;
+  width: 850px;
+}
+#logo_nav {
+    position: absolute;
+    top: 35px;
+    right: 33px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 15px 15px 10px;
+}
+.select-wrapper1 div {
+    float: left;
+    padding-left: 10px;
+}
+.fa-area-chart {
+    cursor: pointer;
+}
+.fa-area-chart:hover {
+    color:#777777;
+}
+#AreaChartModal .modal-body {
+    padding: 30px;
+}
+#AreaChartModal .modal-body-content{
+        max-height: 800px;
+}
+.leaflet-control-layers-overlays, .leaflet-control-layers-base {
+    text-align: left;
+}
+.background-reading {
+    position: absolute;
+    /* Para Navegadores que no soportan RGBa mostramos color sólido sin transparencia */
+    background: rgb(0, 0, 0);
+    /* Para navegadores que soportan RGBa mostramos el color sólido con un 50% de opacidad */
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display:none;
+}
+text{
+	font-size:12px;
+}
+.label, .mainBars, .perc{
+  color: red;
+}
+.mainBars rect{
+  shape-rendering: auto;
+  fill-opacity: 0;
+  stroke-width: 0.5px;
+  stroke: rgb(0, 0, 0);
+  stroke-opacity: 0;
+}
+.subBars{
+	shape-rendering:crispEdges;
+}
+.edges{
+	stroke:none;
+	fill-opacity:0.5;
+}
+.header{
+	text-anchor:middle;
+	font-size:16px;
+}
+line{
+	stroke:grey;
+}
+</style>
+  <body style="background-color:#E2DFEC;">
+    <div class="background-reading-risk">
+       <div id="wait" style="position:absolute;top:48%;left:48%;">
+          <img width="50" src='{{STATIC_URL}}geonode/img/throbber_12.gif' title="Loading.."/>
+      </div>
+    </div>
+    <div id="page-wrapper">
+        <div id="logo_nav" class="logo_nav">
+            <a href="https://www.centrogeo.org.mx/" target="_blank"></a><img src="/static/mviewer/img/CentroGeo-CMX_Logo-H1.png" width="190px;" title="CentroGeo"></div>
+        </div>
+        <article id="main">
+  <section class="wrapper">
+
+<section id="one" class="viz-section center-text">
+    <div class="viz-bkgd">
+        <div class="viz-title-container">
+            <div class="viz-title">Cambios en la composición de delitos del fuero común 2015 – 2018</div>
+            <div onclick="document.getElementById('panel1InstructionsModal').style.display='block';" class="button-instructions">Descripción</div>
+            <div class="viz-subtext">de Datos Abiertos de Incidencia Delictiva</div>
+        </div>
+        <div id="panel1InstructionsModal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                    <div class="modal-body-title">Descripción</div>
+                    <div class="modal-body-content">
+                        <ul>
+                            <li>
+La presente aplicación muestra la distribución territorial de la incidencia delictiva en
+México durante el periodo 2015 - 2018, obtenida a partir de los datos proporcionados por el
+Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública,
+órgano administrativo desconcentrado dependiente de la Secretaría de Gobernación.
+                            </li>
+                            <li>
+                            Las consultas obtenidas del sistema representan los Reportes de incidencia, que se obtienen de la cantidad de
+                             averiguaciones previas iniciadas o carpetas de investigación que reportan las Procuradurías de Justicia y
+                              Fiscalías Generales de cada Estado.
+                            </li>
+                            <li>
+                              Para este caso, se presentan los delitos denominados “Del Fuero Común”, los
+                              cuales se entienden como aquellos que se persiguen al interior de las Entidades Federativas y que afectan únicamente a los ciudadanos.
+                            </li>
+                            <li>
+Los datos procesados se han obtenido de los “Datos Abiertos de Incidencia Delictiva” del
+Secretariado y pueden obtenerse en el link:
+                               <a href="http://secretariadoejecutivo.gob.mx/incidencia-delictiva/incidencia-delictiva-datos-abiertos.php" target="_blank">
+                                 secretariadoejecutivo.gob.mx
+                               </a>
+                             </li>
+                        </ul>
+                    </div>
+                    <span class="modal-body-close">Cerrar</span>
+                </div>
+            </div>
+        </div>
+        <div id="AreaChartModal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                    <div class="modal-body-title">Descripción</div>
+                    <div class="modal-body-content">
+                        <div id="chart_div" ></div>
+                    </div>
+                    <span class="modal-body-close">Cerrar</span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('panel1InstructionsModal').querySelector("div > div.modal-body > span").onclick = function() {
+                document.getElementById('panel1InstructionsModal').style.display = "none";
+            }
+            document.getElementById('AreaChartModal').querySelector("div > div.modal-body > span").onclick = function() {
+                document.getElementById('AreaChartModal').style.display = "none";
+            }
+        </script>
+		<div class="mask">
+			<div class="viz-actions">
+<div class="container">
+				<form id="SankeyRadio">
+					<div class="select-wrapper1" style="margin:25px; max-width: 800px;">
+                        <div class="form-group">
+                            <label for="edo_compare">Estado</label>
+                            <select id="edo_compare" class="form-control">
+                                <option value="01" selected="">Aguascalientes</option>
+                                <option value="02">Baja California</option>
+                                <option value="03">Baja California Sur</option>
+                                <option value="04">Campeche</option>
+                                <option value="05">Coahuila de Zaragoza</option>
+                                <option value="06">Colima</option>
+                                <option value="07">Chiapas</option>
+                                <option value="08">Chihuahua</option>
+                                <option value="09">CDMX</option>
+                                <option value="10">Durango</option>
+                                <option value="11">Guanajuato</option>
+                                <option value="12">Guerrero</option>
+                                <option value="13">Hidalgo</option>
+                                <option value="14">Jalisco</option>
+                                <option value="15">México</option>
+                                <option value="16">Michoacán de Ocampo</option>
+                                <option value="17">Morelos</option>limit 1
+                                <option value="18">Nayarit</option>
+                                <option value="19">Nuevo León</option>
+                                <option value="20">Oaxaca</option>
+                                <option value="21">Puebla</option>
+                                <option value="22">Querétaro</option>
+                                <option value="23">Quintana Roo</option>
+                                <option value="24">San Luis Potosí</option>
+                                <option value="25">Sinaloa</option>
+                                <option value="26">Sonora</option>
+                                <option value="27">Tabasco</option>
+                                <option value="28">Tamaulipas</option>limit 1
+                                <option value="29">Tlaxcala</option>
+                                <option value="30">Veracruz de Ignacio de la Llave</option>
+                                <option value="31">Yucatán</option>
+                                <option value="32">Zacatecas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="legal_compare">Bien jurídico</label>
+                            <select id="legal_compare" class="form-control">
+                                <option value="0" selected="">La sociedad</option>
+                                <option value="1">Libertad personal</option>
+                                <option value="2">La libertad y la seguridad sexual</option>
+                                <option value="3">El patrimonio</option>
+                                <option value="4">Otros bienes juridicos afectados</option>
+                                <option value="5">La vida y la integridad corporal</option>
+                                <option value="6">La familia</option>
+                            </select>
+                        </div>
+					</div>
+				</form>
+      </div>
+				<div>
+					<script>
+    function clickShareItemLink(item, url) {
+        window.open(url, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+
+        window.Analytics.event({
+            category: 'Share Menu - Click Item',
+            action: item
+        });
+
+        return false;
+    }
+</script>
+
+<a href="{% url 'mugs' %}">
+<div class="action-risk share-viz-button popup">
+            Delitos
+</div>
+</a>
+				</div>
+			</div>
+
+			<div class="viz-container">
+				<element class="budget-sankey">
+          <div class="form-group">
+          <label for="compare_year1">Compara un rango de fechas</label>
+          <select class="form-control" id="compare_year1">
+            <option selected="" value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+          </select>
+          <label for="compare_year2"></label>
+          <select class="form-control" id="compare_year2">
+            <option value="2015">2015</option>
+            <option selected="" value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+          </select>
+          </div>
+          <div id="compare"></div>
+				</element>
+			</div>
+		</div>
+	</div>
+</section>
+  </section>
+</article>
+{% include "comparative.js" %}
+        <script>
+    function trackLinkClick(actionName) {
+        window.Analytics.event({
+            category: 'Footer - Click Link',
+            action: actionName
+        });
+    }
+
+    function leaveSiteLink(outbound) {
+        document.querySelector('#leave-modal .redirect-modal__link a').href = outbound;
+        document.querySelector('#leave-modal .redirect-modal__link a').innerHTML = outbound;
+        document.getElementById('leave-modal').style.display = 'block';
+    }
+</script>
+        <footer id="footer">
+            <ul class="copyright">
+                <li>2018 <a href="https://www.centrogeo.org.mx/" target="_blank">CentroGeo</a></li>
+                <li><a href="http://www.conacyt.mx/" target="_blank">CONACYT</a></li>
+            </ul>
+            <div class="footer-important-info">
+                <span class="important-db-info">
+                    <b><a href="http://idegeo.centrogeo.org.mx/" target="_blank">IDEGeo</a>: </b>
+                    Infraestructura de datos Geoespaciales del <a href="https://www.centrogeo.org.mx/" target="_blank">CentroGeo</a>
+                </span>
+            </div>
+        </footer>
+</div>
+  </body>
+</html>

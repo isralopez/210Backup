@@ -1,0 +1,15 @@
+{
+  "cols": [
+        {"id":"","label":"Año","pattern":"","type":"string"},
+        {"id":"","label":"Exp","pattern":"","prefix":"$","type":"number"},
+        {"id":"","label":"Imp","pattern":"","prefix":"$","type":"number"}
+      ],
+  "rows": [
+        {% for i,j,k in rows %}
+        {"c":[{"v":{{i}},"f":null},{"v":{{j}},"f":null},{"v":{{k}},"f":null}]}
+        {% ifnotequal forloop.revcounter forloop.last %}
+        ,
+        {% endifnotequal %}
+        {% endfor %}
+      ]
+}

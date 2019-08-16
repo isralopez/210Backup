@@ -80,9 +80,10 @@
                             <label style="font-weight: 500; font-size: 12px;">El inicio de sesión es necesario para poder ver, administrar y borrar historias.</label>
                             <div align="center" style="width:80%; margin: 0 auto; padding:10px 0 20px 0;">
                                 <label>Iniciar Sesión con:</label><br>
-                                <a href="{% url 'social:begin' 'facebook' %}?next={% url 'upload_narrative' 0 %}" class="btn btn-block btn-social btn-twitter">
+                                <!--
+                                <a href="{ url 'social:begin' 'facebook' }?next={% url 'upload_narrative' 0 %}" class="btn btn-block btn-social btn-twitter">
                                     <span class="fa fa-facebook"></span> Facebook
-                                </a>
+                                </a>-->
                                 <!--
                                 <a class="btn btn-block btn-social btn-google">
                                     <span class="fa fa-google"></span> Google
@@ -197,16 +198,15 @@
                 <button type="submit" class="btn btn-primary btn-block">{% trans "Sign in" %}</button>
                 </form>
                 <div align="center" style="position:relative; top:15px;">
+                    <!--
                     <label>Ó</label><br>
                     <label align="left">Utiliza tu cuenta de:</label><br>
-                    <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-social-icon btn-facebook">
+                    <a href="{ url 'social:begin' 'facebook' }?next={{ request.path }}" class="btn btn-social-icon btn-facebook">
                         <span class="fa fa-facebook"></span>
                     </a>
-
                     <a class="btn btn-social-icon btn-google">
                         <span class="fa fa-google"></span>
                     </a>
-                    <!--
                     <label class="checkbox" style="text-align:left;">
                         Click <a href="{% url 'account_signup' %}" style="color: #089fcf;">aquí</a> para registrarte con email.
                     </label>

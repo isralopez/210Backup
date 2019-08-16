@@ -1,0 +1,739 @@
+<html>
+<head>
+  <title>Ficha Tecnica</title>
+  <style>
+  /*******************************************************
+  FOOTER
+  *******************************************************/
+
+  footer {
+  /* VACIO */
+  }
+  #footer {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  background-color: transparent;
+  cursor: default;
+  }
+  #footer .footer-wrapper {
+  position: relative;
+  margin: 0px;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5em;
+  border-top: 1px dotted rgba(0, 0, 0, 0.20);
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.20);
+  }
+  /*******************************************************
+  FOOTBAR
+  *******************************************************/
+
+  #footbar {
+  position: relative;
+  margin: 0px;
+  padding: 0px;
+  background-color: transparent;
+  cursor: default;
+  }
+  #footbar .footbar-wrapper {
+  position: relative;
+  margin: 0px; <caption class="caption"> Incidencia Delictiva</caption>
+  padding: 10px 15px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5em;
+  text-align: center;
+  }
+  /* -------------------------------------------------- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+  th {
+      height: 50px;
+      margin: 0px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.3em;
+      text-align: center;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      /* border-radius: 4px; */
+      background-color: rgba(148, 138, 84, 0.50);
+      /*background-color: rgba(0, 0, 0, 0.08);*/
+  }
+  table{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: rgba(148, 138, 84, 0.16);
+  }
+  th{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    background-color: rgba(148, 138, 84, 0.16);
+  }
+  td{
+    font-size: 13px;
+    line-height: 1.3em;
+  }
+  span{
+    padding: 10px;
+  }
+.response_white, .response_bold{
+  display: block;
+  /* margin: 2px 5px; */
+  padding: 2px 8px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  /** FLEX **/
+  -webkit-flex-basis: 50%;
+  flex-basis: 50%;
+}
+.sub-titles{
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-color: transparent;
+}
+.response_bold{
+  padding-left: 8px;
+  border-left: 2px solid #FFFFFF;
+  font-size: 14px;
+font-weight: 600;
+line-height: 1.5em;
+background-color: rgba(148, 138, 84, 0.20);
+/* border: 1px solid #FFFFFF; */
+/* background-color: rgba(255, 255, 255, 1.00); */
+}
+.num{
+  text-align: right;
+}
+.sub-bold{
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5em;
+}
+  .centers, caption{
+    text-align: center;
+    /* margin: 0px; */
+    padding: 6px 15px 8px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3em;
+    text-align: center;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: rgba(148, 138, 84, 0.50);
+  }
+  .item-w{
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 2px solid white;
+  }
+  .tab{
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5em;
+  }
+  .little-tab{
+    font-size: 10px;
+  }
+  .response_little_white{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    /** FLEX **/
+    -webkit-flex-basis: 50%;
+    flex-basis: 50%;
+  }
+  .cen{
+    text-align: center;
+  }
+  </style>
+</head>
+<body>
+  <h1 class="centers">{{delincuencia.nom_mun|safe}}, {{delincuencia.nom_ent|safe}}</h1>
+<table>
+   <caption class="caption">Datos Base</caption>
+  <tr>
+    <td>
+      <span>Clave INEGI</span>
+    </td>
+    <td>
+      <span class="response_white">{{ ficha.cvegeo|safe }}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span>Tipo</span>
+    </td>
+    <td>
+      <span class="response_white"> {{ficha.tipo|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <span>Zona Metropolitana</span>
+    </td>
+    <td>
+       <span class="response_white"> {{ficha.zmetro|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span>Criterio de centralidad</span>
+    </td>
+    <td>
+      <span class="response_white">  {{ficha.criterio|safe}}</span>
+    </td>
+  </tr>
+</table>
+<table>
+   <caption class="caption">INEGI 2010</caption>
+   <tr>
+     <td>
+       <span class="sub-titles"><span class="sub-bold">Población Total</span> </span>
+     </td>
+     <td>
+        <span class="response_bold num">{{ ficha.pobtot|safe }}</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="sub-bold">Mujeres</span> </span>
+     </td>
+     <td>
+        <span class="response_bold num"> {{ficha.pobfem|safe}}</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="item-w">Menores</span> </span>
+     </td>
+     <td>
+         <span class="response_white num">  {{ficha.menores_m|safe}}%</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="item-w">Adultas</span> </span>
+     </td>
+     <td>
+         <span class="response_white num">  {{ficha.adultos_m|safe}}%</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="item-w">Adultas Mayores</span> </span>
+     </td>
+     <td>
+         <span class="response_white num">  {{ficha.mayores_m|safe}}%</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="sub-bold">Hombres</span> </span>
+     </td>
+     <td>
+        <span class="response_bold num">  {{ficha.pobmasc|safe}}</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="item-w">Menores</span> </span>
+     </td>
+     <td>
+         <span class="response_white num">  {{ficha.menores_h|safe}}%</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="item-w">Adultos</span> </span>
+     </td>
+     <td>
+         <span class="response_white num">  {{ficha.adultos_h|safe}}%</span>
+     </td>
+   </tr>
+   <tr>
+     <td>
+         <span class="sub-titles"><span class="item-w">Adultos Mayores</span> </span>
+     </td>
+     <td>
+         <span class="response_white num">  {{ficha.mayores_h|safe}}%</span>
+     </td>
+   </tr>
+</table>
+<table>
+  <caption class="caption">Datos Base</caption>
+  <tr>
+    <td colspan="2">
+      <span class="sub-titles"><span class="sub-bold">Contexto de vivienda</span></span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <span class="sub-titles"><span class="item-w">Urbano</span> </span>
+    </td>
+    <td>
+        <span class="response_white num">{{ficha.prc_urbano|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <span class="sub-titles"><span class="item-w">Complemento urbano</span> </span>
+    </td>
+    <td>
+        <span class="response_white num">{{ficha.prc_comp_urb|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <span class="sub-titles"><span class="item-w">Rural</span> </span>
+    </td>
+    <td>
+        <span class="response_white num">{{ficha.prc_rural|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <span class="sub-titles"><span class="sub-bold">Estatus</span></span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <span class="sub-titles"><span class="item-w">Victima</span> </span>
+    </td>
+    <td>
+        <span class="response_white num">{{ficha.prc_victima|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+        <span class="sub-titles"><span class="item-w">No victima</span> </span>
+    </td>
+    <td>
+        <span class="response_white num">{{ficha.prc_novictima|safe}}</span>
+    </td>
+  </tr>
+</table>
+  <table>
+     <caption class="caption"> Incidencia Delictiva</caption>
+    <tr>
+      <th>
+
+      </th>
+      <th>
+        <span class="tab">Contexto municipal</span> <span class="little-tab">(c/100,000 hab)</span>
+      </th>
+      <th>
+          <span class="tab">Contexto estatal</span> <span class="little-tab">(c/100,000 hab)</span>
+      </th>
+      <th>
+        <span class="tab">Incidencia</span> <span class="little-tab">JUL 2016 / 2017</span>
+      </th>
+      <th>
+        <span class="tab">Incidencia</span> <span class="little-tab">JUL 2017 / 2018</span>
+      </th>
+      <th>
+        <span class="tab">Variación</span>
+<span class="little-tab">JUL 2016 / 2017 vs JUL 2017 / 2018</span>
+      </th>
+    </tr>
+    <tr>
+      <td colspan="6">
+        <span class="sub-titles"><span class="sub-bold">Delitos Prioritarios</span> </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="item-w">Extorsión</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.estmun|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.extest|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.pat_ext1617|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.pat_ext1718|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.pat_ext_var|safe}}%</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="item-w">Homicidio Doloso</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.dolmun|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.dolest|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.vichod1617|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.vichod1718|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.vichodvar|safe}}%</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="item-w">Secuestro</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.secmun|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.secest|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.lpesec1617|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.lpesec1718|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.lpesec_var|safe}}%</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6">
+      <span class="sub-titles"><span class="sub-bold"> Delitos reincidentes</span> </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="response_white"> {{ficha.d1|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d1mun|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d1est|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d1_1617|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d1_1718|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d1_var|safe}}%</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="response_white"> {{ficha.d2|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d2mun|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d2est|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d2_1617|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d2_1718|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d2_var|safe}}%</span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class="response_white"> {{ficha.d3|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d3mun|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d3est|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d3_1617|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d3_1718|safe}}</span>
+      </td>
+      <td>
+        <span class="response_white num"> {{ficha.d3_var|safe}}%</span>
+      </td>
+    </tr>
+  </table>
+
+</br>
+<table>
+  <caption class="caption"> ENVIPE</caption>
+  <tr>
+    <th>
+    </th>
+    <th colspan="4">
+      <span class="tab">Percepción del entorno</span>
+    </th>
+    <th colspan="4">
+      <span class="tab">Autoridades</span>
+    </th>
+  </tr>
+  <tr>
+    <th>
+      <span class="tab">Ranking</span>
+    </th>
+     <th colspan="2">
+       <span class="tab">Conductas delictivas</span>
+     </th>
+     <th colspan="2">
+      <span class="tab">Problemas relevantes</span>
+    </th>
+     <th colspan="2">
+       <span class="tab">Confianza</span>
+     </th>
+     <th colspan="2">
+       <span class="tab">Desempeño</span>
+     </th>
+  </tr>
+  <tr>
+    <td class="cen">
+      1
+    </td>
+    <td>
+      <span>{{ficha.cond1|safe}},</span>
+    </td>
+    <td><span class="response_white num"> {{ficha.cond1_num|safe}}</span></td>
+    <td>
+        <span>{{ficha.prob1|safe}},  </span>
+    </td>
+    <td>
+       <span class="response_white num">  {{ficha.prob1_num|safe}}</span>
+    </td>
+    <td>
+         <span>{{ficha.aut1|safe}}, {{ficha.aut1opi|safe}},  </span>
+    </td>
+    <td>
+        <span class="response_white num">  {{ficha.aut1pct|safe}}%</span>
+    </td>
+    <td>
+       <span>{{ficha.aut1_d|safe}}, {{ficha.aut1des|safe}},  </span>
+    </td>
+    <td>
+     <span class="response_white num"> {{ficha.aut1p|safe}}%</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="cen">
+      2
+    </td>
+    <td>
+        <span>{{ficha.cond2|safe}},  </span>
+    </td>
+    <td>
+      <span class="response_white num"> {{ficha.cond2_num|safe}}</span>
+    </td>
+    <td>
+         <span>{{ficha.prob2|safe}},  </span>
+    </td>
+    <td>
+         <span class="response_white num">{{ficha.prob2_num|safe}}</span>
+    </td>
+    <td>
+          <span>{{ficha.aut2|safe}}, {{ficha.aut2opi|safe}},  </span>
+    </td>
+    <td>
+        <span class="response_white num">  {{ficha.aut2pct|safe}}</span>
+    </td>
+    <td>
+        <span> {{ficha.aut2_d|safe}}, {{ficha.aut2des|safe}},  </span>
+    </td>
+    <td>
+         <span class="response_white num">{{ficha.aut2p|safe}}</span>
+    </td>
+  </tr>
+  <tr>
+    <td class="cen">
+      3
+    </td>
+    <td>
+        <span>{{ficha.cond3|safe}},  </span>
+    </td>
+    <td>
+       <span class="response_white num"> {{ficha.cond3_num|safe}}</span>
+    </td>
+    <td>
+        <span>{{ficha.prob3|safe}},  </span>
+    </td>
+    <td>
+        <span class="response_white num"> {{ficha.prob3_num|safe}}</span>
+    </td>
+    <td>
+          <span>{{ficha.aut3|safe}}, {{ficha.aut3opi|safe}},  </span>
+    </td>
+    <td>
+       <span class="response_white num">  {{ficha.aut3pct|safe}}</span>
+    </td>
+    <td>
+         <span>{{ficha.aut3_d|safe}}, {{ficha.aut3des|safe}},  </span>
+    </td>
+    <td>
+        <span class="response_white num"> {{ficha.aut3p|safe}}</span>
+    </td>
+  </tr>
+</table>
+<table>
+   <caption class="caption">DELINCUENCIA</caption>
+  <tr>
+      <th colspan="4">
+          <span class="tab">Víctimas y delito</span>
+      </th>
+      <th colspan="4">
+          <span class="tab">Proceso de denuncia</span>
+      </th>
+  </tr>
+  <tr>
+      <th colspan="2">
+        <span class="tab">Horario</span>
+      </th>
+      <th colspan="2">
+        <span class="tab">Daño</span>
+      </th>
+      <th colspan="2">
+        <span class="tab">Tiempo empleado (hrs)</span>
+      </th>
+      <th colspan="2">
+        <span class="tab">Trato recibido</span>
+      </th>
+  </tr>
+  <tr>
+    <td>
+      <span>Mañana</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.mananaprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Económico</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.economicoprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Menor a 1</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.menos1hprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Excelente</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.excelenteprc|safe}}%</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <span>Tarde</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.tardeprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Emocional</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.emocionalprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Entre 1 – 2</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.de1_2hprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Bueno</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.buenoprc|safe}}%</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span>Noche</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.nocheprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Físico</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.fisicoprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Entre 3 – 4</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.de2_3hprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Malo</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.maloprc|safe}}%</span>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span>Madrugada</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.madrugadaprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Laboral</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.laboralprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Mayor a 4</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.de3_4hprc|safe}}%</span>
+    </td>
+    <td>
+      <span>Muy malo</span>
+    </td>
+    <td>
+      <span class="response_white num"> {{delincuencia.muymaloprc|safe}}%</span>
+    </td>
+  </tr>
+</table>
+    <p>{{ paragraph }}</p>
+
+        <!-- FOOTER -->
+        <footer id="footer">
+            <div class="footer-wrapper">
+                <div class="content">INEGI: Instituto Nacional de Estadística y Geografía.</div>
+                <div class="content">ENVIPE: Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública.</div>
+            </div>
+        </footer>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exportaciones e importaciones del atlas de complejidad económica</title>
+  <meta name="description" content="Atlas de Complejidad Económica - CentroGeo CONACYT">
+      <meta property="og:url"                content="http://idegeo.centrogeo.org.mx/apps/destination_exp/" />
+<meta property="og:type"               content="article" />
+<meta property="og:title"              content="Exportaciones e importaciones - CentroGeo CONACYT" />
+<meta property="og:description"        content="Exportaciones e importaciones del atlas de complejidad económica de 2004 a 2014" />
+<meta property="og:image"              content="http://idegeo.centrogeo.org.mx/uploaded/images/balanza-comercial.jpg" />
+  <link rel="stylesheet" href="{{ STATIC_URL }}idegeo/apps/destination_exp/css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0/esri-leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/leaflet.esri.geocoder/2.1.0/esri-leaflet-geocoder.js"></script>
+  <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE" id="_fed_an_ua_tag"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+  <script
+  src="https://code.jquery.com/jquery-1.11.3.min.js"
+  integrity="sha256-7LkWEzqTdpEfELxcZZlS6wAx5Ff13zZ83lYO2/ujj7g="
+  crossorigin="anonymous"></script>
+<script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/jquery.scrolly.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/main.js"></script>
+  <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
+  <style>
+#map {
+  height: 591px;
+  width: 850px;
+}
+#logo_nav {
+    position: absolute;
+    top: 35px;
+    right: 33px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 15px 15px 10px;
+}
+.select-wrapper1 div {
+    float: left;
+    padding-left: 10px;
+}
+.fa-area-chart {
+    cursor: pointer;
+}
+.fa-area-chart:hover {
+    color:#777777;
+}
+#AreaChartModal .modal-body {
+    padding: 30px;
+}
+#AreaChartModal .modal-body-content{
+        max-height: 800px;
+}
+.leaflet-control-layers-overlays, .leaflet-control-layers-base {
+    text-align: left;
+}
+.background-reading {
+    position: absolute;
+    /* Para Navegadores que no soportan RGBa mostramos color sólido sin transparencia */
+    background: rgb(0, 0, 0);
+    /* Para navegadores que soportan RGBa mostramos el color sólido con un 50% de opacidad */
+    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display:none;
+}
+</style>
+  <body style="background-color:#E2DFEC;">
+    <div class="background-reading">
+       <div id="wait" style="position:absolute;top:48%;left:48%;">
+          <img width="50" src='{{STATIC_URL}}geonode/img/throbber_12.gif' title="Loading.."/>
+      </div>
+    </div>
+    <div id="page-wrapper">
+        <div id="logo_nav" class="logo_nav">
+            <a href="https://www.centrogeo.org.mx/" target="_blank"></a><img src="/static/mviewer/img/CentroGeo-CMX_Logo-H1.png" width="190px;" title="CentroGeo"></div>
+        </div>
+        <article id="main">
+  <section class="wrapper">
+
+<section id="one" class="viz-section center-text">
+    <div class="viz-bkgd">
+        <div class="viz-title-container">
+            <div class="viz-title">Exportaciones e importaciones 2004-2014</div>
+            <div onclick="document.getElementById('panel1InstructionsModal').style.display='block';" class="button-instructions">Descripción</div>
+            <div class="viz-subtext">del atlas de complejidad económica</div>
+        </div>
+        <div id="panel1InstructionsModal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                    <div class="modal-body-title">Descripción</div>
+                    <div class="modal-body-content">
+                        <ul>
+                            <li>El objetivo de esta aplicación es dar a conocer el flujo de los principales productos que exportan y/o importan los municipios. La aplicación también muestra el destino final o país de procedencia del producto, así como su valor total (importaciones y/o exportaciones) en millones de dólares para cada municipio.</li>
+                            <li>La base de datos contiene registros desde el año 2004 hasta el 2014 y la fuente es del Atlas de Complejidad Económica generado por el CIDE.</li>
+                            <li>Fuente: <a href="https://complejidad.datos.gob.mx/" target="_blank">complejidad.datos.gob.mx</a></li>
+                        </ul>
+                    </div>
+                    <span class="modal-body-close">Cerrar</span>
+                </div>
+            </div>
+        </div>
+        <div id="AreaChartModal" class="modal" style="z-index:9999;">
+            <div class="modal-content">
+                <div class="modal-blue-bar"></div>
+                <div class="modal-body">
+                    <div class="modal-body-title">Descripción</div>
+                    <div class="modal-body-content">
+                        <div id="chart_div" ></div>
+                    </div>
+                    <span class="modal-body-close">Cerrar</span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('panel1InstructionsModal').querySelector("div > div.modal-body > span").onclick = function() {
+                document.getElementById('panel1InstructionsModal').style.display = "none";
+            }
+            document.getElementById('AreaChartModal').querySelector("div > div.modal-body > span").onclick = function() {
+                document.getElementById('AreaChartModal').style.display = "none";
+            }
+        </script>
+		<div class="mask">
+			<div class="viz-actions">
+				<form id="SankeyRadio">
+					<div class="select-wrapper1" style="margin:25px; max-width: 800px;">
+                        <div>
+                            <label for="contactChoice5" style="font-size:12px">Estado</label>
+                            <select id="contactChoice5" onchange="ChangeEdo();" style="letter-spacing: 0.025em;">
+                                <option value="">Todo México</option>
+                                <option value="01">Aguascalientes</option>
+                                <option value="02">Baja California</option>
+                                <option value="03">Baja California Sur</option>
+                                <option value="04">Campeche</option>
+                                <option value="05">Coahuila de Zaragoza</option>
+                                <option value="06">Colima</option>
+                                <option value="07">Chiapas</option>
+                                <option value="08">Chihuahua</option>
+                                <option value="09">Distrito Federal</option>
+                                <option value="10">Durango</option>
+                                <option value="11">Guanajuato</option>
+                                <option value="12">Guerrero</option>
+                                <option value="13">Hidalgo</option>
+                                <option value="14">Jalisco</option>
+                                <option value="15">México</option>
+                                <option value="16">Michoacán de Ocampo</option>
+                                <option value="17">Morelos</option>
+                                <option value="18">Nayarit</option>
+                                <option value="19">Nuevo León</option>
+                                <option value="20">Oaxaca</option>
+                                <option value="21">Puebla</option>
+                                <option value="22">Querétaro</option>
+                                <option value="23">Quintana Roo</option>
+                                <option value="24">San Luis Potosí</option>
+                                <option value="25">Sinaloa</option>
+                                <option value="26">Sonora</option>
+                                <option value="27">Tabasco</option>
+                                <option value="28">Tamaulipas</option>
+                                <option value="29">Tlaxcala</option>
+                                <option value="30">Veracruz de Ignacio de la Llave</option>
+                                <option value="31">Yucatán</option>
+                                <option value="32">Zacatecas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="contactChoice3" style="font-size:12px">Año</label>
+                            <select id="contactChoice3" onchange="ChangeYear();" style="letter-spacing: 0.025em;">
+                                <option value="2004">2004</option>
+                                <option value="2005">2005</option>
+                                <option value="2006">2006</option>
+                                <option value="2007">2007</option>
+                                <option value="2008">2008</option>
+                                <option value="2009">2009</option>
+                                <option value="2010">2010</option>
+                                <option value="2011">2011</option>
+                                <option value="2012">2012</option>
+                                <option value="2013">2013</option>
+                                <option value="2014">2014</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="contactChoice4" style="font-size:12px">Producto</label>
+                            <select id="contactChoice4" onchange="ChangeCode();" style="letter-spacing: 0.025em;">
+                                <option value="2709" selected="">Petroleum oils and oils obtained from bituminous minerals, c...</option>
+                                <option value="8471">Automatic data processing machines and units thereof; magnet...</option>
+                                <option value="8703">Motor cars and other motor vehicles principally designed for...</option>
+                                <option value="8708">Parts and accessories of the motor vehicles of headings 8701...</option>
+                                <option value="8528">Monitors and projectors, not incorporating television recept...</option>
+                                <option value="8704">Motor vehicles for the transport of goods...</option>
+                                <option value="8544">Insulated(including enameled or anodized) wire, cable (inclu...</option>
+                                <option value="8525">Transmission apparatus for radio-broadcasting or television,...</option>
+                                <option value="4907">Unused postage, revenue or similar stamps of current or new ...</option>
+                                <option value="9401">Seats (other than those of heading 9402), whether or not con...</option>
+                                <option value="8536">Electrical apparatus for switching or protecting electrical ...</option>
+                                <option value="8473">Parts and accessories (other than covers, carrying cases and...</option>
+                                <option value="8529">Parts suitable for use solely or principally with the appara...</option>
+                                <option value="8517">Telephone sets, including telephones for cellular networks o...</option>
+                                <option value="9018">Instruments and appliances used in medical, surgical, dental...</option>
+                                <option value="8409">Parts suitable for use solely or principally with the engine...</option>
+                                <option value="8407">Spark-ignition reciprocating or rotary internal combustion p...</option>
+                                <option value="2710">Petroleum oils and oils obtained from bituminous minerals, o...</option>
+                                <option value="8527">Reception apparatus for radio broadcasting, whether or not c...</option>
+                                <option value="8501">Electric motors and generators (excluding generating sets)...</option>
+                                <option value="6203">Men's or boys' suits, ensembles, suit-type jackets,b...</option>
+                                <option value="6204">Women's or girls' suits, ensembles, suit-type jacket...</option>
+                                <option value="3923">Articles for the conveyance or packing of goods, of plastics...</option>
+                                <option value="8504">Electrical transformers, static converters (for example, rec...</option>
+                                <option value="8537">Boards, panels, consoles,desks, cabinets and other bases, eq...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="radio" id="contactChoice1" name="ExpImp" value="exp" checked>
+                            <label for="contactChoice1" style="font-size:12px;">Exportaciones</label>
+                            <input type="radio" id="contactChoice2" name="ExpImp" value="imp">
+                            <label for="contactChoice2" style="font-size:12px">Importaciones</label>
+                        </div>
+					</div>
+				</form>
+				<div>
+					<script>
+    function clickShareItemLink(item, url) {
+        window.open(url, 'pop-up', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0');
+
+        window.Analytics.event({
+            category: 'Share Menu - Click Item',
+            action: item
+        });
+
+        return false;
+    }
+</script>
+
+<div class="action-button share-viz-button popup">
+    <span class="viz-share-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40">
+   <defs>
+      <path id="a" d="M-622 305h23v23h-23z"/>
+   </defs>
+   <clipPath id="b">
+      <use xlink:href="#a" overflow="visible"/>
+   </clipPath>
+   <g clip-path="url(#b)">
+      <defs>
+         <path id="c" d="M-700-2576H740v5192H-700z"/>
+      </defs>
+      <clipPath id="d">
+         <use xlink:href="#c" overflow="visible"/>
+      </clipPath>
+      <g clip-path="url(#d)">
+         <defs>
+            <path id="e" d="M-623 304h25v25h-25z"/>
+         </defs>
+         <clipPath id="f">
+            <use xlink:href="#e" overflow="visible"/>
+         </clipPath>
+         <g clip-path="url(#f)">
+            <defs>
+               <path id="g" d="M-612.4 323.7c-.8 0-1.4-.5-.8-2.6l.9-3.8c.2-.6.2-.8 0-.8s-1.3.4-1.9.8l-.4-.7c1.9-1.6 4.2-2.6 5.1-2.6.8 0 .9.9.5 2.4l-1 4c-.2.7-.1.9.1.9s1-.3 1.8-.9l.5.6c-1.9 2-4 2.7-4.8 2.7m3-14.9c1.2 0 1.5.7 1.5 1.5 0 1-.8 1.9-2.1 1.9-1.1 0-1.6-.6-1.6-1.5 0-.8.7-1.9 2.2-1.9m-1.3-3.8c-6.4.1-11.4 5.3-11.3 11.7.1 6.3 5.3 11.4 11.7 11.3 6.3-.1 11.4-5.3 11.3-11.7-.1-6.3-5.3-11.4-11.7-11.3"/>
+            </defs>
+            <clipPath id="h">
+               <use xlink:href="#g" overflow="visible"/>
+            </clipPath>
+            <g clip-path="url(#h)">
+               <defs>
+                  <path id="i" d="M-622 305h23v23h-23z"/>
+               </defs>
+               <clipPath id="j">
+                  <use xlink:href="#i" overflow="visible"/>
+               </clipPath>
+            </g>
+         </g>
+      </g>
+   </g>
+   <g>
+      <path d="M32.9 26.2c-2.1 0-4 1-5.2 2.5l-14.1-7c.1-.5.2-1 .2-1.6 0-.6-.1-1.1-.2-1.6l14-7c1.2 1.6 3.1 2.6 5.3 2.6 3.8 0 6.9-3.1 6.9-6.9S36.7.3 32.9.3C29.1.3 26 3.4 26 7.2c0 .4.1.9.2 1.3l-14.1 7.1C10.9 14.1 9 13.2 7 13.2c-3.8 0-6.9 3.1-6.9 6.9S3.2 27 7 27c2.1 0 3.9-.9 5.2-2.4l14.1 7c-.1.5-.2.9-.2 1.4 0 3.8 3.1 6.9 6.9 6.9s6.9-3.1 6.9-6.9c-.1-3.8-3.2-6.8-7-6.8z"/>
+   </g>
+</svg>
+    </span>
+    Compartir
+    <span class="popuptext right" id="sharePopup">
+        <div class="share-buttons">
+            <ul>
+                <li>
+                    <a href="javascript:clickShareItemLink('Facebook', 'https://www.facebook.com/sharer/sharer.php?u=http://idegeo.centrogeo.org.mx/apps/destination_exp/')" title="Compartir en Facebook">
+                        <?xml version="1.0" encoding="utf-8"?>
+<svg class="share-icon icon-facebook" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1579 128q35 0 60 25t25 60v1366q0 35-25 60t-60 25h-391v-595h199l30-232h-229v-148q0-56 23.5-84t91.5-28l122-1v-207q-63-9-178-9-136 0-217.5 80t-81.5 226v171h-200v232h200v595h-735q-35 0-60-25t-25-60v-1366q0-35 25-60t60-25h1366z"/>
+</svg>
+                        <span class="share-button-text">Facebook</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:clickShareItemLink('Twitter', 'https://twitter.com/intent/tweet?text=Exportaciones e importaciones del atlas de complejidad económica - CentroGeo CONACYT&url=http://idegeo.centrogeo.org.mx/apps/destination_exp/')" title="Compartir en Twitter">
+                        <?xml version="1.0" encoding="utf-8"?>
+<svg class="share-icon icon-twitter" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/>
+</svg>
+                        <span class="share-button-text">Twitter</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:clickShareItemLink('Pinterest', 'http://pinterest.com/pin/create/button/?url=http://idegeo.centrogeo.org.mx/apps/destination_exp/')" title="Compartir en Pinterest">
+                        <?xml version="1.0" encoding="utf-8"?>
+<svg class="share-icon icon-pinterest" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+    <path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/>
+</svg>
+                        <span class="share-button-text">Pinterest</span>
+                    </a>
+                </li>
+                <li>
+                    <a href='javascript:clickShareItemLink("Linkedin", "https://www.linkedin.com/shareArticle?mini=true&url=http://idegeo.centrogeo.org.mx/apps/destination_exp/")' title="Compartir en LinkedIn">
+                        <?xml version="1.0" encoding="utf-8"?>
+<svg class="share-icon icon-linkedin" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+    <path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/>
+</svg>
+                        <span class="share-button-text">Linkedin</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:?subject=Exportaciones e importaciones del atlas de complejidad económica - CentroGeo CONACYT&amp;body=Mira este sitio http://idegeo.centrogeo.org.mx/apps/destination_exp/" title="Compartir via Email">
+                        <?xml version="1.0" encoding="utf-8"?>
+<svg class="share-icon icon-envelope" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
+    <path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/>
+</svg>
+                        <span class="share-button-text">Email</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </span>
+</div>
+				</div>
+			</div>
+			<div class="viz-container">
+				<element class="budget-sankey">
+					<div id="sankey-container">
+						<div id="sankey-viz" style="margin-right: 20px;">
+							<div class="sankey-brackets">
+								<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 664.4">
+                                   <defs>
+                                      <style>.cls-1{fill:none}.cls-3{clip-path:url(#clip-path-2)}.cls-4{fill:#5b616b}.cls-6{fill:#979797}</style>
+                                      <clipPath id="clip-path">
+                                         <path class="cls-1" d="M1 239h19v165H1z"/>
+                                      </clipPath>
+                                      <clipPath id="clip-path-2">
+                                         <path class="cls-1" d="M-84-1392h1440v3335H-84z"/>
+                                      </clipPath>
+                                      <clipPath id="clip-path-3">
+                                         <path class="cls-1" transform="rotate(-89 628.9976 362.5353)" d="M556 353.03h146v19H556z"/>
+                                      </clipPath>
+                                   </defs>
+                                   <g class="cls-3">
+                                        <path stroke="null" id="svg_9" d="m12.27418,8.49998l34.6471,0l0,1.99074l-34.6471,0l0,-1.99074z" class="cls-6"/>
+                                       <path stroke="null" id="svg_10" d="m12.27418,8.87822l2.51613,0l0,230.08982l-2.51613,0l0,-230.08982zm741.57869,42.42269l34.6471,0l0,1.99074l-34.6471,0l0,-1.99074z" class="cls-6"/>
+                                       <path stroke="null" id="svg_11" d="m785.98385,51.67915l2.51613,0l0,230.08982l-2.51613,0l0,-230.08982zm-777.48385,598.83474l34.6471,0l0,1.99074l-34.6471,0l0,-1.99074z" class="cls-6"/>
+                                       <path stroke="null" id="svg_12" d="m8.5,422.03657l2.51613,0l0,230.08982l-2.51613,0l0,-230.08982zm741.57869,229.47269l34.6471,0l0,1.99074l-34.6471,0l0,-1.99074z" class="cls-6"/>
+                                       <path stroke="null" id="svg_13" d="m782.20966,423.03194l2.51613,0l0,230.08982l-2.51613,0l0,-230.08982z" class="cls-6"/>
+                                   </g>
+                                   <g class="cls-3">
+                                       <text fill="#7f7f7f" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="-1.76662" y="314.02763" id="svg_15" font-size="24" font-family="Sans-serif" text-anchor="middle" xml:space="preserve" transform="rotate(-89.98776245117188 11.614793777465804,324.9280700683594) matrix(1.1244818700369754,0,0,2.1160190688063714,13.494789880268565,-321.8629145775547) " font-weight="bold">Municipios</text>
+                                   </g>
+                                    <g class="cls-3">
+                                        <text font-weight="bold" transform="rotate(90.41679382324219 787.68359375,343.7406005859375) matrix(1.1244818700369752,0,0,2.1160190688063714,506.681649011128,-208.23498489005465) " xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" y="269.132" x="249.90484" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#7f7f7f" id="svg_4">Países</text>
+                                    </g>
+                                </svg>
+							</div>
+						</div>
+						<div id="map"></div>
+					</div>
+				</element>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- d3 scripts -->
+<script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/d3.v3.min.js"></script>
+<script src="{{ STATIC_URL }}idegeo/apps/destination_exp/js/jquery-3.3.1.min.js"></script>
+<script>{% include "budget-sankey.js" %}</script>
+
+  </section>
+</article>
+        <script>
+    function trackLinkClick(actionName) {
+        window.Analytics.event({
+            category: 'Footer - Click Link',
+            action: actionName
+        });
+    }
+
+    function leaveSiteLink(outbound) {
+        document.querySelector('#leave-modal .redirect-modal__link a').href = outbound;
+        document.querySelector('#leave-modal .redirect-modal__link a').innerHTML = outbound;
+        document.getElementById('leave-modal').style.display = 'block';
+    }
+</script>
+        <footer id="footer">
+            <ul class="copyright">
+                <li>2018 <a href="https://www.centrogeo.org.mx/" target="_blank">CentroGeo</a></li>
+                <li><a href="http://www.conacyt.mx/" target="_blank">CONACYT</a></li>
+            </ul>
+            <div class="footer-important-info">
+                <span class="important-db-info">
+                    <b><a href="http://idegeo.centrogeo.org.mx/" target="_blank">IDEGeo</a>: </b>
+                    Infraestructura de datos Geoespaciales del <a href="https://www.centrogeo.org.mx/" target="_blank">CentroGeo</a>
+                </span>
+            </div>
+        </footer>
+</div>
+  </body>
+</html>

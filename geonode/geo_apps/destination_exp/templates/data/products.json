@@ -1,0 +1,12 @@
+[
+  {% for i,j,k in rows %}
+  {
+    "value": "{{i}}",
+    "name": "{{j}}",
+    "total": {{k}}
+  }
+  {% ifnotequal forloop.revcounter forloop.last %}
+  ,
+  {% endifnotequal %}
+  {% endfor %}
+]

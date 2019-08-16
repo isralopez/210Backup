@@ -1,0 +1,277 @@
+@font-face {
+  font-family: 'fontawesome-webfont';
+  src: url('../romaFont/fontawesome-webfont.eot?40899049');
+  src: url('../romaFont/fontawesome-webfont.eot?40899049#iefix') format('embedded-opentype'),
+       url('../romaFont/fontawesome-webfont.woff?40899049') format('woff'),
+       url('../romaFont/fontawesome-webfont.ttf?40899049') format('truetype'),
+       url('../romaFont/fontawesome-webfont.svg?40899049#fontawesome-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontawesome-webfont';
+    src: url('../romaFont/fontawesome-webfont.svg?40899049#fontawesome-webfont') format('svg');
+  }
+}
+*/
+
+ .fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* makes the font 33% larger relative to the icon container */
+.fa-lg {
+  font-size: 1.33333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.fa-2x {
+  font-size: 2em;
+}
+.fa-3x {
+  font-size: 3em;
+}
+.fa-4x {
+  font-size: 4em;
+}
+.fa-5x {
+  font-size: 5em;
+}
+.fa-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+.fa-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none;
+}
+.fa-ul > li {
+  position: relative;
+}
+.fa-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
+  text-align: center;
+}
+.fa-li.fa-lg {
+  left: -1.85714286em;
+}
+.fa-border {
+  padding: .2em .25em .15em;
+  border: solid 0.08em #eeeeee;
+  border-radius: .1em;
+}
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+.fa.pull-left {
+  margin-right: .3em;
+}
+.fa.pull-right {
+  margin-left: .3em;
+}
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.fa-rotate-90 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.fa-rotate-180 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.fa-rotate-270 {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.fa-flip-horizontal {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.fa-flip-vertical {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1);
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical {
+  filter: none;
+}
+.fa-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+.fa-stack-1x,
+.fa-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.fa-stack-1x {
+  line-height: inherit;
+}
+.fa-stack-2x {
+  font-size: 2em;
+}
+.fa-inverse {
+  color: #ffffff;
+}
+
+ [class^="fa-"]:before, [class*=" fa-"]:before {
+  font-family: "fontawesome-webfont";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  /*width: 1em;*/
+  /*margin-right: .2em;*/
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+     
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  /*margin-left: .2em;*/
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.fa-bars:before { content: '\e800'; } /* 'î €' */
+.fa-user:before { content: '\e801'; } /* 'î �' */
+.fa-sign-out:before { content: '\e802'; } /* 'î ‚' */
+.fa-sign-in:before { content: '\e803'; } /* 'î ƒ' */
+.fa-circle-o-notch:before { content: '\e804'; } /* 'î „' */
+.fa-pencil:before { content: '\e805'; } /* 'î …' */
+.fa-bank-1:before { content: '\e806'; } /* 'î †' */
+.fa-blind:before { content: '\e807'; } /* 'î ‡' */
+.fa-pothole:before { content: '\e808'; } /* 'î ˆ' */
+.fa-trash-o:before { content: '\e809'; } /* 'î ‰' */
+.fa-streetlamp:before { content: '\e80a'; } /* 'î Š' */
+.fa-wheelchair:before { content: '\e80b'; } /* 'î ‹' */
+.fa-question-circle:before { content: '\e80c'; } /* 'î Œ' */
+.fa-check-circle:before { content: '\e80d'; } /* 'î �' */
+.fa-times-circle:before { content: '\e80e'; } /* 'î Ž' */
+.fa-warning:before { content: '\e80f'; } /* 'î �' */
+.fa-lightbulb-o:before { content: '\e810'; } /* 'î �' */
+.fa-ban:before { content: '\e811'; } /* 'î ‘' */
+.fa-mail-alt:before { content: '\e812'; } /* 'î ’' */
+.fa-trashbag:before { content: '\e813'; } /* 'î “' */
+.fa-cutlery:before { content: '\e814'; } /* 'î ”' */
+.fa-pedestrian:before { content: '\e815'; } /* 'î •' */
+.fa-drugs:before { content: '\e816'; } /* 'î –' */
+.fa-vandalism:before { content: '\e817'; } /* 'î —' */
+.fa-truck:before { content: '\e818'; } /* 'î ˜' */
+.fa-usd:before { content: '\e819'; } /* 'î ™' */
+.fa-parking-2:before { content: '\e81a'; } /* 'î š' */
+.fa-parking-1:before { content: '\e81b'; } /* 'î ›' */
+.fa-no-light:before { content: '\e81c'; } /* 'î œ' */
+.fa-glass:before { content: '\e81d'; } /* 'î �' */
+.fa-music:before { content: '\e81e'; } /* 'î ž' */
+.fa-police:before { content: '\e81f'; } /* 'î Ÿ' */
+.fa-pitch:before { content: '\e820'; } /* 'î  ' */
+.fa-restaurant:before { content: '\e821'; } /* 'î ¡' */
+.fa-art-gallery:before { content: '\e822'; } /* 'î ¢' */
+.fa-shop:before { content: '\e823'; } /* 'î £' */
+.fa-swimming:before { content: '\e824'; } /* 'î ¤' */
+.fa-theatre:before { content: '\e825'; } /* 'î ¥' */
+.fa-museum:before { content: '\e826'; } /* 'î ¦' */
+.fa-hospital:before { content: '\e827'; } /* 'î §' */
+.fa-fuel:before { content: '\e828'; } /* 'î ¨' */
+.fa-shopping-cart:before { content: '\e829'; } /* 'î ©' */
+.fa-bag:before { content: '\e82a'; } /* 'î ª' */
+.fa-shopping-cart-1:before { content: '\e82b'; } /* 'î «' */
+.fa-lodging:before { content: '\e82c'; } /* 'î ¬' */
+.fa-no-light-clear:before { content: '\e82d'; } /* 'î ­' */
+.fa-obstacle:before { content: '\e82e'; } /* 'î ®' */
+.fa-home-unused:before { content: '\e82f'; } /* 'î ¯' */
+.fa-at:before { content: '\e830'; } /* 'î °' */
+.fa-graduation-cap:before { content: '\e831'; } /* 'î ±' */
+.fa-spinner:before { content: '\e832'; } /* 'î ²' */
+.fa-dumpster:before { content: '\e833'; } /* 'î ³' */
+.fa-religious:before { content: '\e834'; } /* 'î ´' */
+.fa-gov-office:before { content: '\e835'; } /* 'î µ' */
+.fa-home-no:before { content: '\e836'; } /* 'î ¶' */
+.fa-home-sell:before { content: '\e837'; } /* 'î ·' */
+.fa-home-construction:before { content: '\e838'; } /* 'î ¸' */
+.fa-bank:before { content: '\e839'; } /* 'î ¹' */
+.fa-home:before { content: '\e83a'; } /* 'î º' */
+.fa-trashbag-1:before { content: '\e83b'; } /* 'î »' */
+.fa-bicycle:before { content: '\e83c'; } /* 'î ¼' */
+.fa-land-use:before { content: '\e83d'; } /* 'î ½' */
+.fa-eye-slash:before { content: '\e83e'; } /* 'î ¾' */
+.fa-vandalism-1:before { content: '\e83f'; } /* 'î ¿' */
+.fa-parking:before { content: '\e840'; } /* 'î¡€' */
+.fa-volume-up:before { content: '\e841'; } /* 'î¡�' */
+.fa-taxi:before { content: '\e842'; } /* 'î¡‚' */
+.fa-bus:before { content: '\e843'; } /* 'î¡ƒ' */
+.fa-trash:before { content: '\e844'; } /* 'î¡„' */
+.fa-square:before { content: '\e845'; } /* 'î¡…' */
+.fa-circle:before { content: '\e846'; } /* 'î¡†' */
+.fa-refresh:before { content: '\e847'; } /* 'î¡‡' */
+.fa-cog:before { content: '\e848'; } /* 'î¡ˆ' */
+.fa-info-circled:before { content: '\e849'; } /* 'î¡‰' */
